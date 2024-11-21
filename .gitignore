@@ -56,11 +56,11 @@ compile_commands.json
 *.qmake.stash
 
 # Files giving us problems while merging
-#**/.qtc_clangd/
+**/.qtc_clangd/
 
-#*.exe
+*.exe
 
-#**/*.idx
+**/*.idx
 
 #/build/
 
