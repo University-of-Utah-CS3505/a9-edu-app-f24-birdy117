@@ -1,20 +1,24 @@
 #ifndef CHESSBOARD_H
 #define CHESSBOARD_H
 
+#include <QWidget>
+#include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 
-class ChessBoard : public QGraphicsScene {
+class ChessBoard : public QWidget {
     Q_OBJECT
-public:
-    explicit ChessBoard(QObject* parent = nullptr);
 
-    // Public static constants for easy access
-    static const int SQUARE_SIZE; // Size of each square
-    static const int BOARD_SIZE; // Chessboard dimensions
+public:
+    explicit ChessBoard(QWidget* parent = nullptr);
 
 private:
     void setupBoard();
+    static const int SQUARE_SIZE;
+    static const int BOARD_SIZE;
+
+    QGraphicsView* view;
+    QGraphicsScene* scene;
 };
 
 #endif // CHESSBOARD_H
