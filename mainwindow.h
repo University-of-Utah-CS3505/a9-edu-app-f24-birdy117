@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "chessboard.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,5 +20,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    ChessBoard& chessBoard;
 };
 #endif // MAINWINDOW_H
