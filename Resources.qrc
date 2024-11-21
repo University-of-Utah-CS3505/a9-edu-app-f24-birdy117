@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>whiteTile.png</file>
+        <file>greenTile.png</file>
+    </qresource>
+</RCC>
