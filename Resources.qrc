@@ -2,5 +2,17 @@
     <qresource prefix="/Images">
         <file>whiteTile.png</file>
         <file>greenTile.png</file>
+        <file>BishopB.png</file>
+        <file>BishopW.png</file>
+        <file>KingB.png</file>
+        <file>KingW.png</file>
+        <file>KnightB.png</file>
+        <file>KnightW.png</file>
+        <file>PawnB.png</file>
+        <file>PawnW.png</file>
+        <file>QueenB.png</file>
+        <file>QueenW.png</file>
+        <file>RookB.png</file>
+        <file>RookW.png</file>
     </qresource>
 </RCC>
