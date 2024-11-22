@@ -1,11 +1,14 @@
 #include <QApplication>
-#include "chessboard.h"
+#include "mainwindow.h"
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
     ChessBoard chessBoard;
-    chessBoard.show();
+    MainWindow w(chessBoard);
+    w.show();
 
     return app.exec();
 }
+
+

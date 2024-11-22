@@ -3,7 +3,7 @@
 #include <QVBoxLayout>
 
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(ChessBoard& chessBoard,QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , chessBoard(chessBoard)
