@@ -5,8 +5,10 @@ int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
     ChessBoard chessBoard;
-    MainWindow w(chessBoard);
-    w.show();
+    StartMenu startMenu(&chessBoard);
+ //   MainWindow w(&chessBoard, &startMenu);
+ //   w.show();
+    startMenu.show();
 
     return app.exec();
 }

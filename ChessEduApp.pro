@@ -11,14 +11,17 @@ CONFIG += c++17
 SOURCES += \
     chessboard.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    startmenu.cpp
 
 HEADERS += \
     chessboard.h \
-    mainwindow.h
+    mainwindow.h \
+    startmenu.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    startmenu.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
