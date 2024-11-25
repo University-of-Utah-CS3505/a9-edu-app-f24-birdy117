@@ -58,7 +58,7 @@ compile_commands.json
 # Files giving us problems while merging
 **/.qtc_clangd/
 
-*.exe
+#*.exe
 
 **/*.idx
 
