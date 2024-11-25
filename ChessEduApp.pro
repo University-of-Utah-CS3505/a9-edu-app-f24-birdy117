@@ -12,12 +12,14 @@ SOURCES += \
     chessboard.cpp \
     main.cpp \
     mainwindow.cpp \
-    startmenu.cpp
+    startmenu.cpp \
+    stockfishengine.cpp
 
 HEADERS += \
     chessboard.h \
     mainwindow.h \
-    startmenu.h
+    startmenu.h \
+    stockfishengine.h
 
 FORMS += \
     mainwindow.ui \
@@ -32,4 +34,5 @@ RESOURCES += \
     Resources.qrc
 
 DISTFILES += \
-    stockfish-windows-x86-64-sse41-popcnt.exe
+    stockfish-windows-x86-64-sse41-popcnt.exe \
+    stockfish.exe

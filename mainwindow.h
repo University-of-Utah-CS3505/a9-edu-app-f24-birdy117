@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "chessboard.h"
 #include "startmenu.h"
+#include "stockfishengine.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,6 +24,7 @@ private:
     Ui::MainWindow *ui;
     ChessBoard *chessBoard;
     StartMenu *startMenu;
+    StockfishEngine *stockfishEngine;
 
 private slots:
     //void onStartGame();
