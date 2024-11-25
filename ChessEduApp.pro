@@ -10,11 +10,13 @@ CONFIG += c++17
 
 SOURCES += \
     chessboard.cpp \
+    draggablepiece.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     chessboard.h \
+    draggablepiece.h \
     mainwindow.h
 
 FORMS += \
