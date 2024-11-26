@@ -1,9 +1,7 @@
 #include "startmenu.h"
-#include "ui_startmenu.h"
 
 StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     : QMainWindow(parent)
-//    , levelUI(new Ui::MainWindow)
     , ui(new Ui::StartMenu)
     , chessBoard(chessBoard)
     , stockfishEngine(new StockfishEngine(this))
@@ -13,14 +11,13 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     connect(ui->level2Button, &QPushButton::clicked, this, &StartMenu::level2Start);
     connect(ui->level3Button, &QPushButton::clicked, this, &StartMenu::level3Start);
     connect(ui->vsComputerButton, &QPushButton::clicked, this, &StartMenu::vsComputerStart);
-    connect(ui->QuitButton, &QPushButton::clicked, this, &StartMenu::hideChessBoard);
+    connect(ui->QuitButton, &QPushButton::clicked, this, &StartMenu::quitButtonClicked);
 
     QVBoxLayout *layout = new QVBoxLayout;
     ui->chessBoardContainer->setLayout(layout);
     layout->addWidget(chessBoard);
     ui->chessBoardContainer->hide();
     ui->QuitButton->hide();
-    qDebug() << "start menu";
 }
 
 StartMenu::~StartMenu()
@@ -29,17 +26,9 @@ StartMenu::~StartMenu()
 }
 
 void StartMenu::stockfishStart() {
-    // for a standard c++ setup
-    //  "\"/Users/nicol/OneDrive - University of Utah/University of Utah/Year 3/CS3505/Qt/ChessEduApp/stockfish.exe\""
-
     // Set up stockfish
-    QString basePath = QCoreApplication::applicationDirPath();  // Get the folder of the running executable
-    // QString stockfishPath = basePath + "../Other files/stockfish.exe";
-    // QString stockfishPath = "../Other files/stockfish.exe";
-    QString stockfishPath = "/Users/nicol/OneDrive - University of Utah/University of Utah/Year 3/CS3505/Qt/ChessEduApp/stockfish.exe";
-
-
-    qDebug() << stockfishPath;
+    QString basePath = QCoreApplication::applicationDirPath();
+    QString stockfishPath = QCoreApplication::applicationDirPath() + "/../../../stockfish.exe";
 
     stockfishEngine->startEngine(stockfishPath);
 
@@ -72,10 +61,14 @@ void StartMenu::level3Start() {
 void StartMenu::vsComputerStart() {
     showChessBoard();
     ui->Title->setText("VS Computer");
+    stockfishStart();
 }
 
 void StartMenu::quitButtonClicked() {
     hideChessBoard();
+    if (stockfishEngine) {
+        stockfishEngine->terminateEngine();
+    }
 }
 
 void StartMenu::hideChessBoard() {

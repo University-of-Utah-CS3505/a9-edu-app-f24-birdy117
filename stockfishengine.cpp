@@ -12,12 +12,6 @@ StockfishEngine::~StockfishEngine() {
 }
 
 void StockfishEngine::startEngine(const QString &path) {
-    QFile file(path);
-    if (!file.exists()) {
-        qDebug() << "Error: File does not exist at the provided path.";
-        return;
-    }
-
     // Set up QProcess error handling
     QObject::connect(&stockfishProcess, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
         qDebug() << "QProcess error:" << error;
@@ -34,7 +28,9 @@ void StockfishEngine::startEngine(const QString &path) {
     }
 
     qDebug() << "STOCKFISH STARTED";
-    sendCommand("uci"); // Send initial command to Stockfish
+
+    // Send starting command to Stockfish
+    sendCommand("uci");
 }
 
 void StockfishEngine::sendCommand(const QString &command) {
@@ -52,4 +48,18 @@ void StockfishEngine::handleReadyRead() {
 
     // Emit the output for UI or logic processing
     emit engineOutput(outputString);
+}
+
+void StockfishEngine::terminateEngine() {
+    qDebug() << "hit";
+    if (stockfishProcess.state() == QProcess::Running) {
+        stockfishProcess.terminate();
+        // Force kill if it doesn't close
+        // if (!stockfishProcess.waitForFinished(500)) {
+        //     stockfishProcess.kill();
+        // }
+        qDebug() << "STOCKFISH TERMINATED";
+    } else {
+        qDebug() << "STOCKFISH NOT RUNNING";
+    }
 }
