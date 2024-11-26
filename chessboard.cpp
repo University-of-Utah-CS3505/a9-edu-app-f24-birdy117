@@ -1,6 +1,7 @@
 #include "chessboard.h"
 #include <QBrush>
 #include <QVBoxLayout>
+#include "DraggablePiece.h"
 
 // Define static constants
 const int ChessBoard::SQUARE_SIZE = 50;
@@ -20,9 +21,11 @@ ChessBoard::ChessBoard(QWidget* parent) : QWidget(parent) {
     layout->addWidget(view);
     setLayout(layout);
 
-    // Set up the chessboard
+    // Set up the chessboard and pieces
     setupBoard();
+    setupPieces();
 }
+
 
 void ChessBoard::setupBoard() {
     QPixmap whiteTile(":/Images/whiteTile.png");
@@ -40,8 +43,42 @@ void ChessBoard::setupBoard() {
                 square->setBrush(QBrush(greenTile));
             }
 
-            square->setPen(Qt::NoPen); // Optional: remove border lines
+            square->setPen(Qt::NoPen);
             scene->addItem(square);
+        }
+    }
+}
+
+void ChessBoard::setupPieces() {
+    QString pieceImages[8][8] = {
+        {":/Images/RookB.png", ":/Images/KnightB.png", ":/Images/BishopB.png", ":/Images/QueenB.png",
+         ":/Images/KingB.png", ":/Images/BishopB.png", ":/Images/KnightB.png", ":/Images/RookB.png"},
+        {":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png",
+         ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png"},
+        {"", "", "", "", "", "", "", ""},
+        {"", "", "", "", "", "", "", ""},
+        {"", "", "", "", "", "", "", ""},
+        {"", "", "", "", "", "", "", ""},
+        {":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png",
+         ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png"},
+        {":/Images/RookW.png", ":/Images/KnightW.png", ":/Images/BishopW.png", ":/Images/QueenW.png",
+         ":/Images/KingW.png", ":/Images/BishopW.png", ":/Images/KnightW.png", ":/Images/RookW.png"}
+    };
+
+    for (int row = 0; row < BOARD_SIZE; ++row) {
+        for (int col = 0; col < BOARD_SIZE; ++col) {
+            if (!pieceImages[row][col].isEmpty()) {
+                QPixmap pixmap(pieceImages[row][col]);
+                DraggablePiece* piece = new DraggablePiece(pixmap);
+
+                // center the piece within the square
+                int offsetX = (SQUARE_SIZE - pixmap.width()) / 2;
+                int offsetY = (SQUARE_SIZE - pixmap.height()) / 2;
+                piece->setPos(col * SQUARE_SIZE + offsetX, row * SQUARE_SIZE + offsetY);
+
+                // add piece to the scene
+                scene->addItem(piece);
+            }
         }
     }
 }
