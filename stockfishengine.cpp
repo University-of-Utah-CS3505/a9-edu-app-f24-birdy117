@@ -1,5 +1,6 @@
 #include "stockfishengine.h"
 #include <QDebug>
+#include <QFile>
 
 StockfishEngine::StockfishEngine(QObject *parent) : QObject(parent) {}
 
@@ -10,17 +11,39 @@ StockfishEngine::~StockfishEngine() {
 }
 
 void StockfishEngine::startEngine(const QString &path) {
-    stockfishProcess.start(path);
-    qDebug() << "path: " << path;
-    if (!stockfishProcess.waitForStarted()) {
-        qDebug() << "Failed to start Stockfish";
+    qDebug() << "in startEngine";
+    QFile file(path);
+    if (!file.exists()) {
+        qDebug() << "Error: File does not exist at the provided path.";
         return;
     }
+    else {
+        qDebug() << "file found in startEngine";
+    }
 
-    QObject::connect(&stockfishProcess, &QProcess::readyRead, this, &StockfishEngine::handleReadyRead);
+    try {
+        stockfishProcess.start(path);
+    }
+    catch (const std::exception &e)
+    {
+        qDebug() << "Exception occurred while starting Stockfish:" << e.what();
+    }
+
+    // if (!stockfishProcess.waitForStarted()) {
+    //     qDebug() << "Failed to start Stockfish process. Error:" << stockfishProcess.errorString();
+    //     return;
+    // }
+
+    // qDebug() << "path: " << path;
+    // if (!stockfishProcess.waitForStarted()) {
+    //     qDebug() << "Failed to start Stockfish";
+    //     return;
+    // }
+
+    // QObject::connect(&stockfishProcess, &QProcess::readyRead, this, &StockfishEngine::handleReadyRead);
 
     qDebug() << "Stockfish started";
-    sendCommand("uci");
+    // sendCommand("uci");
 }
 
 void StockfishEngine::sendCommand(const QString &command) {

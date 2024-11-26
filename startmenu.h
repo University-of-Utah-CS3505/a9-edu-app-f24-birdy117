@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "chessboard.h"
+#include "stockfishengine.h"
 
 namespace Ui {
 class StartMenu;
@@ -20,6 +21,9 @@ private:
     Ui::StartMenu *ui;
     QWidget *levelUI;
     ChessBoard *chessBoard;
+    StockfishEngine *stockfishEngine;
+
+    void stockfishStart();
 
 private slots:
     void level1Start();

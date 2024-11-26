@@ -3,13 +3,16 @@
 #include <QVBoxLayout>
 #include <QDebug>
 
+// Note: MainWindow no longer being used with start menu
+
 MainWindow::MainWindow(ChessBoard *chessBoard, StartMenu *startMenu, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , chessBoard(chessBoard)
-    , startMenu(startMenu)
+    // , startMenu(startMenu)
 {
-    ui->setupUi(this);
+    // ui->setupUi(this);
+
     qDebug() << "start";
 
     // Set up stockfish
@@ -24,9 +27,9 @@ MainWindow::MainWindow(ChessBoard *chessBoard, StartMenu *startMenu, QWidget *pa
 
 
     // Set layout and size policies for full canvas display
-    QVBoxLayout *layout = new QVBoxLayout;
-    ui->chessBoardContainer->setLayout(layout);
-    layout->addWidget(chessBoard);
+    // QVBoxLayout *layout = new QVBoxLayout;
+    // ui->chessBoardContainer->setLayout(layout);
+    // layout->addWidget(chessBoard);
 }
 
 
