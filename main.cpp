@@ -1,5 +1,5 @@
 #include <QApplication>
-#include "mainwindow.h"
+#include "startmenu.h"
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
@@ -8,8 +8,8 @@ int main(int argc, char* argv[]) {
 
     ChessBoard chessBoard;
     StartMenu startMenu(&chessBoard);
- //   MainWindow w(&chessBoard, &startMenu);
- //   w.show();
+    //MainWindow w(&chessBoard);
+    //w.show();
     startMenu.show();
 
     return app.exec();

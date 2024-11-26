@@ -27,7 +27,7 @@ StartMenu::~StartMenu()
 
 void StartMenu::stockfishStart() {
     // Set up stockfish
-    QString basePath = QCoreApplication::applicationDirPath();
+    //QString basePath = QCoreApplication::applicationDirPath();
     QString stockfishPath = QCoreApplication::applicationDirPath() + "/../../../stockfish.exe";
 
     stockfishEngine->startEngine(stockfishPath);
