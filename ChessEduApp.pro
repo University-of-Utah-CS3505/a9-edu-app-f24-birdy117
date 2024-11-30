@@ -12,19 +12,16 @@ SOURCES += \
     chessboard.cpp \
     draggablepiece.cpp \
     main.cpp \
-    mainwindow.cpp \
     startmenu.cpp \
     stockfishengine.cpp
 
 HEADERS += \
     chessboard.h \
     draggablepiece.h \
-    mainwindow.h \
     startmenu.h \
     stockfishengine.h
 
 FORMS += \
-    mainwindow.ui \
     startmenu.ui
 
 # Default rules for deployment.
