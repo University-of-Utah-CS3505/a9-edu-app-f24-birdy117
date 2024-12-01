@@ -436,6 +436,12 @@
      </item>
     </layout>
    </widget>
+   <zorder>Title</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>QuitButton</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>chessBoardContainer</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

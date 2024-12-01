@@ -100,11 +100,12 @@ void StartMenu::showChessBoard() {
     ui->QuitButton->show();
 
     ui->LevelsLabel->hide();
-    ui->level1Button->hide();
-    ui->level2Button->hide();
+    ui->level1Button->hide();   
+    ui->level2Button->hide(); 
     ui->level3Button->hide();
 
     ui->GameModeLabel->hide();
+    ui->GameModeLabel->setDisabled(false);
     ui->vsComputerButton->hide();
 
     ui->TeamCreditsLabel->hide();
