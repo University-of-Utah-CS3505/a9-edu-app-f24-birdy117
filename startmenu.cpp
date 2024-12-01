@@ -1,4 +1,5 @@
 #include "startmenu.h"
+#include "foolsmate.h"
 
 StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     : QMainWindow(parent)
@@ -39,6 +40,8 @@ void StartMenu::stockfishStart() {
 }
 
 void StartMenu::level1Start() {
+    // TODO: test that this is working.
+    FoolsMate foolsMate(chessBoard);
     showChessBoard();
     ui->Title->setText("Level 1: Checkmate Name");
     stockfishStart();

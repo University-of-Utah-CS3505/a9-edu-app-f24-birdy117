@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     chessboard.cpp \
     draggablepiece.cpp \
+    foolsmate.cpp \
     main.cpp \
     startmenu.cpp \
     stockfishengine.cpp
@@ -18,6 +19,7 @@ SOURCES += \
 HEADERS += \
     chessboard.h \
     draggablepiece.h \
+    foolsmate.h \
     startmenu.h \
     stockfishengine.h
 
