@@ -1,6 +1,7 @@
 #ifndef CHESSBOARD_H
 #define CHESSBOARD_H
 
+#include "draggablepiece.h"
 #include <QWidget>
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -15,6 +16,10 @@ public:
     QGraphicsScene* scene;
 
     explicit ChessBoard(QWidget* parent = nullptr);
+
+    QPoint getSquareFromPixels(const QPointF& Position);
+    DraggablePiece* getLastMovedPiece();
+    void movePiece(const QPoint& start, const QPoint& end);
 
 private:
     void setupBoard();

@@ -21,9 +21,12 @@ private:
     ChessBoard* board;
     QList<QPoint> expectedMoves;
     int currentMoveIndex;
-    QGraphicsEllipseItem* highlight;
+    QPoint startSquare;
+    QPoint endSquare;
+    QGraphicsRectItem* startHighlight = nullptr;
+    QGraphicsRectItem* endHighlight = nullptr;
 
-    void highlightSquare(int row, int col);
+    void highlightSquare(QPoint start, QPoint end);
     void clearHighlight();
     bool isMoveValid(QPoint start, QPoint end);
     void makeBlackMove();

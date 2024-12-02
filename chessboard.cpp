@@ -1,7 +1,6 @@
 #include "chessboard.h"
 #include <QBrush>
 #include <QVBoxLayout>
-#include "DraggablePiece.h"
 
 // Define static constants
 const int ChessBoard::SQUARE_SIZE = 50;
@@ -82,3 +81,40 @@ void ChessBoard::setupPieces() {
         }
     }
 }
+
+QPoint ChessBoard::getSquareFromPixels(const QPointF& position) {
+    int col = position.x() / SQUARE_SIZE;
+    int row = position.y() / SQUARE_SIZE;
+    return QPoint(row, col);
+}
+
+DraggablePiece* ChessBoard::getLastMovedPiece() {
+    for (auto* item : scene->items()) {
+        auto* piece = dynamic_cast<DraggablePiece*>(item);
+        if (piece && piece->isUnderMouse()) {
+            return piece;
+        }
+    }
+    return nullptr;
+}
+
+void ChessBoard::movePiece(const QPoint& start, const QPoint& end) {
+    // Calculate pixel positions for the start and end squares
+    int startX = start.x() * SQUARE_SIZE;
+    int startY = start.y() * SQUARE_SIZE;
+    int endX = end.x() * SQUARE_SIZE;
+    int endY = end.y() * SQUARE_SIZE;
+
+    // Find the piece at the starting position
+    for (auto* item : scene->items(QRectF(startX, startY, SQUARE_SIZE, SQUARE_SIZE))) {
+        DraggablePiece* piece = dynamic_cast<DraggablePiece*>(item);
+        if (piece) {
+            // Move the piece to the end position
+            piece->setPos(endX + (SQUARE_SIZE - piece->boundingRect().width()) / 2,
+                          endY + (SQUARE_SIZE - piece->boundingRect().height()) / 2);
+            return;
+        }
+    }
+}
+
+

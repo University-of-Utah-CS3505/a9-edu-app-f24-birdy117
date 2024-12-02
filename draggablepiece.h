@@ -6,6 +6,8 @@
 
 class DraggablePiece : public QGraphicsPixmapItem {
 public:
+    QPointF dragStartPos;
+
     DraggablePiece(const QPixmap& pixmap, QGraphicsItem* parent = nullptr);
 
 protected:
@@ -14,9 +16,7 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
 
 private:
-    QPointF dragStartPos;
     int SQUARE_SIZE = 50;
-
     QPointF snapToGrid(const QPointF& position);
 };
 
