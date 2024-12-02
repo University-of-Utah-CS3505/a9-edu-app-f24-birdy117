@@ -5,8 +5,9 @@ FoolsMate::FoolsMate(ChessBoard* board, QObject* parent)
     : QObject(parent)
     , board(board)
     , currentMoveIndex(0)
-    , startSquare(-1, -1)
-    , endSquare(-1, -1) {
+    , startSquare(0, 0)
+    , endSquare(2, 2) {
+// {
     // Define the sequence of moves for Fool's Mate (from, to)
     expectedMoves = {
         {6, 5}, {4, 5},  // White: f2-f3
@@ -14,19 +15,24 @@ FoolsMate::FoolsMate(ChessBoard* board, QObject* parent)
         {6, 6}, {4, 6},  // White: g2-g4
         {0, 3}, {4, 7}   // Black: Qd8-h4
     };
+    qDebug() << "fools";
 }
 
 void FoolsMate::startLesson() {
     // Highlight the first move
+    qDebug() << "startLesson";
     highlightSquare(startSquare, endSquare);
 }
 
 void FoolsMate::highlightSquare(QPoint start, QPoint end) {
     clearHighlight(); // Clear existing highlights
 
+    qDebug() << "highlight";
+
     // Create and add start highlight
     startHighlight = new QGraphicsRectItem(start.x() * ChessBoard::SQUARE_SIZE, start.y() * ChessBoard::SQUARE_SIZE, ChessBoard::SQUARE_SIZE, ChessBoard::SQUARE_SIZE);
     startHighlight->setBrush(QBrush(Qt::yellow));  // Choose color for the highlight
+    // startHighlight->setZValue(0);
     board->scene->addItem(startHighlight);
 
     // Create and add end highlight
@@ -36,6 +42,8 @@ void FoolsMate::highlightSquare(QPoint start, QPoint end) {
 }
 
 void FoolsMate::clearHighlight() {
+    qDebug() << "clear";
+
     if (startHighlight != nullptr) {
         board->scene->removeItem(startHighlight);
         delete startHighlight;  // Clean up the memory
@@ -52,6 +60,8 @@ void FoolsMate::clearHighlight() {
 
 bool FoolsMate::isMoveValid(QPoint start, QPoint end) {
     // Check if the move matches the expected sequence
+    qDebug() << "isMoveValid";
+
     if (currentMoveIndex >= expectedMoves.size())
         return false;
 
@@ -61,6 +71,8 @@ bool FoolsMate::isMoveValid(QPoint start, QPoint end) {
 }
 
 void FoolsMate::handlePlayerMove() {
+    qDebug() << "handlePlayerMove";
+
     // TODO: Get the player's move from the board (implement this logic)
     DraggablePiece* lastMovedPiece = board->getLastMovedPiece(); // You need to implement this in your ChessBoard class
     if (!lastMovedPiece)
@@ -83,7 +95,7 @@ void FoolsMate::handlePlayerMove() {
         if (currentMoveIndex < expectedMoves.size()) {
             // Highlight the next move
             QPoint nextMove = expectedMoves[currentMoveIndex];
-            highlightSquare(startSquare, endSquare);
+            // highlightSquare(startSquare, endSquare);
         }
         else {
             emit lessonComplete();
@@ -98,6 +110,8 @@ void FoolsMate::handlePlayerMove() {
 }
 
 void FoolsMate::makeBlackMove() {
+    qDebug() << "makeBlackMove";
+
     static int moveStep = 0;
 
     // Define black's moves for Fool's Mate scenario
@@ -123,5 +137,7 @@ void FoolsMate::makeBlackMove() {
 
     // Call ChessBoard's movePiece method to handle the move
     board->movePiece(startSquare, endSquare);
+    // board->movePiece({0,0}, {1,1});
+
     moveStep++;
 }

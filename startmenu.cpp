@@ -43,6 +43,7 @@ void StartMenu::level1Start() {
     // TODO: test that this is working.
     FoolsMate foolsMate(chessBoard);
     showChessBoard();
+    foolsMate.startLesson();
     ui->Title->setText("Level 1: Checkmate Name");
     stockfishStart();
 }

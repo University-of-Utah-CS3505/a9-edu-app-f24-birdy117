@@ -2,7 +2,6 @@
 #include <QBrush>
 #include <QVBoxLayout>
 
-// Define static constants
 const int ChessBoard::SQUARE_SIZE = 50;
 const int ChessBoard::BOARD_SIZE = 8;
 
@@ -43,6 +42,7 @@ void ChessBoard::setupBoard() {
             }
 
             square->setPen(Qt::NoPen);
+            square->setZValue(-1);
             scene->addItem(square);
         }
     }
@@ -74,7 +74,7 @@ void ChessBoard::setupPieces() {
                 int offsetX = (SQUARE_SIZE - pixmap.width()) / 2;
                 int offsetY = (SQUARE_SIZE - pixmap.height()) / 2;
                 piece->setPos(col * SQUARE_SIZE + offsetX, row * SQUARE_SIZE + offsetY);
-
+                piece->setZValue(1);
                 // add piece to the scene
                 scene->addItem(piece);
             }
