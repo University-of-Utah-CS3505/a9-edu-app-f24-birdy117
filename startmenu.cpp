@@ -44,8 +44,10 @@ void StartMenu::level1Start() {
     FoolsMate foolsMate(chessBoard);
     showChessBoard();
     foolsMate.startLesson();
-    ui->Title->setText("Level 1: Checkmate Name");
-    stockfishStart();
+    foolsMate.handlePlayerMove();
+    foolsMate.makeBlackMove();
+    ui->Title->setText("Level 1: Fool's Mate");
+    // stockfishStart();
 }
 
 void StartMenu::level2Start() {

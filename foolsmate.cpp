@@ -5,9 +5,9 @@ FoolsMate::FoolsMate(ChessBoard* board, QObject* parent)
     : QObject(parent)
     , board(board)
     , currentMoveIndex(0)
-    , startSquare(0, 0)
-    , endSquare(2, 2) {
-// {
+    , startSquare(4, 6) // e2
+    , endSquare(4, 4) // e4 {
+ {
     // Define the sequence of moves for Fool's Mate (from, to)
     expectedMoves = {
         {6, 5}, {4, 5},  // White: f2-f3
@@ -32,7 +32,6 @@ void FoolsMate::highlightSquare(QPoint start, QPoint end) {
     // Create and add start highlight
     startHighlight = new QGraphicsRectItem(start.x() * ChessBoard::SQUARE_SIZE, start.y() * ChessBoard::SQUARE_SIZE, ChessBoard::SQUARE_SIZE, ChessBoard::SQUARE_SIZE);
     startHighlight->setBrush(QBrush(Qt::yellow));  // Choose color for the highlight
-    // startHighlight->setZValue(0);
     board->scene->addItem(startHighlight);
 
     // Create and add end highlight
@@ -73,39 +72,45 @@ bool FoolsMate::isMoveValid(QPoint start, QPoint end) {
 void FoolsMate::handlePlayerMove() {
     qDebug() << "handlePlayerMove";
 
-    // TODO: Get the player's move from the board (implement this logic)
-    DraggablePiece* lastMovedPiece = board->getLastMovedPiece(); // You need to implement this in your ChessBoard class
-    if (!lastMovedPiece)
+    // Get the piece at the start position of the expected move
+    // QPoint startSquare = expectedMoves[currentMoveIndex]; // Current expected start square
+    // QPoint endSquare = expectedMoves[currentMoveIndex + 1]; // Current expected end square
+
+    DraggablePiece* pieceAtStart = board->getPieceAt(startSquare.x(), startSquare.y());
+    qDebug() << "startX" << startSquare.x();
+    qDebug() << "startY" << startSquare.y();
+    qDebug() << "pieceAtStart" << pieceAtStart;
+
+    // TODO: is always null
+    if (!pieceAtStart) {
+        qDebug() << "No piece at the start square. Returned.";
         return;
+    }
 
-    // Get the starting and ending positions
-    QPointF startPos = lastMovedPiece->dragStartPos;  // Assume DraggablePiece stores its drag start position
-    QPointF endPos = lastMovedPiece->pos();
+    // TODO: the error is coming from here. I think getPieceAt isn't working
+    // Verify if the piece was moved to the correct end square
+    QPoint actualEndSquare = board->getSquareFromPixels(pieceAtStart->pos());
+    qDebug() << "Expected end square:" << endSquare;
+    qDebug() << "Actual end square:" << actualEndSquare;
 
-    QPoint startSquare = board->getSquareFromPixels(startPos);
-    QPoint endSquare = board->getSquareFromPixels(endPos);
-
-    // QPoint start = {0,0}; /* Logic to get starting square */
-    // QPoint end = {1,0}; /* Logic to get ending square */
-
-    if (isMoveValid(startSquare, endSquare)) {
+    if (actualEndSquare == endSquare) {
+        // Move was correct
         currentMoveIndex += 2;
         clearHighlight();
 
         if (currentMoveIndex < expectedMoves.size()) {
             // Highlight the next move
-            QPoint nextMove = expectedMoves[currentMoveIndex];
-            // highlightSquare(startSquare, endSquare);
-        }
-        else {
+            QPoint nextStart = expectedMoves[currentMoveIndex];
+            QPoint nextEnd = expectedMoves[currentMoveIndex + 1];
+            highlightSquare(nextStart, nextEnd);
+        } else {
+            // Lesson complete
             emit lessonComplete();
         }
-    }
-    // Invalid move
-    else {
-        // TODO: Add logic here, display a message
+    } else {
+        // Invalid move, reset piece to its original position
         QMessageBox::information(nullptr, "Invalid Move", "Please follow the highlighted move.");
-        lastMovedPiece->setPos(startPos);
+        pieceAtStart->setPos(board->getSquareFromPixels(startSquare)); // Reset piece to its start position
     }
 }
 

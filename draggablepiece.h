@@ -5,10 +5,17 @@
 #include <QGraphicsSceneMouseEvent>
 
 class DraggablePiece : public QGraphicsPixmapItem {
+
 public:
     QPointF dragStartPos;
+    QString pieceName;
 
-    DraggablePiece(const QPixmap& pixmap, QGraphicsItem* parent = nullptr);
+    DraggablePiece(const QPixmap& pixmap, const QString& name, QGraphicsItem* parent = nullptr);
+    QString getPieceName() const;
+    void setPieceName(const QString& name);
+
+signals:
+    void pieceMoved();
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;

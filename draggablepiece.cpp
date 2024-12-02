@@ -1,10 +1,12 @@
 #include "DraggablePiece.h"
 
-DraggablePiece::DraggablePiece(const QPixmap& pixmap, QGraphicsItem* parent)
-    : QGraphicsPixmapItem(pixmap, parent) {
+DraggablePiece::DraggablePiece(const QPixmap& pixmap, const QString& name, QGraphicsItem* parent)
+    : QGraphicsPixmapItem(pixmap, parent)
+    , pieceName(name) {
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+    dragStartPos = pos();
 }
 
 void DraggablePiece::mousePressEvent(QGraphicsSceneMouseEvent* event) {
@@ -32,4 +34,12 @@ QPointF DraggablePiece::snapToGrid(const QPointF& position) {
     qreal snappedY = row * SQUARE_SIZE + SQUARE_SIZE / 2 - boundingRect().height() / 2;
 
     return QPointF(snappedX, snappedY);
+}
+
+QString DraggablePiece::getPieceName() const {
+    return pieceName;
+}
+
+void DraggablePiece::setPieceName(const QString& name) {
+    pieceName = name;
 }

@@ -14,10 +14,6 @@ public:
 
     void startLesson();
 
-private slots:
-    void handlePlayerMove();
-
-private:
     ChessBoard* board;
     QList<QPoint> expectedMoves;
     int currentMoveIndex;
@@ -30,6 +26,9 @@ private:
     void clearHighlight();
     bool isMoveValid(QPoint start, QPoint end);
     void makeBlackMove();
+
+public slots:
+    void handlePlayerMove();
 
 signals:
     void lessonComplete();
