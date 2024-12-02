@@ -26,6 +26,20 @@ ChessBoard::ChessBoard(QWidget* parent) : QWidget(parent) {
     setupPieces();
 }
 
+void ChessBoard::resetBoard() {
+    // Clear all existing items from the scene
+    QList<QGraphicsItem*> items = scene->items();
+    for (QGraphicsItem* item : items) {
+        if (DraggablePiece* piece = dynamic_cast<DraggablePiece*>(item)) {
+            scene->removeItem(piece);
+            delete piece; // Clean up memory
+        }
+    }
+
+    // Set up the initial board state again
+    setupPieces();
+}
+
 
 void ChessBoard::setupBoard() {
     QPixmap whiteTile(":/Images/whiteTile.png");
@@ -81,4 +95,5 @@ void ChessBoard::setupPieces() {
             }
         }
     }
+
 }

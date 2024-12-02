@@ -12,6 +12,7 @@ class ChessBoard : public QWidget {
 
 public:
     explicit ChessBoard(QWidget* parent = nullptr);
+    void resetBoard();
 
 private:
     void setupBoard();

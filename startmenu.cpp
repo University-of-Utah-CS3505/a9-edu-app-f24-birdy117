@@ -65,6 +65,9 @@ void StartMenu::vsComputerStart() {
 }
 
 void StartMenu::quitButtonClicked() {
+    if (chessBoard) {
+        chessBoard->resetBoard();
+    }
     hideChessBoard();
     if (stockfishEngine) {
         stockfishEngine->terminateEngine();
