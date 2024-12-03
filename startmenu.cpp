@@ -40,20 +40,19 @@ void StartMenu::stockfishStart() {
 
 void StartMenu::level1Start() {
     showChessBoard();
-    ui->Title->setText("Level 1: Checkmate Name");
+    ui->Title->setText("Level 1: The Fool's Mate");
     stockfishStart();
 }
 
 void StartMenu::level2Start() {
     showChessBoard();
-    ui->Title->setText("Level 2: Checkmate Name");
+    ui->Title->setText("Level 2: The Bank Rank Mate");
     stockfishStart();
-
 }
 
 void StartMenu::level3Start() {
     showChessBoard();
-    ui->Title->setText("Level 3: Checkmate Name");
+    ui->Title->setText("Level 3: The King and Queen Mate");
     stockfishStart();
 
 }

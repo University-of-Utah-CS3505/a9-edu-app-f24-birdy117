@@ -95,5 +95,4 @@ void ChessBoard::setupPieces() {
             }
         }
     }
-
 }

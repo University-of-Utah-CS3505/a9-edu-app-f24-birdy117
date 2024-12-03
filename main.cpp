@@ -8,8 +8,6 @@ int main(int argc, char* argv[]) {
 
     ChessBoard chessBoard;
     StartMenu startMenu(&chessBoard);
-    //MainWindow w(&chessBoard);
-    //w.show();
     startMenu.show();
 
     return app.exec();
