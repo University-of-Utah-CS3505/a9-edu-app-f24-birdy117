@@ -1,10 +1,32 @@
 #include "DraggablePiece.h"
+#include <QGraphicsSceneMouseEvent>
+#include <QCursor>
 
-DraggablePiece::DraggablePiece(const QPixmap& pixmap, QGraphicsItem* parent)
-    : QGraphicsPixmapItem(pixmap, parent) {
+DraggablePiece::DraggablePiece(Color color, const QPoint& startLocation, const QPixmap& pixmap, QGraphicsItem* parent)
+    : QGraphicsPixmapItem(pixmap, parent)
+    , currentLocation(startLocation)
+    , previousPosition(startLocation)
+    , pieceColor(color)
+    , firstMove(true)
+    , hasBeenCaptured(false)
+    , dragStartPos(QPointF(0, 0)) {
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+}
+
+// General move to a new location
+void DraggablePiece::moveTo(const QPoint& destination) {
+    previousPosition = currentLocation; // Track current location before moving
+    currentLocation = destination;     // Update to the new location
+    // moveHistory.push_back(destination); // Record the move in the history
+    setPos(destination.x() * pixmap().width(), destination.y() * pixmap().height());
+}
+
+// Mouse interaction
+void DraggablePiece::setInteractive(bool interactive) {
+    setFlag(QGraphicsItem::ItemIsMovable, interactive);
+    setFlag(QGraphicsItem::ItemIsSelectable, interactive);
 }
 
 void DraggablePiece::mousePressEvent(QGraphicsSceneMouseEvent* event) {

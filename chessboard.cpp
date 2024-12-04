@@ -2,6 +2,8 @@
 #include <QBrush>
 #include <QVBoxLayout>
 #include "DraggablePiece.h"
+#include "Pawn.h"
+
 
 // Define static constants
 const int ChessBoard::SQUARE_SIZE = 50;
@@ -83,15 +85,22 @@ void ChessBoard::setupPieces() {
         for (int col = 0; col < BOARD_SIZE; ++col) {
             if (!pieceImages[row][col].isEmpty()) {
                 QPixmap pixmap(pieceImages[row][col]);
-                DraggablePiece* piece = new DraggablePiece(pixmap);
 
-                // center the piece within the square
-                int offsetX = (SQUARE_SIZE - pixmap.width()) / 2;
-                int offsetY = (SQUARE_SIZE - pixmap.height()) / 2;
-                piece->setPos(col * SQUARE_SIZE + offsetX, row * SQUARE_SIZE + offsetY);
+                DraggablePiece* piece = nullptr;
+                Color pieceColor = (row < 2) ? Color::White : Color::Black;
 
-                // add piece to the scene
-                scene->addItem(piece);
+                if (row == 1 || row == 6) {
+                    piece = new Pawn(pieceColor, QPoint(col, row), pixmap);
+                } /*else if (pieceImages[row][col].contains("Rook")) {
+                piece = new Rook(pixmap, pieceColor, QPoint(col, row));
+            } */ // Add other cases for Knight, Bishop, etc.
+
+                if (piece) {
+                    int offsetX = (SQUARE_SIZE - pixmap.width()) / 2;
+                    int offsetY = (SQUARE_SIZE - pixmap.height()) / 2;
+                    piece->setPos(col * SQUARE_SIZE + offsetX, row * SQUARE_SIZE + offsetY);
+                    scene->addItem(piece);
+                }
             }
         }
     }
