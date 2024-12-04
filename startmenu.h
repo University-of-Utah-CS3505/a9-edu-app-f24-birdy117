@@ -32,6 +32,10 @@ private:
     ///
     void stockfishStart();
 
+    static const QString foolMateSetup[8][8];
+    static const QString backRankMateSetup[8][8];
+    static const QString kingQueenMateSetup[8][8];
+
 private slots:
     void level1Start();
     void level2Start();

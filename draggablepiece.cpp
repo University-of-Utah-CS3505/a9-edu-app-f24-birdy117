@@ -1,5 +1,6 @@
 #include "DraggablePiece.h"
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsScene>
 #include <QCursor>
 
 DraggablePiece::DraggablePiece(Color color, const QPoint& startLocation, const QPixmap& pixmap, QGraphicsItem* parent)
@@ -38,7 +39,14 @@ void DraggablePiece::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
 }
 
 void DraggablePiece::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
-    // snap the piece to nearest grid position to center piece
+    // loop list of items that collided and delete piece that is the current piece controlled with mouse
+    QList<QGraphicsItem*> collidingItems = scene()->items(event->scenePos());
+
+    for(QGraphicsItem* item : collidingItems) {
+        if(item != this && item->type() == DraggablePiece::Type) {
+            delete item;
+        }
+    }
     setPos(snapToGrid(pos()));
     QGraphicsPixmapItem::mouseReleaseEvent(event);
 }

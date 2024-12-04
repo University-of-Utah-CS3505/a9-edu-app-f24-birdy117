@@ -38,23 +38,62 @@ void StartMenu::stockfishStart() {
     });
 }
 
+const QString StartMenu::foolMateSetup[8][8] = {
+    {":/Images/RookB.png", ":/Images/KnightB.png", ":/Images/BishopB.png", ":/Images/QueenB.png",
+     ":/Images/KingB.png", ":/Images/BishopB.png", ":/Images/KnightB.png", ":/Images/RookB.png"},
+    {":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png",
+     ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png"},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png",
+     ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png"},
+    {":/Images/RookW.png", ":/Images/KnightW.png", ":/Images/BishopW.png", ":/Images/QueenW.png",
+     ":/Images/KingW.png", ":/Images/BishopW.png", ":/Images/KnightW.png", ":/Images/RookW.png"}
+};
+
+const QString StartMenu::backRankMateSetup[8][8] = {
+    {"", ":/Images/RookB.png", "", "", "", "", ":/Images/KingB.png", ""},
+    {"", "", "", "", "", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png"},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", ":/Images/PawnW.png", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png"},
+    {"", "", "", "", ":/Images/RookW.png", "", "", ":/Images/KingW.png"}
+};
+
+const QString StartMenu::kingQueenMateSetup[8][8] = {
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", ":/Images/KingB.png", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", ":/Images/QueenW.png", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ":/Images/KingW.png"}
+};
+
 void StartMenu::level1Start() {
     showChessBoard();
+    chessBoard->setupPieces(foolMateSetup);
     ui->Title->setText("Level 1: The Fool's Mate");
     stockfishStart();
 }
 
 void StartMenu::level2Start() {
     showChessBoard();
-    ui->Title->setText("Level 2: The Bank Rank Mate");
+    chessBoard->setupPieces(backRankMateSetup);
+    ui->Title->setText("Level 2: The Back Rank Mate");
     stockfishStart();
 }
 
 void StartMenu::level3Start() {
     showChessBoard();
+    chessBoard->setupPieces(kingQueenMateSetup);
     ui->Title->setText("Level 3: The King and Queen Mate");
     stockfishStart();
-
 }
 
 void StartMenu::vsComputerStart() {
@@ -102,8 +141,8 @@ void StartMenu::showChessBoard() {
     ui->QuitButton->show();
 
     ui->LevelsLabel->hide();
-    ui->level1Button->hide();   
-    ui->level2Button->hide(); 
+    ui->level1Button->hide();
+    ui->level2Button->hide();
     ui->level3Button->hide();
 
     ui->GameModeLabel->hide();
@@ -119,4 +158,3 @@ void StartMenu::showChessBoard() {
         }
     }
 }
-

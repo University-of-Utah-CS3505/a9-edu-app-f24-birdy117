@@ -2,7 +2,7 @@
 #include <QBrush>
 #include <QVBoxLayout>
 // #include "DraggablePiece.h"
-#include "Pawn.h"
+#include "pawn.h"
 
 // Define static constants
 const int ChessBoard::SQUARE_SIZE = 50;
@@ -24,7 +24,7 @@ ChessBoard::ChessBoard(QWidget* parent) : QWidget(parent) {
 
     // Set up the chessboard and pieces
     setupBoard();
-    setupPieces();
+    // setupPieces();
 }
 
 void ChessBoard::resetBoard() {
@@ -38,9 +38,8 @@ void ChessBoard::resetBoard() {
     }
 
     // Set up the initial board state again
-    setupPieces();
+    // setupPieces();
 }
-
 
 void ChessBoard::setupBoard() {
     QPixmap whiteTile(":/Images/whiteTile.png");
@@ -64,27 +63,45 @@ void ChessBoard::setupBoard() {
     }
 }
 
-void ChessBoard::setupPieces() {
-    QString pieceImages[8][8] = {
-        {":/Images/RookB.png", ":/Images/KnightB.png", ":/Images/BishopB.png", ":/Images/QueenB.png",
-         ":/Images/KingB.png", ":/Images/BishopB.png", ":/Images/KnightB.png", ":/Images/RookB.png"},
-        {":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png",
-         ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png"},
-        {"", "", "", "", "", "", "", ""},
-        {"", "", "", "", "", "", "", ""},
-        {"", "", "", "", "", "", "", ""},
-        {"", "", "", "", "", "", "", ""},
-        {":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png",
-         ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png"},
-        {":/Images/RookW.png", ":/Images/KnightW.png", ":/Images/BishopW.png", ":/Images/QueenW.png",
-         ":/Images/KingW.png", ":/Images/BishopW.png", ":/Images/KnightW.png", ":/Images/RookW.png"}
-    };
+// void ChessBoard::setupPieces() {
+//     QString pieceImages[8][8] = {
+//         {":/Images/RookB.png", ":/Images/KnightB.png", ":/Images/BishopB.png", ":/Images/QueenB.png",
+//          ":/Images/KingB.png", ":/Images/BishopB.png", ":/Images/KnightB.png", ":/Images/RookB.png"},
+//         {":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png",
+//          ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png"},
+//         {"", "", "", "", "", "", "", ""},
+//         {"", "", "", "", "", "", "", ""},
+//         {"", "", "", "", "", "", "", ""},
+//         {"", "", "", "", "", "", "", ""},
+//         {":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png",
+//          ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png"},
+//         {":/Images/RookW.png", ":/Images/KnightW.png", ":/Images/BishopW.png", ":/Images/QueenW.png",
+//          ":/Images/KingW.png", ":/Images/BishopW.png", ":/Images/KnightW.png", ":/Images/RookW.png"}
+//     };
 
+//     for (int row = 0; row < BOARD_SIZE; ++row) {
+//         for (int col = 0; col < BOARD_SIZE; ++col) {
+//             if (!pieceImages[row][col].isEmpty()) {
+//                 QPixmap pixmap(pieceImages[row][col]);
+//                 DraggablePiece* piece = new DraggablePiece(pixmap);
+
+//                 // center the piece within the square
+//                 int offsetX = (SQUARE_SIZE - pixmap.width()) / 2;
+//                 int offsetY = (SQUARE_SIZE - pixmap.height()) / 2;
+//                 piece->setPos(col * SQUARE_SIZE + offsetX, row * SQUARE_SIZE + offsetY);
+
+//                 // add piece to the scene
+//                 scene->addItem(piece);
+//             }
+//         }
+//     }
+// }
+
+void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
     for (int row = 0; row < BOARD_SIZE; ++row) {
         for (int col = 0; col < BOARD_SIZE; ++col) {
             if (!pieceImages[row][col].isEmpty()) {
                 QPixmap pixmap(pieceImages[row][col]);
-
                 DraggablePiece* piece = nullptr;
                 Color pieceColor = (row < 2) ? Color::White : Color::Black;
 
