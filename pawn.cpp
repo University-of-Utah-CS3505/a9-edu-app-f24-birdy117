@@ -12,15 +12,6 @@ void Pawn::resetPreviousPosition() {
     // Additional Pawn-specific behavior can be added here
 }
 
-bool Pawn::isCaptured() const {
-    // Inherited from draggablePiece
-    return hasBeenCaptured;
-}
-
-void Pawn::setCaptured(bool status) {
-    hasBeenCaptured = status;
-}
-
 bool Pawn::isFirstMove() const {
     return firstMove;
 }

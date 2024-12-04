@@ -19,12 +19,6 @@ public:
     /// Override to reset the previous position of the piece
     void resetPreviousPosition() override;
 
-    /// Override to check if the pawn has been captured
-    bool isCaptured() const override;
-
-    /// Override to set the capture status of the pawn
-    void setCaptured(bool status) override;
-
     /// Override to get the status of the first move
     bool isFirstMove() const override;
 
