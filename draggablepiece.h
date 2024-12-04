@@ -1,3 +1,16 @@
+#ifndef DRAGGABLEPIECE_H
+#define DRAGGABLEPIECE_H
+
+#include <QGraphicsPixmapItem>
+#include <QGraphicsSceneMouseEvent>
+#include <QPoint>
+#include <QString>
+
+enum Color {
+    White,
+    Black
+};
+
 ///
 /// \authors Anne Arnold, Nicole Glazier, Ethan Kerrigan
 ///          Emily Thai, Aaron Perez
@@ -8,21 +21,7 @@
 /// It will track the location of the piece, revert to a
 /// previous position, and validate movements.
 ///
-
-#ifndef DRAGGABLEPIECE_H
-#define DRAGGABLEPIECE_H
-
-#include <QGraphicsPixmapItem>
-#include <QPoint>
-#include <QString>
-
-enum Color {
-    White,
-    Black
-};
-
 class DraggablePiece : public QGraphicsPixmapItem {
-    Q_OBJECT
 
 protected:
     // Current position on the board

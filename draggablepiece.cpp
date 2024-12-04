@@ -18,9 +18,8 @@ DraggablePiece::DraggablePiece(Color color, const QPoint& startLocation, const Q
 // General move to a new location
 void DraggablePiece::moveTo(const QPoint& destination) {
     previousPosition = currentLocation; // Track current location before moving
-    currentLocation = destination;     // Update to the new location
-    // moveHistory.push_back(destination); // Record the move in the history
-    setPos(destination.x() * pixmap().width(), destination.y() * pixmap().height());
+    setCurrentLocation(destination);
+    setPos(destination.x() * SQUARE_SIZE, destination.y() * SQUARE_SIZE);
 }
 
 // Mouse interaction

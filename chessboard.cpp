@@ -1,9 +1,8 @@
 #include "chessboard.h"
 #include <QBrush>
 #include <QVBoxLayout>
-#include "DraggablePiece.h"
+// #include "DraggablePiece.h"
 #include "Pawn.h"
-
 
 // Define static constants
 const int ChessBoard::SQUARE_SIZE = 50;

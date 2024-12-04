@@ -5,7 +5,6 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
-#include "DraggablePiece.h"
 
 class ChessBoard : public QWidget {
     Q_OBJECT
