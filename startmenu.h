@@ -5,6 +5,7 @@
 #include "chessboard.h"
 #include "stockfishengine.h"
 #include "ui_startmenu.h"
+#include <QSettings>
 
 namespace Ui {
 class StartMenu;
@@ -26,6 +27,9 @@ private:
     /// Stockfish executable
     StockfishEngine *stockfishEngine;
 
+    QSettings settings;
+    QList<QPushButton *> buttons;
+
     ///
     /// \brief stockfishStart
     /// Connect to stockfish.
@@ -44,6 +48,8 @@ private slots:
     void quitButtonClicked();
     void hideChessBoard();
     void showChessBoard();
+    void saveButtonStates();
+    void loadButtonStates();
 };
 
 #endif // STARTMENU_H

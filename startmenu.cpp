@@ -5,6 +5,7 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     , ui(new Ui::StartMenu)
     , chessBoard(chessBoard)
     , stockfishEngine(new StockfishEngine(this))
+    , settings("Placeholder", "AppName")
 {
     ui->setupUi(this);
     connect(ui->level1Button, &QPushButton::clicked, this, &StartMenu::level1Start);
@@ -12,6 +13,10 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     connect(ui->level3Button, &QPushButton::clicked, this, &StartMenu::level3Start);
     connect(ui->vsComputerButton, &QPushButton::clicked, this, &StartMenu::vsComputerStart);
     connect(ui->QuitButton, &QPushButton::clicked, this, &StartMenu::quitButtonClicked);
+
+    buttons = {ui->level2Button, ui->level3Button};
+
+    loadButtonStates();
 
     QVBoxLayout *layout = new QVBoxLayout;
     ui->chessBoardContainer->setLayout(layout);
@@ -22,6 +27,7 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
 
 StartMenu::~StartMenu()
 {
+    saveButtonStates();
     delete ui;
 }
 
@@ -157,4 +163,20 @@ void StartMenu::showChessBoard() {
             widget->hide();
         }
     }
+}
+
+void StartMenu::saveButtonStates() {
+    settings.beginGroup("ButtonStates");
+    for (QPushButton *button : buttons)
+    {
+        settings.setValue(button->objectName(), button->isEnabled());
+    }
+    settings.endGroup(); }
+
+void StartMenu::loadButtonStates() {
+    settings.beginGroup("ButtonStates");
+    for (QPushButton *button : buttons) {
+        button->setEnabled(settings.value(button->objectName(), true).toBool());
+    }
+    settings.endGroup();
 }
