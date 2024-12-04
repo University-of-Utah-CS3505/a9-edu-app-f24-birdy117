@@ -10,19 +10,6 @@ void Bishop::resetPreviousPosition() {
     // Additional Pawn-specific behavior can be added here
 }
 
-bool Bishop::isCaptured() const {
-    // Inherited from draggablePiece
-    return hasBeenCaptured;
-}
-
-void Bishop::setCaptured(bool status) {
-    hasBeenCaptured = status;
-}
-
-void Bishop::setFirstMove(bool status) {
-    firstMove = status;
-}
-
 QString Bishop::pieceType() const {
     return "Bishop";
 }
@@ -66,5 +53,4 @@ bool Bishop::isValidMove(const QPoint& destination) const {
 
 void Bishop::moveTo(const QPoint& destination) {
     DraggablePiece::moveTo(destination);
-    firstMove = false;
 }

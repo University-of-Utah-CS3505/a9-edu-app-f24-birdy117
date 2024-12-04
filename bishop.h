@@ -10,15 +10,6 @@ public:
     /// Override to reset the previous position of the piece
     void resetPreviousPosition() override;
 
-    /// Override to check if the pawn has been captured
-    bool isCaptured() const override;
-
-    /// Override to set the capture status of the pawn
-    void setCaptured(bool status) override;
-
-    /// Override to set the status of the first move
-    void setFirstMove(bool status) override;
-
     /// Override to specify piece type as "Pawn"
     QString pieceType() const override;
 

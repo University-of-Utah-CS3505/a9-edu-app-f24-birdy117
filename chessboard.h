@@ -5,6 +5,15 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
+#include <QBrush>
+#include <QVBoxLayout>
+// #include "DraggablePiece.h"
+#include "pawn.h"
+#include "king.h"
+#include "queen.h"
+#include "rook.h"
+#include "knight.h"
+#include "bishop.h"
 
 class ChessBoard : public QWidget {
     Q_OBJECT

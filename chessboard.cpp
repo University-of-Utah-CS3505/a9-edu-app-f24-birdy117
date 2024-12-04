@@ -1,12 +1,5 @@
 #include "chessboard.h"
-#include <QBrush>
-#include <QVBoxLayout>
-// #include "DraggablePiece.h"
-#include "pawn.h"
-#include "king.h"
-#include "queen.h"
-#include "rook.h"
-#include "knight.h"
+
 
 // Define static constants
 const int ChessBoard::SQUARE_SIZE = 50;
@@ -119,6 +112,8 @@ void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
                     piece = new Queen(pieceColor, QPoint(col, row), pixmap);
                 } else if (pieceImages[row][col].contains("Knight")) {
                     piece = new Knight(pieceColor, QPoint(col, row), pixmap);
+                } else if (pieceImages[row][col].contains("Bishop")) {
+                    piece = new Bishop(pieceColor, QPoint(col, row), pixmap);
             }
 
                 if (piece) {
