@@ -29,31 +29,30 @@ QString Bishop::pieceType() const {
 
 QList<QPoint> Bishop::calculateValidMoves(int startX, int startY) const {
     QList<QPoint> validMoves;
-
-    // Basic movement: Pawn can move one square forward (dy == 1)
-    if (pieceColor == White) {
-        validMoves.append(QPoint(startX, startY + 1)); // Move one square forward
-    } else if (pieceColor == Black) {
-        validMoves.append(QPoint(startX, startY - 1)); // Move one square forward
+    for(int i = 0; i < 8; i++){
+        // Bishop can move Northwest Diagnolly
+        validMoves.append(QPoint(startX - i, startY + i));
+        // Bishop can move Northeast Diagnolly
+        validMoves.append(QPoint(startX + i, startY + i));
+        // Bishop can move Southwest Diagnolly
+        validMoves.append(QPoint(startX - i, startY - i));
+        // Bishop can move Southeast Diagnolly
+        validMoves.append(QPoint(startX + i, startY - i));
     }
-
     return validMoves;
 }
 
 QList<QPoint> Bishop::calculateAttackRange(int startX, int startY) const {
-    QList<QPoint> attackRange;
-
-    // Attack diagonally
-    if (pieceColor == White) {
+    QList<QPoint> attackRange;  
+    for(int i = 0; i < 8; i++){
         // Attack diagonally left forward
-        attackRange.append(QPoint(startX - 1, startY + 1));
+        attackRange.append(QPoint(startX - i, startY + i));
         // Attack diagonally right forward
-        attackRange.append(QPoint(startX + 1, startY + 1));
-    } else if (pieceColor == Black) {
+        attackRange.append(QPoint(startX + i, startY + i));
         // Attack diagonally left backward
-        attackRange.append(QPoint(startX - 1, startY - 1));
+        attackRange.append(QPoint(startX - i, startY - i));
         // Attack diagonally right backward
-        attackRange.append(QPoint(startX + 1, startY - 1));
+        attackRange.append(QPoint(startX + i, startY - i));
     }
 
     return attackRange;
