@@ -31,7 +31,7 @@
      <rect>
       <x>190</x>
       <y>40</y>
-      <width>421</width>
+      <width>451</width>
       <height>61</height>
      </rect>
     </property>
@@ -64,7 +64,7 @@
      <enum>QFrame::Shadow::Plain</enum>
     </property>
     <property name="text">
-     <string>Welcome to BetterThanChess.com</string>
+     <string>Welcome to Checkmate Simulator</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -125,7 +125,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Game Modes</string>
+        <string>Final Level</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -156,7 +156,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Vs. Computer</string>
+        <string>Final Quiz</string>
        </property>
        <property name="icon">
         <iconset theme="QIcon::ThemeIcon::Computer"/>
@@ -212,7 +212,7 @@
       <x>50</x>
       <y>190</y>
       <width>321</width>
-      <height>241</height>
+      <height>321</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLevelLayout" stretch="1,1,1,1">
@@ -439,8 +439,8 @@
    <widget class="QTextEdit" name="foolsMateText">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>100</y>
+      <x>10</x>
+      <y>50</y>
       <width>421</width>
       <height>391</height>
      </rect>
@@ -479,8 +479,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QTextEdit" name="BackRankText">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>100</y>
+      <x>10</x>
+      <y>50</y>
       <width>421</width>
       <height>391</height>
      </rect>
@@ -506,8 +506,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QTextEdit" name="KingQueenText">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>100</y>
+      <x>10</x>
+      <y>50</y>
       <width>421</width>
       <height>391</height>
      </rect>
