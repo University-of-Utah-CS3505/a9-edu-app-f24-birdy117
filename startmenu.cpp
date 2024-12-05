@@ -24,6 +24,8 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     layout->addWidget(chessBoard);
     ui->chessBoardContainer->hide();
     ui->QuitButton->hide();
+    ui->inputBox->hide();
+    ui->inputBoxQuestion->hide();
 
     ui->foolsMateText->hide();
     ui->BackRankText->hide();
@@ -98,6 +100,8 @@ void StartMenu::level1Start() {
     ui->startButton->raise();
     chessBoard->setupPieces(foolMateSetup);
     ui->Title->setText("Level 1: The Fool's Mate");
+    ui->inputBox->show();
+    ui->inputBoxQuestion->show();
     // stockfishStart();
 }
 
@@ -109,6 +113,8 @@ void StartMenu::level2Start() {
     ui->startButton->raise();
     chessBoard->setupPieces(backRankMateSetup);
     ui->Title->setText("Level 2: The Back Rank Mate");
+    ui->inputBox->show();
+    ui->inputBoxQuestion->show();
     // stockfishStart();
 }
 
@@ -120,6 +126,8 @@ void StartMenu::level3Start() {
     ui->startButton->raise();
     chessBoard->setupPieces(kingQueenMateSetup);
     ui->Title->setText("Level 3: The King and Queen Mate");
+    ui->inputBox->show();
+    ui->inputBoxQuestion->show();
     // stockfishStart();
 }
 
