@@ -38,7 +38,7 @@ public:
     explicit ChessBoard(QWidget* parent = nullptr);
     void resetBoard();
     void setupPieces(const QString setup[8][8]);
-    void highlightSquare(int row, int col, QColor color);
+    void highlightSquare(int col, int row, QColor color);
 
 private:
     void setupBoard();

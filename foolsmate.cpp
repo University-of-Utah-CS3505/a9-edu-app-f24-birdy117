@@ -35,4 +35,5 @@ void FoolsMate::moveFirstWhitePawn() {
 
 void FoolsMate::firstMove() {
     board->highlightSquare(1, 0, Qt::yellow);
+    board->highlightSquare(2, 5, Qt::darkYellow);
 }
