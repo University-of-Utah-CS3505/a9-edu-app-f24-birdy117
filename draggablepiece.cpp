@@ -20,7 +20,8 @@ DraggablePiece::DraggablePiece(Color color, const QPoint& startLocation, const Q
 void DraggablePiece::moveTo(const QPoint& destination) {
     previousPosition = currentLocation; // Track current location before moving
     setCurrentLocation(destination);
-    setPos(destination.x() * SQUARE_SIZE, destination.y() * SQUARE_SIZE);
+    QPoint point(destination.x() * SQUARE_SIZE, destination.y() * SQUARE_SIZE);
+    setPos(snapToGrid(point));
 }
 
 // Mouse interaction
