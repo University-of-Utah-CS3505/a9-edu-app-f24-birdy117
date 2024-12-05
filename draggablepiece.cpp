@@ -10,20 +10,20 @@ DraggablePiece::DraggablePiece(Color color, const QPoint& startLocation, const Q
     , pieceColor(color)
     , firstMove(true)
     , hasBeenCaptured(false)
-    , dragStartPos(QPointF(0, 0))
-    , goalPos(-1, -1) {
+    , dragStartPos(QPointF(0, 0)) {
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 }
 
+// General move to a new location
 void DraggablePiece::moveTo(const QPoint& destination) {
     previousPosition = currentLocation; // Track current location before moving
     setCurrentLocation(destination);
-    QPoint point(destination.x() * SQUARE_SIZE, destination.y() * SQUARE_SIZE);
-    setPos(snapToGrid(point));
+    setPos(destination.x() * SQUARE_SIZE, destination.y() * SQUARE_SIZE);
 }
 
+// Mouse interaction
 void DraggablePiece::setInteractive(bool interactive) {
     setFlag(QGraphicsItem::ItemIsMovable, interactive);
     setFlag(QGraphicsItem::ItemIsSelectable, interactive);
@@ -49,7 +49,6 @@ void DraggablePiece::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
     }
     setPos(snapToGrid(pos()));
     QGraphicsPixmapItem::mouseReleaseEvent(event);
-    emit pieceMoved();
 }
 
 QPointF DraggablePiece::snapToGrid(const QPointF& position) {
@@ -63,15 +62,3 @@ QPointF DraggablePiece::snapToGrid(const QPointF& position) {
 
     return QPointF(snappedX, snappedY);
 }
-
-void DraggablePiece::validateMove() {
-    if (goalPos != QPoint(-1, -1) && pos() != currentLocation) {
-        moveTo(currentLocation);
-    }
-    else {
-        setGoalPosition(QPoint(-1, -1));
-        setCurrentLocation(pos().toPoint());
-    }
-}
-
-

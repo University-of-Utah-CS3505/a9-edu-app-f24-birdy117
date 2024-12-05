@@ -6,21 +6,27 @@
 #include "knight.h"
 #include "bishop.h"
 
+// Define static constants
 const int ChessBoard::SQUARE_SIZE = 50;
 const int ChessBoard::BOARD_SIZE = 8;
 
 ChessBoard::ChessBoard(QWidget* parent) : QWidget(parent) {
+    // Initialize the QGraphicsScene and QGraphicsView
     scene = new QGraphicsScene(this);
     view = new QGraphicsView(scene, this);
 
+    // Configure the view
     view->setFixedSize(BOARD_SIZE * SQUARE_SIZE + 2, BOARD_SIZE * SQUARE_SIZE + 2);
     view->setSceneRect(0, 0, BOARD_SIZE * SQUARE_SIZE, BOARD_SIZE * SQUARE_SIZE);
 
+    // Layout the view within the widget
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(view);
     setLayout(layout);
 
+    // Set up the chessboard and pieces
     setupBoard();
+    // setupPieces();
 }
 
 void ChessBoard::resetBoard() {
@@ -29,7 +35,7 @@ void ChessBoard::resetBoard() {
     for (QGraphicsItem* item : items) {
         if (DraggablePiece* piece = dynamic_cast<DraggablePiece*>(item)) {
             scene->removeItem(piece);
-            delete piece;
+            delete piece; // Clean up memory
         }
     }
 
@@ -59,6 +65,40 @@ void ChessBoard::setupBoard() {
     }
 }
 
+// void ChessBoard::setupPieces() {
+//     QString pieceImages[8][8] = {
+//         {":/Images/RookB.png", ":/Images/KnightB.png", ":/Images/BishopB.png", ":/Images/QueenB.png",
+//          ":/Images/KingB.png", ":/Images/BishopB.png", ":/Images/KnightB.png", ":/Images/RookB.png"},
+//         {":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png",
+//          ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png"},
+//         {"", "", "", "", "", "", "", ""},
+//         {"", "", "", "", "", "", "", ""},
+//         {"", "", "", "", "", "", "", ""},
+//         {"", "", "", "", "", "", "", ""},
+//         {":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png",
+//          ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png"},
+//         {":/Images/RookW.png", ":/Images/KnightW.png", ":/Images/BishopW.png", ":/Images/QueenW.png",
+//          ":/Images/KingW.png", ":/Images/BishopW.png", ":/Images/KnightW.png", ":/Images/RookW.png"}
+//     };
+
+//     for (int row = 0; row < BOARD_SIZE; ++row) {
+//         for (int col = 0; col < BOARD_SIZE; ++col) {
+//             if (!pieceImages[row][col].isEmpty()) {
+//                 QPixmap pixmap(pieceImages[row][col]);
+//                 DraggablePiece* piece = new DraggablePiece(pixmap);
+
+//                 // center the piece within the square
+//                 int offsetX = (SQUARE_SIZE - pixmap.width()) / 2;
+//                 int offsetY = (SQUARE_SIZE - pixmap.height()) / 2;
+//                 piece->setPos(col * SQUARE_SIZE + offsetX, row * SQUARE_SIZE + offsetY);
+
+//                 // add piece to the scene
+//                 scene->addItem(piece);
+//             }
+//         }
+//     }
+// }
+
 void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
 
     for (int row = 0; row < BOARD_SIZE; ++row) {
@@ -87,53 +127,9 @@ void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
                     int offsetY = (SQUARE_SIZE - pixmap.height()) / 2;
                     piece->setPos(col * SQUARE_SIZE + offsetX, row * SQUARE_SIZE + offsetY);
                     scene->addItem(piece);
-                    piece->setZValue(1);
-
-                    /* NOTE:
-                     * Level 1 index order:
-                     * 0-7 back row of white, starting with left rook moving right.
-                     * 8-15 white pawns
-                     * 16-23 black pawns
-                     * 24-31 back row of black, starting with left rook moving right.
-                     *
-                     * Level 2:
-                     * 0 black rook
-                     * 1 black king
-                     * 2-4 black pawns
-                     * 5-7 white pawns
-                     * 8 white rook
-                     * 9 black king
-                     *
-                     * Level 3:
-                     * 0 black king
-                     * 1 white queen
-                     * 2 white king
-                     */
-                    allPieces.push_back(piece);
+                    allPieces.push_back(piece); // Checked and all pieces are being added correctly
                 }
             }
         }
     }
-    // int i = 0;
-    // for(auto* piece : allPieces) {
-    //     qDebug() << i << piece->pieceType();
-    //     ++i;
-    // }
-}
-
-void ChessBoard::highlightSquare(int col, int row, QColor color) {
-    QGraphicsRectItem* highlight = new QGraphicsRectItem();
-    highlight->setRect(col * SQUARE_SIZE, (BOARD_SIZE - row - 1) * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-    highlight->setBrush(color);
-    highlight->setOpacity(0.5);
-
-    scene->addItem(highlight);
-    highlight->setZValue(0);
-}
-
-void ChessBoard::validateBoard() {
-    for (DraggablePiece* piece : allPieces) {
-        piece->validateMove();
-    }
-    qDebug() << "validate";
 }

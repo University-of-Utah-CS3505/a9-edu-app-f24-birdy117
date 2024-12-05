@@ -1,6 +1,4 @@
 #include "startmenu.h"
-#include "foolsmate.h"
-#include <QTimer>
 
 StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     : QMainWindow(parent)
@@ -16,9 +14,6 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     connect(ui->vsComputerButton, &QPushButton::clicked, this, &StartMenu::vsComputerStart);
     connect(ui->QuitButton, &QPushButton::clicked, this, &StartMenu::quitButtonClicked);
     connect(ui->startButton, &QPushButton::clicked, this, &StartMenu::startClicked);
-
-    FoolsMate fool(chessBoard);
-    connect(&fool, &FoolsMate::pieceMoved, &chessBoard, &ChessBoard::validateBoard);
 
     buttons = {ui->level2Button, ui->level3Button};
 
@@ -71,7 +66,7 @@ const QString StartMenu::foolMateSetup[8][8] = {
      ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png"},
     {":/Images/RookB.png", ":/Images/KnightB.png", ":/Images/BishopB.png", ":/Images/KingB.png",
      ":/Images/QueenB.png", ":/Images/BishopB.png", ":/Images/KnightB.png", ":/Images/RookB.png"},
-};
+    };
 
 const QString StartMenu::backRankMateSetup[8][8] = {
     {"", ":/Images/RookB.png", "", "", "", "", ":/Images/KingB.png", ""},
@@ -112,7 +107,7 @@ void StartMenu::level2Start() {
     ui->startButton->show();
     ui->startButton->setEnabled(true);
     ui->startButton->raise();
-        chessBoard->setupPieces(backRankMateSetup);
+    chessBoard->setupPieces(backRankMateSetup);
     ui->Title->setText("Level 2: The Back Rank Mate");
     // stockfishStart();
 }
