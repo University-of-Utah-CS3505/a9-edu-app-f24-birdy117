@@ -54,18 +54,18 @@ void StartMenu::stockfishStart() {
 }
 
 const QString StartMenu::foolMateSetup[8][8] = {
-    {":/Images/RookB.png", ":/Images/KnightB.png", ":/Images/BishopB.png", ":/Images/QueenB.png",
-     ":/Images/KingB.png", ":/Images/BishopB.png", ":/Images/KnightB.png", ":/Images/RookB.png"},
-    {":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png",
-     ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png"},
-    {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", "", "", ""},
+    {":/Images/RookW.png", ":/Images/KnightW.png", ":/Images/BishopW.png", ":/Images/KingW.png",
+     ":/Images/QueenW.png", ":/Images/BishopW.png", ":/Images/KnightW.png", ":/Images/RookW.png"},
     {":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png",
      ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png"},
-    {":/Images/RookW.png", ":/Images/KnightW.png", ":/Images/BishopW.png", ":/Images/QueenW.png",
-     ":/Images/KingW.png", ":/Images/BishopW.png", ":/Images/KnightW.png", ":/Images/RookW.png"}
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png",
+     ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png"},
+    {":/Images/RookB.png", ":/Images/KnightB.png", ":/Images/BishopB.png", ":/Images/KingB.png",
+     ":/Images/QueenB.png", ":/Images/BishopB.png", ":/Images/KnightB.png", ":/Images/RookB.png"},
 };
 
 const QString StartMenu::backRankMateSetup[8][8] = {
