@@ -36,6 +36,8 @@ private:
     ///
     void stockfishStart();
 
+    void hideStartingScreen();
+
     static const QString foolMateSetup[8][8];
     static const QString backRankMateSetup[8][8];
     static const QString kingQueenMateSetup[8][8];
@@ -50,6 +52,7 @@ private slots:
     void showChessBoard();
     void saveButtonStates();
     void loadButtonStates();
+    void startClicked();
 };
 
 #endif // STARTMENU_H

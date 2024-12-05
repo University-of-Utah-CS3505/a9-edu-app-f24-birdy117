@@ -47,5 +47,6 @@ RESOURCES += \
     Resources.qrc
 
 DISTFILES += \
+    Fools-Mate.png \
     stockfish-windows-x86-64-sse41-popcnt.exe \
     stockfish.exe

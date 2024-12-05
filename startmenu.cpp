@@ -13,6 +13,7 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     connect(ui->level3Button, &QPushButton::clicked, this, &StartMenu::level3Start);
     connect(ui->vsComputerButton, &QPushButton::clicked, this, &StartMenu::vsComputerStart);
     connect(ui->QuitButton, &QPushButton::clicked, this, &StartMenu::quitButtonClicked);
+    connect(ui->startButton, &QPushButton::clicked, this, &StartMenu::startClicked);
 
     buttons = {ui->level2Button, ui->level3Button};
 
@@ -23,6 +24,14 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     layout->addWidget(chessBoard);
     ui->chessBoardContainer->hide();
     ui->QuitButton->hide();
+
+    ui->foolsMateText->hide();
+    ui->BackRankText->hide();
+    ui->KingQueenText->hide();
+
+    ui->startButton->hide();
+    ui->startButton->setEnabled(false);
+
 }
 
 StartMenu::~StartMenu()
@@ -36,12 +45,12 @@ void StartMenu::stockfishStart() {
     //QString basePath = QCoreApplication::applicationDirPath();
     QString stockfishPath = QCoreApplication::applicationDirPath() + "/../../../stockfish.exe";
 
-    stockfishEngine->startEngine(stockfishPath);
+    // stockfishEngine->startEngine(stockfishPath);
 
     // Can only connect to stockfish through slots or lambda expressions.
-    connect(stockfishEngine, &StockfishEngine::engineOutput, this, [](const QString &output) {
-        // qDebug() << "STOCKFISH SAYS:" << output;
-    });
+    // connect(stockfishEngine, &StockfishEngine::engineOutput, this, [](const QString &output) {
+    //     // qDebug() << "STOCKFISH SAYS:" << output;
+    // });
 }
 
 const QString StartMenu::foolMateSetup[8][8] = {
@@ -82,24 +91,40 @@ const QString StartMenu::kingQueenMateSetup[8][8] = {
 };
 
 void StartMenu::level1Start() {
-    showChessBoard();
+    hideStartingScreen();
+    ui->foolsMateText->show();
+    ui->startButton->show();
+    ui->startButton->setEnabled(true);
+    ui->startButton->raise();
     chessBoard->setupPieces(foolMateSetup);
     ui->Title->setText("Level 1: The Fool's Mate");
-    stockfishStart();
+    // stockfishStart();
 }
 
 void StartMenu::level2Start() {
-    showChessBoard();
-    chessBoard->setupPieces(backRankMateSetup);
+    hideStartingScreen();
+    ui->BackRankText->show();
+    ui->startButton->show();
+    ui->startButton->setEnabled(true);
+    ui->startButton->raise();
+        chessBoard->setupPieces(backRankMateSetup);
     ui->Title->setText("Level 2: The Back Rank Mate");
-    stockfishStart();
+    // stockfishStart();
 }
 
 void StartMenu::level3Start() {
-    showChessBoard();
+    hideStartingScreen();
+    ui->KingQueenText->show();
+    ui->startButton->show();
+    ui->startButton->setEnabled(true);
+    ui->startButton->raise();
     chessBoard->setupPieces(kingQueenMateSetup);
     ui->Title->setText("Level 3: The King and Queen Mate");
-    stockfishStart();
+    // stockfishStart();
+}
+
+void StartMenu::startClicked() {
+    showChessBoard();
 }
 
 void StartMenu::vsComputerStart() {
@@ -142,10 +167,7 @@ void StartMenu::hideChessBoard() {
     ui->Title->setText("Welcome to BetterThanChess.com");
 }
 
-void StartMenu::showChessBoard() {
-    ui->chessBoardContainer->show();
-    ui->QuitButton->show();
-
+void StartMenu::hideStartingScreen() {
     ui->LevelsLabel->hide();
     ui->level1Button->hide();
     ui->level2Button->hide();
@@ -156,6 +178,18 @@ void StartMenu::showChessBoard() {
     ui->vsComputerButton->hide();
 
     ui->TeamCreditsLabel->hide();
+}
+
+void StartMenu::showChessBoard() {
+    ui->foolsMateText->hide();
+    ui->BackRankText->hide();
+    ui->KingQueenText->hide();
+
+    ui->startButton->hide();
+    ui->startButton->setEnabled(false);
+
+    ui->chessBoardContainer->show();
+    ui->QuitButton->show();
 
     for (int i = 0; i < ui->NamesLayout->count(); ++i) {
         QWidget *widget = ui->NamesLayout->itemAt(i)->widget();
