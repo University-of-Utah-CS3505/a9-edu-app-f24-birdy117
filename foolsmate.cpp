@@ -31,8 +31,11 @@ void FoolsMate::moveFirstWhitePawn() {
 
     QPoint pos(4, 3);
     whitePawn->moveTo(pos);
+    whitePawn->setCurrentLocation(pos);
 }
 
 void FoolsMate::firstMove() {
-    board->highlightSquare(1, 0, Qt::yellow);
+    board->highlightSquare(5, 1, Qt::yellow);
+    board->highlightSquare(5, 2, Qt::darkYellow);
+    board->validateBoard();
 }

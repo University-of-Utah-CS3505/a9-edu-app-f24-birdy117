@@ -21,7 +21,8 @@ enum Color {
 /// It will track the location of the piece, revert to a
 /// previous position, and validate movements.
 ///
-class DraggablePiece : public QGraphicsPixmapItem {
+class DraggablePiece : public QGraphicsPixmapItem, public QObject {
+
 protected:
     // Current position on the board
     QPoint currentLocation;
@@ -37,6 +38,8 @@ protected:
     QPointF dragStartPos;
     // Size of the chess tile
     int const SQUARE_SIZE = 50;
+    // Where the piece should move
+    QPoint goalPos;
 
     ///
     /// \brief
@@ -61,6 +64,8 @@ public:
     virtual void setCaptured(bool status) { hasBeenCaptured = status; }
     virtual bool isFirstMove() const { return firstMove; }
     virtual void setFirstMove(bool status) { firstMove = status; }
+    void setGoalPosition(const QPoint& pos) { goalPos = pos; }
+    QPoint getGoalPosition() const { return goalPos; }
 
     // Abstract methods for subclasses to implement
     virtual QString pieceType() const = 0;
@@ -70,6 +75,7 @@ public:
     // Validation and movement methods
     virtual bool isValidMove(const QPoint& destination) const = 0;
     virtual void moveTo(const QPoint& destination);
+    void validateMove();
 
     // Mouse interaction
     void setInteractive(bool interactive);
@@ -77,6 +83,8 @@ public:
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
 
+signals:
+    void pieceMoved();
 };
 
 #endif // DRAGGABLEPIECE_H

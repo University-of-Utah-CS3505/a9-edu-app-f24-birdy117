@@ -121,7 +121,7 @@ void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
     // }
 }
 
-void ChessBoard::highlightSquare(int row, int col, QColor color) {
+void ChessBoard::highlightSquare(int col, int row, QColor color) {
     QGraphicsRectItem* highlight = new QGraphicsRectItem();
     highlight->setRect(col * SQUARE_SIZE, (BOARD_SIZE - row - 1) * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
     highlight->setBrush(color);
@@ -129,4 +129,11 @@ void ChessBoard::highlightSquare(int row, int col, QColor color) {
 
     scene->addItem(highlight);
     highlight->setZValue(0);
+}
+
+void ChessBoard::validateBoard() {
+    for (DraggablePiece* piece : allPieces) {
+        piece->validateMove();
+    }
+    qDebug() << "validate";
 }

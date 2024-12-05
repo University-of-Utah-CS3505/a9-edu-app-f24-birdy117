@@ -4,8 +4,7 @@
 #include "chessboard.h"
 #include <QObject>
 
-class FoolsMate : public QObject
-{
+class FoolsMate : public QObject {
     Q_OBJECT
 public:
     ChessBoard* board;

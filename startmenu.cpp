@@ -17,6 +17,9 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     connect(ui->QuitButton, &QPushButton::clicked, this, &StartMenu::quitButtonClicked);
     connect(ui->startButton, &QPushButton::clicked, this, &StartMenu::startClicked);
 
+    FoolsMate fool(chessBoard);
+    connect(&fool, &FoolsMate::pieceMoved, &chessBoard, &ChessBoard::validateBoard);
+
     buttons = {ui->level2Button, ui->level3Button};
 
     loadButtonStates();
@@ -100,14 +103,6 @@ void StartMenu::level1Start() {
     ui->startButton->raise();
     chessBoard->setupPieces(foolMateSetup);
     ui->Title->setText("Level 1: The Fool's Mate");
-
-    FoolsMate fool(chessBoard);
-
-
-
-
-
-
     // stockfishStart();
 }
 
