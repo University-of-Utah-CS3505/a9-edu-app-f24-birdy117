@@ -1,24 +1,20 @@
 #ifndef CHESSBOARD_H
 #define CHESSBOARD_H
 
+#include "draggablepiece.h"
 #include <QWidget>
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QBrush>
 #include <QVBoxLayout>
-// #include "DraggablePiece.h"
-#include "pawn.h"
-#include "king.h"
-#include "queen.h"
-#include "rook.h"
-#include "knight.h"
-#include "bishop.h"
 
 class ChessBoard : public QWidget {
     Q_OBJECT
 
 public:
+    QList<DraggablePiece*> allPieces;
+
     explicit ChessBoard(QWidget* parent = nullptr);
     void resetBoard();
     void setupPieces(const QString setup[8][8]);

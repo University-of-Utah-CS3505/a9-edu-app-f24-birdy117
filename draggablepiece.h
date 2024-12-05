@@ -22,7 +22,6 @@ enum Color {
 /// previous position, and validate movements.
 ///
 class DraggablePiece : public QGraphicsPixmapItem {
-
 protected:
     // Current position on the board
     QPoint currentLocation;
@@ -77,6 +76,7 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+
 };
 
 #endif // DRAGGABLEPIECE_H

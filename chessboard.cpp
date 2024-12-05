@@ -1,5 +1,10 @@
 #include "chessboard.h"
-
+#include "pawn.h"
+#include "king.h"
+#include "queen.h"
+#include "rook.h"
+#include "knight.h"
+#include "bishop.h"
 
 // Define static constants
 const int ChessBoard::SQUARE_SIZE = 50;
@@ -95,6 +100,7 @@ void ChessBoard::setupBoard() {
 // }
 
 void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
+
     for (int row = 0; row < BOARD_SIZE; ++row) {
         for (int col = 0; col < BOARD_SIZE; ++col) {
             if (!pieceImages[row][col].isEmpty()) {
@@ -114,13 +120,14 @@ void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
                     piece = new Knight(pieceColor, QPoint(col, row), pixmap);
                 } else if (pieceImages[row][col].contains("Bishop")) {
                     piece = new Bishop(pieceColor, QPoint(col, row), pixmap);
-            }
+                }
 
                 if (piece) {
                     int offsetX = (SQUARE_SIZE - pixmap.width()) / 2;
                     int offsetY = (SQUARE_SIZE - pixmap.height()) / 2;
                     piece->setPos(col * SQUARE_SIZE + offsetX, row * SQUARE_SIZE + offsetY);
                     scene->addItem(piece);
+                    allPieces.push_back(piece); // Checked and all pieces are being added correctly
                 }
             }
         }

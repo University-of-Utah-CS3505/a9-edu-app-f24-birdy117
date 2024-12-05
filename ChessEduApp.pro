@@ -11,8 +11,8 @@ CONFIG += c++17 moc
 SOURCES += \
     bishop.cpp \
     chessboard.cpp \
-    chesspiece.cpp \
     draggablepiece.cpp \
+    foolsmate.cpp \
     king.cpp \
     knight.cpp \
     main.cpp \
@@ -25,8 +25,8 @@ SOURCES += \
 HEADERS += \
     bishop.h \
     chessboard.h \
-    chesspiece.h \
     draggablepiece.h \
+    foolsmate.h \
     king.h \
     knight.h \
     pawn.h \
