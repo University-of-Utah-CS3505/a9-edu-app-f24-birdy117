@@ -12,12 +12,12 @@ class ChessBoard : public QWidget {
 
 public:
     explicit ChessBoard(QWidget* parent = nullptr);
+    static const int SQUARE_SIZE;
 
 private:
     void setupBoard();
     void setupPieces();
 
-    static const int SQUARE_SIZE;
     static const int BOARD_SIZE;
 
     QGraphicsView* view;

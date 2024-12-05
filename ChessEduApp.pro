@@ -11,13 +11,19 @@ CONFIG += c++17
 SOURCES += \
     chessboard.cpp \
     draggablepiece.cpp \
+    knightpiece.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    pawnpiece.cpp \
+    rookpiece.cpp
 
 HEADERS += \
     chessboard.h \
     draggablepiece.h \
-    mainwindow.h
+    knightpiece.h \
+    mainwindow.h \
+    pawnpiece.h \
+    rookpiece.h
 
 FORMS += \
     mainwindow.ui

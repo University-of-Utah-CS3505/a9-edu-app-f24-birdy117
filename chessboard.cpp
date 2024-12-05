@@ -2,10 +2,13 @@
 #include <QBrush>
 #include <QVBoxLayout>
 #include "DraggablePiece.h"
+#include "pawnpiece.h"
+#include "knightpiece.h"
+#include "rookpiece.h"
 
 // Define static constants
-const int ChessBoard::SQUARE_SIZE = 50;
 const int ChessBoard::BOARD_SIZE = 8;
+const int ChessBoard::SQUARE_SIZE = 50;
 
 ChessBoard::ChessBoard(QWidget* parent) : QWidget(parent) {
     // Initialize the QGraphicsScene and QGraphicsView
@@ -69,7 +72,22 @@ void ChessBoard::setupPieces() {
         for (int col = 0; col < BOARD_SIZE; ++col) {
             if (!pieceImages[row][col].isEmpty()) {
                 QPixmap pixmap(pieceImages[row][col]);
-                DraggablePiece* piece = new DraggablePiece(pixmap);
+
+                DraggablePiece* piece = nullptr;
+
+                if(pieceImages[row][col].contains("Pawn")){
+                    piece = new PawnPiece(pixmap);
+                }
+                else if(pieceImages[row][col].contains("Knight")){
+                    piece = new KnightPiece(pixmap);
+                }
+                else if(pieceImages[row][col].contains("Rook")){
+                    piece = new RookPiece(pixmap);
+                }
+                // will do other pieces
+                else {
+                    piece = new DraggablePiece(pixmap);
+                }
 
                 // center the piece within the square
                 int offsetX = (SQUARE_SIZE - pixmap.width()) / 2;
@@ -82,6 +100,7 @@ void ChessBoard::setupPieces() {
         }
     }
 }
+
 
 
 
