@@ -1,4 +1,6 @@
 #include "startmenu.h"
+#include "foolsmate.h"
+#include <QTimer>
 
 StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     : QMainWindow(parent)
@@ -98,6 +100,14 @@ void StartMenu::level1Start() {
     ui->startButton->raise();
     chessBoard->setupPieces(foolMateSetup);
     ui->Title->setText("Level 1: The Fool's Mate");
+
+    FoolsMate fool(chessBoard);
+
+
+
+
+
+
     // stockfishStart();
 }
 
