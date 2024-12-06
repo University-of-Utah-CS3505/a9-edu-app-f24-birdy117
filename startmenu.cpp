@@ -234,6 +234,21 @@ void StartMenu::level1Start() {
     ui->startButton->setEnabled(true);
     ui->startButton->raise();
     chessBoard->setupPieces(foolMateSetup);
+    // Add row numbers on the left side of the board (1 to BOARD_SIZE)
+    for (int row = 0; row < 8; ++row) {
+        QGraphicsTextItem *rowNumber = new QGraphicsTextItem(QString::number(row + 1));
+        rowNumber->setPos(-4, row * 50 + 50 / 2);  // Adjust for positioning
+        rowNumber->setDefaultTextColor(Qt::black);
+        chessBoard->scene->addItem(rowNumber);
+    }
+
+    // Add column letters on the top side of the board (A to Z)
+    for (int col = 0; col < 8; ++col) {
+        QGraphicsTextItem *colLetter = new QGraphicsTextItem(QString(QChar('H' - col)));
+        colLetter->setPos(col * 50 + 50 / 2 - 28, -6);  // Adjust for positioning
+        colLetter->setDefaultTextColor(Qt::black);
+        chessBoard->scene->addItem(colLetter);
+    }
     ui->Title->setText("Level 1: The Fool's Mate");
     // fool = new foolsmate(chessBoard, this);
     ui->inputBox->show();
@@ -569,7 +584,7 @@ void StartMenu::updateLabel(const QString& message) {
 
 void StartMenu::checkInputFirstMove() {
     QString userInput = ui->inputBox->text(); // Get the text from QLineEdit
-    QString expectedValue = "E3";   // Define the value you want
+    QString expectedValue = "E5";   // Define the value you want
 
     if (fool && userInput == expectedValue) {
         qDebug() << "Input matches the desired value!";

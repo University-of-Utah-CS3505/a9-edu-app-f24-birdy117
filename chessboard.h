@@ -42,6 +42,7 @@ public:
     void setupPieces(const QString setup[8][8]);
     void highlightSquare(int col, int row, QColor color);
     void deleteHighlights();
+    QGraphicsScene *scene;
 
 private:
     void setupBoard();
@@ -51,7 +52,6 @@ private:
     static const int BOARD_SIZE;
 
     QGraphicsView *view;
-    QGraphicsScene *scene;
 };
 
 #endif // CHESSBOARD_H
