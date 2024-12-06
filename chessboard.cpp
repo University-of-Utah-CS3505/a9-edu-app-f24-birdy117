@@ -32,12 +32,7 @@ void ChessBoard::resetBoard() {
             delete piece;
         }
     }
-
-    for (auto* highlight : highlights) {
-        scene->removeItem(highlight);
-        delete highlight;
-    }
-    highlights.clear();
+    deleteHighlights();
 }
 
 void ChessBoard::setupBoard() {
@@ -114,7 +109,6 @@ void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
                     allPieces.push_back(piece);
                 }
             }
-
         }
     }
     // int i = 0;
@@ -133,4 +127,12 @@ void ChessBoard::highlightSquare(int col, int row, QColor color) {
     scene->addItem(highlight);
     highlight->setZValue(0);
     highlights.push_back(highlight);
+}
+
+void ChessBoard::deleteHighlights() {
+    for (auto* highlight : highlights) {
+        scene->removeItem(highlight);
+        delete highlight;
+    }
+    highlights.clear();
 }

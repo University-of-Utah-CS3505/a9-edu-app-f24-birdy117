@@ -596,6 +596,32 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QLineEdit" name="inputBackRank">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>160</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="BackRankDesc">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>201</y>
+      <width>281</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+      <italic>false</italic>
+     </font>
+    </property>
+   </widget>
    <zorder>Title</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>QuitButton</zorder>
@@ -610,6 +636,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <zorder>BackRankText</zorder>
    <zorder>CorrectLabel</zorder>
    <zorder>directionsLabel</zorder>
+   <zorder>inputBackRank</zorder>
+   <zorder>BackRankDesc</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

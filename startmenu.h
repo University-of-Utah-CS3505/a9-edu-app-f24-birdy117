@@ -1,6 +1,8 @@
 #ifndef STARTMENU_H
 #define STARTMENU_H
 
+#include "backrank.h"
+
 #include <QMainWindow>
 #include <QTimer.h>
 #include "chessboard.h"
@@ -24,6 +26,8 @@ private:
     Ui::StartMenu *ui;
     QWidget *levelUI;
     ChessBoard *chessBoard;
+    bool rankMove1 = false;
+    bool rankMove2 = false;
 
     /// Stockfish executable
     StockfishEngine *stockfishEngine;
@@ -51,9 +55,12 @@ private:
     static const QString kingQueenCheckmateH4[8][8];
     static const QString kingQueenCheckmateH5[8][8];
 
-
-
-
+    // Setup for back rank checkmate
+    static const QString backRankMateMove1[8][8];
+    static const QString backRankMateMove2[8][8];
+    static const QString backRankMateMove3[8][8];
+    static const QString backRankMateMove4[8][8];
+    static const QString backRankMateMove5[8][8];
 
     ///
     /// \brief Hides anything not on the StartMenu
@@ -64,6 +71,14 @@ private:
     void QueenKingH4Checkmate();
     void QueenKingH5Checkmate();
     void displayCheckmate();
+    void displayRankCorrect();
+
+    // Back rank methods
+    void backRankMateFirst();
+    void backRankMateSecond();
+    void backRankMateThird();
+    void backRankMateFourth();
+    void backRankMateFifth();
 
 private slots:
     void level1Start();
@@ -78,6 +93,9 @@ private slots:
     void saveButtonStates();
     void loadButtonStates();
     void startClicked();
+    // void backRankMove1();
+    // void backRankMove2();
+    void checkBackRankAnswer();
 };
 
 #endif // STARTMENU_H

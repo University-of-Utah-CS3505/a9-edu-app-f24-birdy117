@@ -17,6 +17,10 @@ public slots:
     void moveRook();
     void moveBlackKing();
     void moveBishop();
+
+signals:
+    void rookMoved();
+    void bishopMoved();
 };
 
 #endif // BACKRANK_H
