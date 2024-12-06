@@ -20,7 +20,7 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     connect(ui->startButton, &QPushButton::clicked, this, &StartMenu::startClicked);
 
     // Level 2 slots
-    connect(ui->inputBackRank, &QLineEdit::returnPressed, this, &StartMenu::checkBackRankAnswer);
+    // disconnect(ui->inputBackRank, &QLineEdit::returnPressed, this, &StartMenu::checkBackRankAnswer);
     //connect(ui->inputBackRank, &QLineEdit::returnPressed, this, &StartMenu::checkBackRankAnswer);
 
     //Level 3 slots
@@ -277,7 +277,7 @@ void StartMenu::level2Start()
     ui->inputBackRank->show();
     ui->directionsLabel->setText("Follow the instructions on the screen");
 
-    connect(ui->inputBackRank, &QLineEdit::textChanged, this, &StartMenu::checkBackRankAnswer);
+    connect(ui->inputBackRank, &QLineEdit::returnPressed, this, &StartMenu::checkBackRankAnswer);
 
     chessBoard->setupPieces(backRankMateSetup);
     ui->Title->setText("Level 2: The Back Rank Mate");
@@ -335,22 +335,6 @@ void StartMenu::addBorder() {
         chessBoard->scene->addItem(rowNumber);
         chessBoard->border.push_back(rowNumber);
     }
-
-    // Add row numbers on the left side of the board (1 to BOARD_SIZE)
-    for (int row = 0; row < 8; ++row) {
-        QGraphicsTextItem *rowNumber = new QGraphicsTextItem(QString::number(row + 1));
-        rowNumber->setPos(-4, row * 50 + 50 / 2);  // Adjust for positioning
-        rowNumber->setDefaultTextColor(Qt::black);
-        chessBoard->scene->addItem(rowNumber);
-    }
-
-    // Add column letters on the top side of the board (A to Z)
-    for (int col = 0; col < 8; ++col) {
-        QGraphicsTextItem *colLetter = new QGraphicsTextItem(QString(QChar('H' - col)));
-        colLetter->setPos(col * 50 + 50 / 2 - 28, -6);  // Adjust for positioning
-        colLetter->setDefaultTextColor(Qt::black);
-        chessBoard->scene->addItem(colLetter);
-    }
 }
 
 void StartMenu::startClicked()
@@ -371,7 +355,6 @@ void StartMenu::quitButtonClicked()
         chessBoard->resetBoard();
     }
     hideChessBoard();
-    hideChessBoard(); // Todo: aaron doesn't have this in his
     queenKingMove1 = false;
     rankMove1 = false;
     rankMove2 = false;
