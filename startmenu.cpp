@@ -17,7 +17,7 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     connect(ui->startButton, &QPushButton::clicked, this, &StartMenu::startClicked);
 
     // Level 2 slots
-    // connect(ui->inputBackRank, &QLineEdit::textChanged, this, &StartMenu::checkBackRankAnswer);
+    connect(ui->inputBackRank, &QLineEdit::textChanged, this, &StartMenu::checkBackRankAnswer);
 
     //Level 3 slots
     connect(ui->inputBox, &QLineEdit::textChanged, this, &StartMenu::checkQueenKingCheckmateAnswer);
@@ -211,7 +211,7 @@ void StartMenu::hideNonStartingWidgets()
     ui->inputBox->hide();
     ui->inputBoxLabel->hide();
 
-    // ui->inputBackRank->hide();
+    ui->inputBackRank->hide();
 
     ui->directionsLabel->hide();
     ui->CorrectLabel->hide();
@@ -219,7 +219,7 @@ void StartMenu::hideNonStartingWidgets()
     ui->startButton->hide();
     ui->startButton->setEnabled(false);
 
-    // ui->BackRankDesc->hide();
+    ui->BackRankDesc->hide();
 }
 
 void StartMenu::level1Start()
@@ -248,10 +248,10 @@ void StartMenu::level2Start()
     ui->startButton->show();
     ui->startButton->setEnabled(true);
     ui->startButton->raise();
-    // ui->inputBackRank->show();
+    ui->inputBackRank->show();
     ui->directionsLabel->setText("Follow the instructions on the screen");
-    // ui->BackRankDesc->show();
-    // ui->BackRankDesc->setText("");
+    ui->BackRankDesc->show();
+    ui->BackRankDesc->setText("");
 
     chessBoard->setupPieces(backRankMateSetup);
     ui->Title->setText("Level 2: The Back Rank Mate");
@@ -318,8 +318,9 @@ void StartMenu::hideChessBoard()
     ui->inputBoxLabel->hide();
     ui->inputBox->setText("");
     ui->inputBox->hide();
-    // ui->inputBackRank->hide();
-    // ui->BackRankText->hide();
+    ui->inputBackRank->hide();
+    ui->BackRankText->hide();
+    ui->BackRankDesc->hide();
 
     ui->LevelsLabel->show();
     ui->level1Button->show();
@@ -378,7 +379,7 @@ void StartMenu::showChessBoard()
     ui->NextLevelButton->show();
 
     ui->inputBoxLabel->show();
-    // ui->BackRankDesc->setText("Our king is in check! Get rid of the threat.");
+    ui->BackRankDesc->setText("Our king is in check! Get rid of the threat.");
 }
 
 void StartMenu::displayCorrect()
@@ -408,9 +409,9 @@ void StartMenu::displayRankCorrect1() {
         chessBoard->setupPieces(backRankMateMove1);
     });
     QTimer::singleShot(2000, this, [this]() {
-        // ui->BackRankDesc->setText("Great job! Notice that the opposing king is "
-        //                           "stuck behind a wall of pawns. Let's use this to our advantage. "
-        //                           "Put the opposing king into checkmate");
+        ui->BackRankDesc->setText("Great job! Notice that the opposing king is "
+                                  "stuck behind a wall of pawns. Let's use this to our advantage. "
+                                  "Put the opposing king into checkmate");
         backRankMateSecond();
     });
 }
@@ -422,25 +423,25 @@ void StartMenu::displayRankCorrect2() {
         chessBoard->setupPieces(backRankMateMove3);
     });
     QTimer::singleShot(2000, this, [this]() {
-        // ui->BackRankDesc->setText("You win!");
+        ui->BackRankDesc->setText("You win!");
         rankMove2 = false;
     });
 }
 
 void StartMenu::checkBackRankAnswer() {
-    // if((ui->inputBackRank->text() == "E3" || ui->inputBackRank->text() == "e3") && rankMove1) {
-    //     displayRankCorrect1();
-    // }
-    // if((ui->inputBackRank->text() == "A8" || ui->inputBackRank->text() == "a8") && rankMove2) {
-    //     displayRankCorrect2();
-    // }
+    if((ui->inputBackRank->text() == "E3" || ui->inputBackRank->text() == "e3") && rankMove1) {
+        displayRankCorrect1();
+    }
+    if((ui->inputBackRank->text() == "A8" || ui->inputBackRank->text() == "a8") && rankMove2) {
+        displayRankCorrect2();
+    }
 }
 
 void StartMenu::backRankMateFirst() {
     rankMove1 = true;
     rankMove2 = false;
     ui->CorrectLabel->hide();
-    // ui->inputBackRank->setText("");
+    ui->inputBackRank->setText("");
     chessBoard->highlightSquare(2, 0, Qt::yellow);
     chessBoard->highlightSquare(4, 2, Qt::darkYellow);
 }
@@ -448,7 +449,7 @@ void StartMenu::backRankMateFirst() {
 void StartMenu::backRankMateSecond() {
     rankMove1 = false;
     ui->CorrectLabel->hide();
-    // ui->inputBackRank->setText("");
+    ui->inputBackRank->setText("");
     chessBoard->deleteHighlights();
     chessBoard->resetBoard();
     chessBoard->setupPieces(backRankMateMove2);
@@ -457,7 +458,7 @@ void StartMenu::backRankMateSecond() {
 
 void StartMenu::backRankMateThird() {
     rankMove2 = true;
-    // ui->inputBackRank->setText("");
+    ui->inputBackRank->setText("");
     chessBoard->highlightSquare(0, 0, Qt::yellow);
     chessBoard->highlightSquare(4, 0, Qt::darkYellow);
 }
