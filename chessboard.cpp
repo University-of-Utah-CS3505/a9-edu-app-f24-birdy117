@@ -33,6 +33,12 @@ void ChessBoard::resetBoard() {
         }
     }
 
+    for (auto* highlight : highlights) {
+        scene->removeItem(highlight);
+        delete highlight;
+    }
+    highlights.clear();
+
     // Set up the initial board state again
     // setupPieces();
 }
@@ -129,4 +135,5 @@ void ChessBoard::highlightSquare(int row, int col, QColor color) {
 
     scene->addItem(highlight);
     highlight->setZValue(0);
+    highlights.push_back(highlight);
 }
