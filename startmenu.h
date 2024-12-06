@@ -6,6 +6,7 @@
 #include <QTimer.h>
 #include <QPushButton>
 #include "chessboard.h"
+#include "foolsmate.h"
 
 namespace Ui {
 class StartMenu;
@@ -23,6 +24,7 @@ private:
     Ui::StartMenu *ui;
     QWidget *levelUI;
     ChessBoard *chessBoard;
+    foolsmate *fool; // Member to hold the foolsmate instance
     bool rankMove1 = false;
     bool rankMove2 = false;
 
@@ -87,6 +89,18 @@ private slots:
     void loadButtonStates();
     void startClicked();
     void checkBackRankAnswer();
+
+
+public slots:
+    void updateLabel(const QString& message);
+    void checkInputFirstMove();
+    void checkInputSecondMove();
+    void checkInputThirdMove();
+
+
+signals:
+    void correctInputReceived();
+    void correctSecondInputReceived();
 };
 
 #endif // STARTMENU_H

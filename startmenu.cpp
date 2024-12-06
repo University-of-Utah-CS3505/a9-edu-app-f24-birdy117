@@ -1,6 +1,7 @@
 #include "startmenu.h"
 #include "foolsmate.h"
 #include "ui_startmenu.h"
+#include <QMessageBox>
 
 StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     : QMainWindow(parent)
@@ -22,7 +23,7 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     //Level 3 slots
     connect(ui->inputBox, &QLineEdit::textChanged, this, &StartMenu::checkQueenKingCheckmateAnswer);
 
-    buttons = {ui->level2Button, ui->level3Button};
+    buttons = {ui->level1Button, ui->level2Button, ui->level3Button};
 
     loadButtonStates();
 
@@ -222,8 +223,7 @@ void StartMenu::hideNonStartingWidgets()
     ui->BackRankDesc->hide();
 }
 
-void StartMenu::level1Start()
-{
+void StartMenu::level1Start() {
     hideStartingScreen();
     ui->foolsMateText->show();
     ui->startButton->show();
@@ -231,15 +231,21 @@ void StartMenu::level1Start()
     ui->startButton->raise();
     chessBoard->setupPieces(foolMateSetup);
     ui->Title->setText("Level 1: The Fool's Mate");
-    FoolsMate fool(chessBoard);
-    ui->TeamCreditsLabel->hide();
-    for (int i = 0; i < ui->NamesLayout->count(); ++i) {
-        QWidget *widget = ui->NamesLayout->itemAt(i)->widget();
-        if (widget) {
-            widget->hide();
-        }
-    }
+    fool = new foolsmate(chessBoard, this);
+    ui->inputBox->show();
+
+
+    connect(fool, &foolsmate::updateStatusLabel, this, &StartMenu::updateLabel);
+    connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
+
+
+    fool->moveFirstWhitePawn();
+    fool->firstMove();
+    connect(fool, &foolsmate::updateStatusLabel, this, &StartMenu::updateLabel);
+    connect(this, &StartMenu::correctInputReceived, fool, &foolsmate::moveSecondWhitePawn);
+    connect(this, &StartMenu::correctSecondInputReceived, fool, &foolsmate::moveThirdWhitePawn);
 }
+
 
 void StartMenu::level2Start()
 {
@@ -289,6 +295,7 @@ void StartMenu::level3Start()
 void StartMenu::startClicked()
 {
     showChessBoard();
+
 }
 
 void StartMenu::vsComputerStart()
@@ -465,19 +472,19 @@ void StartMenu::backRankMateThird() {
 
 void StartMenu::checkQueenKingCheckmateAnswer()
 {
-    if (ui->inputBox->text() == "F2") {
+    if (ui->inputBox->text() == "F2" && !fool) {
         displayCorrect();
     }
-    if (ui->inputBox->text() == "G7") {
+    if (ui->inputBox->text() == "G7" && !fool) {
         QueenKingG7Checkmate();
     }
-    if (ui->inputBox->text() == "H5") {
+    if (ui->inputBox->text() == "H5" && !fool) {
         QueenKingH5Checkmate();
     }
-    if (ui->inputBox->text() == "H4") {
+    if (ui->inputBox->text() == "H4" && !fool) {
         QueenKingH4Checkmate();
     }
-    if (ui->inputBox->text() == "H3") {
+    if (ui->inputBox->text() == "H3" && !fool) {
         QueenKingH3Checkmate();
     }
 }
@@ -548,3 +555,119 @@ void StartMenu::loadButtonStates()
     }
     settings.endGroup();
 }
+
+void StartMenu::updateLabel(const QString& message) {
+    qDebug() << "Slot received message:" << message;
+    ui->directionsLabel->setText(message);
+    ui->directionsLabel->setWordWrap(true);
+}
+
+
+void StartMenu::checkInputFirstMove() {
+    QString userInput = ui->inputBox->text(); // Get the text from QLineEdit
+    QString expectedValue = "E3";   // Define the value you want
+
+    if (fool && userInput == expectedValue) {
+        qDebug() << "Input matches the desired value!";
+        fool->moveFirstBlackPawn();
+
+        // Disconnect the first move slot
+        disconnect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
+
+        // Now connect to the second move slot
+        connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputSecondMove);
+
+        ui->CorrectLabel->show();
+
+        // Hide the label after 2 seconds
+        QTimer::singleShot(2000, this, [this]() {
+            ui->CorrectLabel->hide();
+        });
+
+        emit correctInputReceived();
+
+        fool->secondMove();
+    } else {
+        qDebug() << "Input does not match. User entered:" << userInput;
+
+    }
+
+    ui->inputBox->clear(); // Clear the input box for retry
+}
+
+
+void StartMenu::checkInputSecondMove() {
+    QString userInput = ui->inputBox->text(); // Get the text from QLineEdit
+    QString expectedValue = "H4";   // Define the value you want
+
+    if (fool && userInput == expectedValue) {
+        qDebug() << "Input matches the desired value!";
+        fool->moveBlackQueen();
+
+        // Show the "Correct" label
+        ui->CorrectLabel->setText("Correct!");
+        ui->CorrectLabel->setStyleSheet("color: green;");
+        ui->CorrectLabel->show();
+
+        // Hide the label after 2 seconds
+        QTimer::singleShot(2000, this, [this]() {
+            ui->CorrectLabel->hide();
+        });
+
+        emit correctSecondInputReceived();
+
+        // Disconnect the second move slot
+        disconnect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputSecondMove);
+
+        // Connect to the third move slot
+        connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputThirdMove);
+
+        fool->thirdMove();
+    } else {
+        qDebug() << "Input does not match. User entered:" << userInput;
+
+        // Display an error in the "CorrectLabel"
+        ui->CorrectLabel->setText("Incorrect! Try again.");
+        ui->CorrectLabel->setStyleSheet("color: red;");
+        ui->CorrectLabel->show();
+
+        // Hide the label after 2 seconds
+        QTimer::singleShot(2000, this, [this]() {
+            ui->CorrectLabel->hide();
+        });
+    }
+
+    ui->inputBox->clear(); // Clear the input box for retry
+}
+
+void StartMenu::checkInputThirdMove() {
+    QString userInput = ui->inputBox->text(); // Get the text from QLineEdit
+    QString expectedValue = "E1";   // Define the value you want
+
+    if (fool && userInput == expectedValue) {
+        qDebug() << "Input matches the desired value!";
+        fool->moveBlackQueen2();
+        // Create the message box
+        QMessageBox* msgBox = new QMessageBox(QMessageBox::Information, "Checkmate!", "Good job! You completed Level 1", QMessageBox::Ok, this);
+
+        // Connect the finished signal to a lambda that will emit the signal
+        connect(msgBox, &QMessageBox::finished, this, [this, msgBox](int result) {
+            // Check if "OK" button was pressed (QMessageBox::Ok has value 1)
+            if (result == QMessageBox::Ok) {
+
+            }
+            msgBox->deleteLater(); // Clean up the message box after it's done
+        });
+
+        // Show the message box
+        msgBox->exec();
+    } else {
+        qDebug() << "Input does not match. User entered:" << userInput;
+
+        // Show a message box for incorrect input
+        QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
+    }
+    ui->inputBox->clear(); // Clear the input box for retry
+
+}
+
