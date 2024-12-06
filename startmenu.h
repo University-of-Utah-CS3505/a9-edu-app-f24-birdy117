@@ -93,7 +93,6 @@ public slots:
     void updateLabel(const QString& message);
     void checkInputFirstMove();
     void checkInputSecondMove();
-    void checkInputThirdMove();
 
 
 signals:
