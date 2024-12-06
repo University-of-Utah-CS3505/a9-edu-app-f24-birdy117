@@ -78,8 +78,6 @@ private:
     void backRankMateFirst();
     void backRankMateSecond();
     void backRankMateThird();
-    void backRankMateFourth();
-    void backRankMateFifth();
 
 private slots:
     void level1Start();
@@ -94,8 +92,6 @@ private slots:
     void saveButtonStates();
     void loadButtonStates();
     void startClicked();
-    // void backRankMove1();
-    // void backRankMove2();
     void checkBackRankAnswer();
 };
 

@@ -77,8 +77,6 @@ const QString StartMenu::backRankMateSetup[8][8] = {
     {":Images/RookW.png", "", ":Images/BishopW.png", "", "", "", ":/Images/KingW.png", ""}
 };
 
-
-
 const QString StartMenu::backRankMateMove1[8][8] = {
     {"", "", "", "", "", "", ":/Images/KingB.png", ""},
     {"", "", "", "", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png"},
@@ -111,32 +109,6 @@ const QString StartMenu::backRankMateMove3[8][8] = {
     {"", "", "", "", "", "", ":/Images/PawnW.png", ":/Images/PawnW.png"},
     {"", "", "", "", "", "", ":/Images/KingW.png", ""}
 };
-
-// const QString StartMenu::backRankMateMove4[8][8] = {
-//     {"", "", "", "", "", "", ":/Images/KingB.png", ""},
-//     {":Images/RookW.png", "", "", "", "", ":/Images/PawnB.png", "", ":/Images/PawnB.png"},
-//     {"", "", "", "", "", "", ":/Images/PawnB.png", ""},
-//     {"", "", "", "", "", "", "", ""},
-//     {"", ":/Images/PawnW.png", "", "", "", "", "", ""},
-//     {"", "", "", "", "", "", "", ""},
-//     {"", ":Images/BishopW.png", "", "", "", "", ":/Images/PawnW.png", ":/Images/PawnW.png"},
-//     {"", "", "", "", "", "", ":/Images/KingW.png", ""}
-// };
-
-// const QString StartMenu::backRankMateMove5[8][8] = {
-//     {":Images/RookW.png", "", "", "", "", "", ":/Images/KingB.png", ""},
-//     {"", "", "", "", "", ":/Images/PawnB.png", "", ":/Images/PawnB.png"},
-//     {"", "", "", "", "", "", ":/Images/PawnB.png", ""},
-//     {"", "", "", "", "", "", "", ""},
-//     {"", ":/Images/PawnW.png", "", "", "", "", "", ""},
-//     {"", "", "", "", "", "", "", ""},
-//     {"", ":Images/BishopW.png", "", "", "", "", ":/Images/PawnW.png", ":/Images/PawnW.png"},
-//     {"", "", "", "", "", "", ":/Images/KingW.png", ""}
-// };
-
-
-
-
 
 const QString StartMenu::kingQueenMateSetup[8][8] = {
     {"", "", "", "", "", "", "", ":/Images/KingB.png"},
@@ -252,7 +224,6 @@ void StartMenu::level1Start() {
             widget->hide();
         }
     }
-    // stockfishStart();
 }
 
 void StartMenu::level2Start() {
@@ -295,7 +266,6 @@ void StartMenu::level3Start() {
             widget->hide();
         }
     }
-    // stockfishStart();
 }
 
 void StartMenu::startClicked() {
@@ -428,6 +398,7 @@ void StartMenu::displayRankCorrect2() {
     });
     QTimer::singleShot(2000, this, [this]() {
         ui->BackRankDesc->setText("You win!");
+        rankMove2 = false;
     });
 }
 
@@ -445,8 +416,8 @@ void StartMenu::backRankMateFirst() {
     rankMove2 = false;
     ui->CorrectLabel->hide();
     ui->inputBackRank->setText("");
-    chessBoard->highlightSquare(0, 8, Qt::yellow);
-    chessBoard->highlightSquare(0, 2, Qt::darkYellow);
+    chessBoard->highlightSquare(2, 0, Qt::yellow);
+    chessBoard->highlightSquare(4, 2, Qt::darkYellow);
 
 }
 
@@ -463,7 +434,8 @@ void StartMenu::backRankMateSecond() {
 void StartMenu::backRankMateThird() {
     rankMove2 = true;
     ui->inputBackRank->setText("");
-    chessBoard->deleteHighlights();
+    chessBoard->highlightSquare(0, 0, Qt::yellow);
+    chessBoard->highlightSquare(0, 7, Qt::darkYellow);
 }
 
 void StartMenu::checkQueenKingCheckmateAnswer() {
@@ -520,14 +492,6 @@ void StartMenu::QueenKingH3Checkmate() {
 void StartMenu::displayCheckmate() {
 
 }
-
-// void StartMenu::backRankMove1() {
-//     qDebug() << "1 hit";
-// }
-
-// void StartMenu::backRankMove2() {
-//     qDebug() << "2 hit";
-// }
 
 void StartMenu::saveButtonStates() {
     settings.beginGroup("ButtonStates");
