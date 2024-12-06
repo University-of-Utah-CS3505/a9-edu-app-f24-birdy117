@@ -12,7 +12,6 @@
 Foolsmate::Foolsmate(ChessBoard* board, QObject* parent)
     : QObject(parent)
     , board(board) {
-
 }
 
 Foolsmate::~Foolsmate() {
@@ -21,9 +20,6 @@ Foolsmate::~Foolsmate() {
 
 void Foolsmate::moveFirstWhitePawn() {
     DraggablePiece* whitePawn = board->allPieces[10];
-
-    qDebug() << whitePawn->pieceType();
-    qDebug() << whitePawn->getPieceColor();
 
     QPoint pos(2, 2);
     // Use a QTimer to delay the movement by 1 second
@@ -45,18 +41,12 @@ void Foolsmate::firstMove() {
 void Foolsmate::moveFirstBlackPawn() {
     DraggablePiece* blackPawn = board->allPieces[19];
 
-    qDebug() << blackPawn->pieceType();
-    qDebug() << blackPawn->getPieceColor();
-
     QPoint pos(3, 4);
     blackPawn->moveTo(pos);
 }
 
 void Foolsmate::moveSecondWhitePawn() {
     DraggablePiece* whitePawn = board->allPieces[9];
-
-    qDebug() << whitePawn->pieceType();
-    qDebug() << whitePawn->getPieceColor();
 
     QPoint pos(1, 3);
 
@@ -79,9 +69,6 @@ void Foolsmate::secondMove() {
 void Foolsmate::moveBlackQueen() {
     DraggablePiece* blackQueen = board->allPieces[28];
 
-    qDebug() << blackQueen->pieceType();
-    qDebug() << blackQueen->getPieceColor();
-
     QPoint pos(0, 3);
     blackQueen->moveTo(pos);
 }
@@ -99,9 +86,6 @@ void Foolsmate::thirdMove() {
 void Foolsmate::moveThirdWhitePawn() {
     DraggablePiece* whitePawn = board->allPieces[12];
 
-    qDebug() << whitePawn->pieceType();
-    qDebug() << whitePawn->getPieceColor();
-
     QPoint pos(4, 2);
     // Use a QTimer to delay the movement by 1 second
     QTimer::singleShot(2000, this, [whitePawn, pos]() {
@@ -112,9 +96,6 @@ void Foolsmate::moveThirdWhitePawn() {
 
 void Foolsmate::moveBlackQueen2() {
     DraggablePiece* blackQueen = board->allPieces[28];
-
-    qDebug() << blackQueen->pieceType();
-    qDebug() << blackQueen->getPieceColor();
 
     DraggablePiece* whiteKing = board->allPieces[3];
 

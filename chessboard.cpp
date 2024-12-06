@@ -1,10 +1,4 @@
 #include "chessboard.h"
-#include "bishop.h"
-#include "king.h"
-#include "knight.h"
-#include "pawn.h"
-#include "queen.h"
-#include "rook.h"
 
 const int ChessBoard::SQUARE_SIZE = 50;
 const int ChessBoard::BOARD_SIZE = 8;
@@ -77,22 +71,13 @@ void ChessBoard::setupPieces(const QString pieceImages[8][8])
         for (int col = 0; col < BOARD_SIZE; ++col) {
             if (!pieceImages[row][col].isEmpty()) {
                 QPixmap pixmap(pieceImages[row][col]);
-                DraggablePiece *piece = nullptr;
-                Color pieceColor = (row < 2) ? Color::White : Color::Black;
+                DraggablePiece* piece = new DraggablePiece(pixmap);
 
-                if (row == 1 || row == 6) {
-                    piece = new Pawn(pieceColor, QPoint(col, row), pixmap);
-                } else if (pieceImages[row][col].contains("Rook")) {
-                    piece = new Rook(pieceColor, QPoint(col, row), pixmap);
-                } else if (pieceImages[row][col].contains("King")) {
-                    piece = new King(pieceColor, QPoint(col, row), pixmap);
-                } else if (pieceImages[row][col].contains("Queen")) {
-                    piece = new Queen(pieceColor, QPoint(col, row), pixmap);
-                } else if (pieceImages[row][col].contains("Knight")) {
-                    piece = new Knight(pieceColor, QPoint(col, row), pixmap);
-                } else if (pieceImages[row][col].contains("Bishop")) {
-                    piece = new Bishop(pieceColor, QPoint(col, row), pixmap);
-                }
+                // center the piece within the square
+                int offsetX = (SQUARE_SIZE - pixmap.width()) / 2;
+                int offsetY = (SQUARE_SIZE - pixmap.height()) / 2;
+                piece->setPos(col * SQUARE_SIZE + offsetX, row * SQUARE_SIZE + offsetY);
+                scene->addItem(piece);
 
                 if (piece) {
                     int offsetX = (SQUARE_SIZE - pixmap.width()) / 2;
@@ -100,37 +85,11 @@ void ChessBoard::setupPieces(const QString pieceImages[8][8])
                     piece->setPos(col * SQUARE_SIZE + offsetX, row * SQUARE_SIZE + offsetY);
                     scene->addItem(piece);
                     piece->setZValue(1);
-
-                    /* NOTE:
-                     * Level 1 index order:
-                     * 0-7 back row of white, starting with left rook moving right.
-                     * 8-15 white pawns
-                     * 16-23 black pawns
-                     * 24-31 back row of black, starting with left rook moving right.
-                     *
-                     * Level 2:
-                     * 0 black rook
-                     * 1 black king
-                     * 2-4 black pawns
-                     * 5-7 white pawns
-                     * 8 white rook
-                     * 9 black king
-                     *
-                     * Level 3:
-                     * 0 black king
-                     * 1 white queen
-                     * 2 white king
-                     */
                     allPieces.push_back(piece);
                 }
             }
         }
     }
-    // int i = 0;
-    // for(auto* piece : allPieces) {
-    //     qDebug() << i << piece->pieceType();
-    //     ++i;
-    // }
 }
 
 void ChessBoard::highlightSquare(int col, int row, QColor color)
