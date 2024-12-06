@@ -11,9 +11,8 @@
 ///
 /// \date 06 December 2024
 ///
-/// \brief Base class to hold information for chess pieces.
-/// It will track the location of the piece, revert to a
-/// previous position, and validate movements.
+/// \brief Controls the chess pieces. Moves pieces and
+/// centers them in the tile.
 ///
 class DraggablePiece : public QGraphicsPixmapItem {
 public:
