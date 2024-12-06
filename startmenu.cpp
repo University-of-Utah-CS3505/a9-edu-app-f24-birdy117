@@ -32,6 +32,10 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
 
     ui->startButton->hide();
     ui->startButton->setEnabled(false);
+
+    ui->inputBox->hide();
+    ui->inputBox->setEnabled(false);
+    ui->inputBoxQuestion->hide();
 }
 
 StartMenu::~StartMenu()
@@ -69,14 +73,14 @@ const QString StartMenu::foolMateSetup[8][8] = {
     };
 
 const QString StartMenu::backRankMateSetup[8][8] = {
-    {"", ":/Images/RookB.png", "", "", "", "", ":/Images/KingB.png", ""},
-    {"", "", "", "", "", ":/Images/PawnB.png", ":/Images/PawnB.png", ":/Images/PawnB.png"},
-    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", ":/Images/KingB.png", ""},
+    {":/Images/BishopB.png", "", "", "", "", ":/Images/PawnB.png", "", ":/Images/PawnB.png"},
+    {"", "", "", "", "", "", ":/Images/PawnB.png", ""},
     {"", "", "", "", "", "", "", ""},
     {"", ":/Images/PawnW.png", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", ":/Images/PawnW.png", ":/Images/PawnW.png", ":/Images/PawnW.png"},
-    {"", "", "", "", ":/Images/RookW.png", "", "", ":/Images/KingW.png"}
+    {"", "", "", "", "", "", ":/Images/PawnW.png", ":/Images/PawnW.png"},
+    {":Images/RookW.png", "", ":Images/BishopW.png", "", "", "", ":/Images/KingW.png", ""}
 };
 
 const QString StartMenu::kingQueenMateSetup[8][8] = {
@@ -155,6 +159,10 @@ void StartMenu::hideChessBoard() {
     ui->chessBoardContainer->hide();
     ui->QuitButton->hide();
 
+    ui->inputBox->hide();
+    ui->inputBox->setEnabled(false);
+    ui->inputBoxQuestion->hide();
+
     ui->LevelsLabel->show();
     ui->level1Button->show();
     ui->level2Button->show();
@@ -198,6 +206,10 @@ void StartMenu::showChessBoard() {
 
     ui->chessBoardContainer->show();
     ui->QuitButton->show();
+
+    ui->inputBox->show();
+    ui->inputBox->setEnabled(true);
+    ui->inputBoxQuestion->show();
 
     for (int i = 0; i < ui->NamesLayout->count(); ++i) {
         QWidget *widget = ui->NamesLayout->itemAt(i)->widget();

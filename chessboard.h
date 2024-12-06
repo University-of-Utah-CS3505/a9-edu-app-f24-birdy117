@@ -34,6 +34,7 @@ public:
  * 2 white king
  */
     QList<DraggablePiece*> allPieces;
+    QList<QGraphicsRectItem*> highlights;
 
     explicit ChessBoard(QWidget* parent = nullptr);
     void resetBoard();
