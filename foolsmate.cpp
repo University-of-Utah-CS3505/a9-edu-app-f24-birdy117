@@ -26,7 +26,7 @@ void foolsmate::moveFirstWhitePawn() {
 }
 
 void foolsmate::firstMove() {
-    board->highlightSquare(4, 1, Qt::yellow);
+    board->highlightSquare(3, 1, Qt::yellow);
 
     QString message = "1. Where should the highlighted pawn move?";
     emit updateStatusLabel(message);
@@ -34,12 +34,12 @@ void foolsmate::firstMove() {
 }
 
 void foolsmate::moveFirstBlackPawn() {
-    DraggablePiece* blackPawn = board->allPieces[20];
+    DraggablePiece* blackPawn = board->allPieces[19];
 
     qDebug() << blackPawn->pieceType();
     qDebug() << blackPawn->getPieceColor();
 
-    QPoint pos(4, 4);
+    QPoint pos(3, 4);
     blackPawn->moveTo(pos);
 }
 
@@ -54,7 +54,7 @@ void foolsmate::moveSecondWhitePawn() {
 }
 
 void foolsmate::secondMove() {
-    board->unhighlightSquare(4,1);
+    board->unhighlightSquare(3, 1);
     board->highlightSquare(4, 0, Qt::yellow);
 
     QString message = "2. Where should the highlighted queen move?";

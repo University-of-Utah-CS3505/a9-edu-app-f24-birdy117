@@ -245,7 +245,7 @@ void StartMenu::updateLabel(const QString& message) {
 
 void StartMenu::checkInputFirstMove() {
     QString userInput = ui->inputBox->text(); // Get the text from QLineEdit
-    QString expectedValue = "D3";   // Define the value you want
+    QString expectedValue = "E3";   // Define the value you want
 
     if (userInput == expectedValue) {
         qDebug() << "Input matches the desired value!";
@@ -284,7 +284,7 @@ void StartMenu::checkInputFirstMove() {
 
 void StartMenu::checkInputSecondMove() {
     QString userInput = ui->inputBox->text(); // Get the text from QLineEdit
-    QString expectedValue = "A5";   // Define the value you want
+    QString expectedValue = "H4";   // Define the value you want
 
     if (userInput == expectedValue) {
         qDebug() << "Input matches the desired value!";
@@ -325,7 +325,7 @@ void StartMenu::checkInputSecondMove() {
 
 void StartMenu::checkInputThirdMove() {
     QString userInput = ui->inputBox->text(); // Get the text from QLineEdit
-    QString expectedValue = "D8";   // Define the value you want
+    QString expectedValue = "E1";   // Define the value you want
 
     if (userInput == expectedValue) {
         qDebug() << "Input matches the desired value!";
