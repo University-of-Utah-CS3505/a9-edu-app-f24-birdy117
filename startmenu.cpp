@@ -28,19 +28,16 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     layout->addWidget(chessBoard);
     hideNonStartingWidgets();
 
-<<<<<<< HEAD
-=======
-    ui->foolsMateText->hide();
-    ui->BackRankText->hide();
-    ui->KingQueenText->hide();
+    // ui->foolsMateText->hide();
+    // ui->BackRankText->hide();
+    // ui->KingQueenText->hide();
 
-    ui->startButton->hide();
-    ui->startButton->setEnabled(false);
+    // ui->startButton->hide();
+    // ui->startButton->setEnabled(false);
 
-    ui->inputBox->hide();
-    ui->inputBox->setEnabled(false);
-    ui->inputBoxQuestion->hide();
->>>>>>> 5078daa17c6a1f609f42ff54bdb9ae8cf38db14a
+    // ui->inputBox->hide();
+    // ui->inputBox->setEnabled(false);
+    // ui->inputBoxLabel->hide();
 }
 
 StartMenu::~StartMenu()
@@ -268,10 +265,6 @@ void StartMenu::hideChessBoard() {
     ui->inputBox->setText("");
     ui->inputBox->hide();
 
-    ui->inputBox->hide();
-    ui->inputBox->setEnabled(false);
-    ui->inputBoxQuestion->hide();
-
     ui->LevelsLabel->show();
     ui->level1Button->show();
     ui->level2Button->show();
@@ -324,7 +317,6 @@ void StartMenu::showChessBoard() {
     ui->chessBoardContainer->show();
     ui->QuitButton->show();
 
-<<<<<<< HEAD
     ui->inputBoxLabel->show();
     ui->inputBox->show();
 }
@@ -352,17 +344,6 @@ void StartMenu::displayCorrect() {
 void StartMenu::checkQueenKingCheckmateAnswer() {
     if(ui->inputBox->text() == "F2") {
         displayCorrect();
-=======
-    ui->inputBox->show();
-    ui->inputBox->setEnabled(true);
-    ui->inputBoxQuestion->show();
-
-    for (int i = 0; i < ui->NamesLayout->count(); ++i) {
-        QWidget *widget = ui->NamesLayout->itemAt(i)->widget();
-        if (widget) {
-            widget->hide();
-        }
->>>>>>> 5078daa17c6a1f609f42ff54bdb9ae8cf38db14a
     }
     if(ui->inputBox->text() == "G7") {
         QueenKingG7Checkmate();

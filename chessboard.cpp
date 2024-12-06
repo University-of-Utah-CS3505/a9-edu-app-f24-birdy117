@@ -38,9 +38,6 @@ void ChessBoard::resetBoard() {
         delete highlight;
     }
     highlights.clear();
-
-    // Set up the initial board state again
-    // setupPieces();
 }
 
 void ChessBoard::setupBoard() {
@@ -66,7 +63,6 @@ void ChessBoard::setupBoard() {
 }
 
 void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
-
     for (int row = 0; row < BOARD_SIZE; ++row) {
         for (int col = 0; col < BOARD_SIZE; ++col) {
             if (!pieceImages[row][col].isEmpty()) {
@@ -118,6 +114,7 @@ void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
                     allPieces.push_back(piece);
                 }
             }
+
         }
     }
     // int i = 0;
