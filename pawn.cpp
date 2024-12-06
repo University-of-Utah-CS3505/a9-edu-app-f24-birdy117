@@ -2,29 +2,34 @@
 
 // TODO: idk if this is working correctly
 
-Pawn::Pawn(Color color, const QPoint& startLocation, const QPixmap& pixmap, QGraphicsItem* parent)
-    : DraggablePiece(color, startLocation, pixmap, parent) {
-}
+Pawn::Pawn(Color color, const QPoint &startLocation, const QPixmap &pixmap, QGraphicsItem *parent)
+    : DraggablePiece(color, startLocation, pixmap, parent)
+{}
 
-void Pawn::resetPreviousPosition() {
+void Pawn::resetPreviousPosition()
+{
     // Call base class method for shared functionality
     DraggablePiece::resetPreviousPosition();
     // Additional Pawn-specific behavior can be added here
 }
 
-bool Pawn::isFirstMove() const {
+bool Pawn::isFirstMove() const
+{
     return firstMove;
 }
 
-void Pawn::setFirstMove(bool status) {
+void Pawn::setFirstMove(bool status)
+{
     firstMove = status;
 }
 
-QString Pawn::pieceType() const {
+QString Pawn::pieceType() const
+{
     return "Pawn";
 }
 
-QList<QPoint> Pawn::calculateValidMoves(int startX, int startY) const {
+QList<QPoint> Pawn::calculateValidMoves(int startX, int startY) const
+{
     QList<QPoint> validMoves;
 
     // Basic movement: Pawn can move one square forward (dy == 1)
@@ -44,7 +49,8 @@ QList<QPoint> Pawn::calculateValidMoves(int startX, int startY) const {
     return validMoves;
 }
 
-QList<QPoint> Pawn::calculateAttackRange(int startX, int startY) const {
+QList<QPoint> Pawn::calculateAttackRange(int startX, int startY) const
+{
     QList<QPoint> attackRange;
 
     // Attack diagonally
@@ -63,13 +69,15 @@ QList<QPoint> Pawn::calculateAttackRange(int startX, int startY) const {
     return attackRange;
 }
 
-bool Pawn::isValidMove(const QPoint& destination) const {
+bool Pawn::isValidMove(const QPoint &destination) const
+{
     // Check if the destination is within valid move range
     QList<QPoint> validMoves = calculateValidMoves(currentLocation.x(), currentLocation.y());
     return validMoves.contains(destination);
 }
 
-void Pawn::moveTo(const QPoint& destination) {
+void Pawn::moveTo(const QPoint &destination)
+{
     DraggablePiece::moveTo(destination);
     firstMove = false;
 }

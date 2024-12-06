@@ -596,6 +596,48 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QLabel" name="CheckmateLabel">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>260</y>
+      <width>311</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Black</family>
+      <pointsize>28</pointsize>
+      <italic>false</italic>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel { color : red; }</string>
+    </property>
+    <property name="text">
+     <string>Checkmate!</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="NextLevelButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>490</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Next Level</string>
+    </property>
+   </widget>
    <zorder>Title</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>QuitButton</zorder>
@@ -610,6 +652,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <zorder>BackRankText</zorder>
    <zorder>CorrectLabel</zorder>
    <zorder>directionsLabel</zorder>
+   <zorder>CheckmateLabel</zorder>
+   <zorder>NextLevelButton</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

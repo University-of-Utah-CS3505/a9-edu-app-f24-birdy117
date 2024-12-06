@@ -13,7 +13,8 @@
 /// executable. Handles input and output from stockfish
 /// and terminates the connection.
 ///
-class StockfishEngine : public QObject {
+class StockfishEngine : public QObject
+{
     Q_OBJECT
 
 public:

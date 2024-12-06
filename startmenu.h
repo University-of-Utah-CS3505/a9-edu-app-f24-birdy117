@@ -2,11 +2,11 @@
 #define STARTMENU_H
 
 #include <QMainWindow>
+#include <QSettings>
 #include <QTimer.h>
 #include "chessboard.h"
 #include "stockfishengine.h"
 #include "ui_startmenu.h"
-#include <QSettings>
 
 namespace Ui {
 class StartMenu;
@@ -50,10 +50,6 @@ private:
     static const QString kingQueenCheckmateH3[8][8];
     static const QString kingQueenCheckmateH4[8][8];
     static const QString kingQueenCheckmateH5[8][8];
-
-
-
-
 
     ///
     /// \brief Hides anything not on the StartMenu

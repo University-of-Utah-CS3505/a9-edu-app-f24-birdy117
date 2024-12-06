@@ -9,9 +9,10 @@
  * 24-31 back row of black, starting with left rook moving right.
  */
 
-FoolsMate::FoolsMate(ChessBoard* board, QObject* parent)
+FoolsMate::FoolsMate(ChessBoard *board, QObject *parent)
     : QObject(parent)
-    , board(board) {
+    , board(board)
+{
     moveFirstWhitePawn();
     firstMove();
 
@@ -20,11 +21,11 @@ FoolsMate::FoolsMate(ChessBoard* board, QObject* parent)
     // timer->setSingleShot(true);
     // timer->start(3000);
     // connect(timer, &QTimer::timeout, this, &FoolsMate::moveFirstWhitePawn);
-
 }
 
-void FoolsMate::moveFirstWhitePawn() {
-    DraggablePiece* whitePawn = board->allPieces[12];
+void FoolsMate::moveFirstWhitePawn()
+{
+    DraggablePiece *whitePawn = board->allPieces[12];
 
     qDebug() << whitePawn->pieceType();
     qDebug() << whitePawn->getPieceColor();
@@ -33,7 +34,8 @@ void FoolsMate::moveFirstWhitePawn() {
     whitePawn->moveTo(pos);
 }
 
-void FoolsMate::firstMove() {
+void FoolsMate::firstMove()
+{
     board->highlightSquare(1, 0, Qt::yellow);
     board->highlightSquare(2, 5, Qt::darkYellow);
 }

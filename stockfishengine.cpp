@@ -2,22 +2,30 @@
 #include <QDebug>
 #include <QFile>
 
-StockfishEngine::StockfishEngine(QObject *parent) : QObject(parent) {}
+StockfishEngine::StockfishEngine(QObject *parent)
+    : QObject(parent)
+{}
 
-StockfishEngine::~StockfishEngine() {
+StockfishEngine::~StockfishEngine()
+{
     if (stockfishProcess.state() == QProcess::Running) {
         stockfishProcess.kill(); // Stop Stockfish gracefully
         stockfishProcess.waitForFinished();
     }
 }
 
-void StockfishEngine::startEngine(const QString &path) {
+void StockfishEngine::startEngine(const QString &path)
+{
     // Set up QProcess error handling
-    QObject::connect(&stockfishProcess, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
-        qDebug() << "QProcess error:" << error;
-    });
+    QObject::connect(&stockfishProcess,
+                     &QProcess::errorOccurred,
+                     this,
+                     [](QProcess::ProcessError error) { qDebug() << "QProcess error:" << error; });
 
-    QObject::connect(&stockfishProcess, &QProcess::readyReadStandardOutput, this, &StockfishEngine::handleReadyRead);
+    QObject::connect(&stockfishProcess,
+                     &QProcess::readyReadStandardOutput,
+                     this,
+                     &StockfishEngine::handleReadyRead);
 
     // Start the Stockfish engine asynchronously
     stockfishProcess.start(path);
@@ -33,7 +41,8 @@ void StockfishEngine::startEngine(const QString &path) {
     sendCommand("uci");
 }
 
-void StockfishEngine::sendCommand(const QString &command) {
+void StockfishEngine::sendCommand(const QString &command)
+{
     if (stockfishProcess.state() == QProcess::Running) {
         stockfishProcess.write((command + "\n").toUtf8());
     } else {
@@ -41,7 +50,8 @@ void StockfishEngine::sendCommand(const QString &command) {
     }
 }
 
-void StockfishEngine::handleReadyRead() {
+void StockfishEngine::handleReadyRead()
+{
     QByteArray output = stockfishProcess.readAllStandardOutput();
     QString outputString = QString(output);
     // qDebug() << "STOCKFISH OUTPUT:" << outputString;
@@ -50,7 +60,8 @@ void StockfishEngine::handleReadyRead() {
     emit engineOutput(outputString);
 }
 
-void StockfishEngine::terminateEngine() {
+void StockfishEngine::terminateEngine()
+{
     qDebug() << "hit";
     if (stockfishProcess.state() == QProcess::Running) {
         stockfishProcess.terminate();
