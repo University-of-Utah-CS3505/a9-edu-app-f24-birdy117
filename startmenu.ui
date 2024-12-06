@@ -660,11 +660,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <zorder>foolsMateText</zorder>
    <zorder>startButton</zorder>
    <zorder>BackRankText</zorder>
-   <zorder>CorrectLabel</zorder>
    <zorder>directionsLabel</zorder>
    <zorder>CheckmateLabel</zorder>
    <zorder>NextLevelButton</zorder>
    <zorder>inputBackRank</zorder>
+   <zorder>CorrectLabel</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

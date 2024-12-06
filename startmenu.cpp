@@ -238,6 +238,7 @@ void StartMenu::level1Start() {
         rowNumber->setPos(-4, row * 50 + 50 / 2);  // Adjust for positioning
         rowNumber->setDefaultTextColor(Qt::black);
         chessBoard->scene->addItem(rowNumber);
+        chessBoard->border.push_back(rowNumber);
     }
 
     // Add column letters on the top side of the board (A to Z)
@@ -246,9 +247,9 @@ void StartMenu::level1Start() {
         colLetter->setPos(col * 50 + 50 / 2 - 28, -6);  // Adjust for positioning
         colLetter->setDefaultTextColor(Qt::black);
         chessBoard->scene->addItem(colLetter);
+        chessBoard->border.push_back(colLetter);
     }
     ui->Title->setText("Level 1: The Fool's Mate");
-    // fool = new foolsmate(chessBoard, this);
     ui->inputBox->show();
 
 
@@ -283,6 +284,7 @@ void StartMenu::level2Start()
             widget->hide();
         }
     }
+    addBorder();
     backRankMateFirst();
 }
 
@@ -305,6 +307,27 @@ void StartMenu::level3Start()
             widget->hide();
         }
     }
+    addBorder();
+}
+
+void StartMenu::addBorder() {
+    // A to Z
+    for (int col = 0; col < 8; ++col) {
+        QGraphicsTextItem *colLetter = new QGraphicsTextItem(QString(QChar('A' + col)));
+        colLetter->setPos(col * 50 + 50 / 2 - 28, -6);
+        colLetter->setDefaultTextColor(Qt::black);
+        chessBoard->scene->addItem(colLetter);
+        chessBoard->border.push_back(colLetter);
+    }
+
+    // 1 - 8
+    for (int row = 0; row < 8; ++row) {
+        QGraphicsTextItem *rowNumber = new QGraphicsTextItem(QString::number(8 - row));
+        rowNumber->setPos(-4, row * 50 + 50 / 2);
+        rowNumber->setDefaultTextColor(Qt::black);
+        chessBoard->scene->addItem(rowNumber);
+        chessBoard->border.push_back(rowNumber);
+    }
 }
 
 void StartMenu::startClicked()
@@ -325,7 +348,7 @@ void StartMenu::quitButtonClicked()
     if (chessBoard) {
         chessBoard->resetBoard();
     }
-    hideChessBoard(); // Todo: aaron doesn't have this in his
+    hideChessBoard();
 }
 
 void StartMenu::hideChessBoard()
@@ -411,12 +434,14 @@ void StartMenu::displayCorrect()
     //In 2000 ms move the White King Forward
     QTimer::singleShot(2000, this, [this]() {
         chessBoard->resetBoard();
+        addBorder();
         chessBoard->setupPieces(kingQueenMateMove1);
     });
 
     //In 3000 ms move the Black King forward
     QTimer::singleShot(3000, this, [this]() {
         chessBoard->resetBoard();
+        addBorder();
         chessBoard->setupPieces(kingQueenMateMove2);
         ui->inputBox->setText("");
         ui->CorrectLabel->hide();
@@ -425,9 +450,11 @@ void StartMenu::displayCorrect()
 }
 
 void StartMenu::displayRankCorrect1() {
+    // addBorder();
     ui->CorrectLabel->show();
     QTimer::singleShot(1000, this, [this]() {
         chessBoard->resetBoard();
+        addBorder();
         chessBoard->setupPieces(backRankMateMove1);
     });
     QTimer::singleShot(2000, this, [this]() {
@@ -438,9 +465,11 @@ void StartMenu::displayRankCorrect1() {
 }
 
 void StartMenu::displayRankCorrect2() {
+    // addBorder();
     ui->CorrectLabel->show();
     QTimer::singleShot(1000, this, [this]() {
         chessBoard->resetBoard();
+        addBorder();
         chessBoard->setupPieces(backRankMateMove3);
     });
     QTimer::singleShot(2000, this, [this]() {
@@ -460,6 +489,7 @@ void StartMenu::displayRankCorrect2() {
 }
 
 void StartMenu::checkBackRankAnswer() {
+    // addBorder();
     if(ui->inputBackRank->text() == "E3" || ui->inputBackRank->text() == "e3"
         || ui->inputBackRank->text() == "A8" || ui->inputBackRank->text() == "a8") {
         if(rankMove1) {
@@ -477,6 +507,7 @@ void StartMenu::checkBackRankAnswer() {
 }
 
 void StartMenu::backRankMateFirst() {
+    // addBorder();
     rankMove1 = true;
     rankMove2 = false;
     ui->CorrectLabel->hide();
@@ -487,11 +518,13 @@ void StartMenu::backRankMateFirst() {
 }
 
 void StartMenu::backRankMateSecond() {
+    // addBorder();
     rankMove1 = false;
     ui->CorrectLabel->hide();
     ui->inputBackRank->setText("");
     chessBoard->deleteHighlights();
     chessBoard->resetBoard();
+    addBorder();
     chessBoard->setupPieces(backRankMateMove2);
     backRankMateThird();
 }
@@ -527,6 +560,7 @@ void StartMenu::QueenKingG7Checkmate()
     //In 2000 ms move the White Queen to G7
     QTimer::singleShot(2000, this, [this]() {
         chessBoard->resetBoard();
+        addBorder();
         chessBoard->setupPieces(kingQueenCheckmateG7);
         displayCheckmate();
         ui->vsComputerButton->isEnabled();
@@ -538,6 +572,7 @@ void StartMenu::QueenKingH5Checkmate()
     //In 2000 ms move the White Queen to H5
     QTimer::singleShot(2000, this, [this]() {
         chessBoard->resetBoard();
+        addBorder();
         chessBoard->setupPieces(kingQueenCheckmateH5);
         displayCheckmate();
         ui->vsComputerButton->isEnabled();
@@ -549,6 +584,7 @@ void StartMenu::QueenKingH4Checkmate()
     //In 2000 ms move the White Queen to H4
     QTimer::singleShot(2000, this, [this]() {
         chessBoard->resetBoard();
+        addBorder();
         chessBoard->setupPieces(kingQueenCheckmateH4);
         displayCheckmate();
         ui->vsComputerButton->isEnabled();
@@ -560,6 +596,7 @@ void StartMenu::QueenKingH3Checkmate()
     //In 2000 ms move the White Queen to H3
     QTimer::singleShot(2000, this, [this]() {
         chessBoard->resetBoard();
+        addBorder();
         chessBoard->setupPieces(kingQueenCheckmateH3);
         displayCheckmate();
         ui->vsComputerButton->isEnabled();
@@ -622,9 +659,11 @@ void StartMenu::checkInputFirstMove() {
         fool->secondMove();
     } else {
         qDebug() << "Input does not match. User entered:" << userInput;
+        QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
+        disconnect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
+        connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
 
     }
-
     ui->inputBox->clear(); // Clear the input box for retry
 }
 
@@ -654,15 +693,7 @@ void StartMenu::checkInputSecondMove() {
         fool->thirdMove();
     } else {
         qDebug() << "Input does not match. User entered:" << userInput;
-
-        ui->CorrectLabel->setText("Incorrect! Try again.");
-        ui->CorrectLabel->setStyleSheet("color: red;");
-        ui->CorrectLabel->show();
-
-        // Hide the label after 2 seconds
-        QTimer::singleShot(2000, this, [this]() {
-            ui->CorrectLabel->hide();
-        });
+        QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
     }
 
     ui->inputBox->clear(); // Clear the input box for retry

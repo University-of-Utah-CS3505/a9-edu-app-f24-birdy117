@@ -15,9 +15,9 @@ DraggablePiece::DraggablePiece(Color color,
     , hasBeenCaptured(false)
     , dragStartPos(QPointF(0, 0))
 {
-    setFlag(QGraphicsItem::ItemIsMovable);
-    setFlag(QGraphicsItem::ItemIsSelectable);
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+    // setFlag(QGraphicsItem::ItemIsMovable);
+    // setFlag(QGraphicsItem::ItemIsSelectable);
+    // setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 }
 
 // General move to a new location
@@ -32,8 +32,8 @@ void DraggablePiece::moveTo(const QPoint &destination)
 // Mouse interaction
 void DraggablePiece::setInteractive(bool interactive)
 {
-    setFlag(QGraphicsItem::ItemIsMovable, interactive);
-    setFlag(QGraphicsItem::ItemIsSelectable, interactive);
+    // setFlag(QGraphicsItem::ItemIsMovable, interactive);
+    // setFlag(QGraphicsItem::ItemIsSelectable, interactive);
 }
 
 void DraggablePiece::mousePressEvent(QGraphicsSceneMouseEvent *event)

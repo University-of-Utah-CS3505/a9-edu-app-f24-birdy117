@@ -35,7 +35,13 @@ void ChessBoard::resetBoard()
             delete piece;
         }
     }
+    for (auto* item : border) {
+        scene->removeItem(item);
+        delete item;
+    }
+
     deleteHighlights();
+    border.clear();
     allPieces.clear();
 }
 

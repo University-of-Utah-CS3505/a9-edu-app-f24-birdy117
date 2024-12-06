@@ -36,6 +36,7 @@ public:
  */
     QList<DraggablePiece *> allPieces;
     QList<QGraphicsRectItem *> highlights;
+    QList<QGraphicsTextItem *> border;
 
     explicit ChessBoard(QWidget *parent = nullptr);
     void resetBoard();

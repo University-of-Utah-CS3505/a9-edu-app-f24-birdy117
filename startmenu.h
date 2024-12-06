@@ -31,13 +31,8 @@ private:
     QSettings settings;
     QList<QPushButton *> buttons;
 
-    ///
-    /// \brief stockfishStart
-    /// Connect to stockfish.
-    ///
-    void stockfishStart();
-
     void hideStartingScreen();
+    void addBorder();
 
     static const QString foolMateSetup[8][8];
     static const QString backRankMateSetup[8][8];
