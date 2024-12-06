@@ -71,7 +71,8 @@ private:
     void QueenKingH4Checkmate();
     void QueenKingH5Checkmate();
     void displayCheckmate();
-    void displayRankCorrect();
+    void displayRankCorrect1();
+    void displayRankCorrect2();
 
     // Back rank methods
     void backRankMateFirst();
