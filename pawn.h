@@ -11,10 +11,14 @@
 ///
 /// \brief Subclass to control the functionality of a pawn.
 ///
-class Pawn : public DraggablePiece {
+class Pawn : public DraggablePiece
+{
 public:
     // TODO: finish documentation (parameters, returns, etc.)
-    Pawn(Color color, const QPoint& startLocation, const QPixmap& pixmap, QGraphicsItem* parent = nullptr);
+    Pawn(Color color,
+         const QPoint &startLocation,
+         const QPixmap &pixmap,
+         QGraphicsItem *parent = nullptr);
 
     /// Override to reset the previous position of the piece
     void resetPreviousPosition() override;
@@ -35,10 +39,10 @@ public:
     QList<QPoint> calculateAttackRange(int startX, int startY) const override;
 
     /// Override to check if move is valid for a pawn
-    bool isValidMove(const QPoint& destination) const override;
+    bool isValidMove(const QPoint &destination) const override;
 
     /// Override to track move location
-    void moveTo(const QPoint& destination) override;
+    void moveTo(const QPoint &destination) override;
 };
 
 #endif // PAWN_H

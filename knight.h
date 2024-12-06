@@ -3,10 +3,13 @@
 
 #include "draggablepiece.h"
 
-class Knight: public DraggablePiece {
-
+class Knight : public DraggablePiece
+{
 public:
-    Knight(Color color, const QPoint& startLocation, const QPixmap& pixmap, QGraphicsItem* parent = nullptr);
+    Knight(Color color,
+           const QPoint &startLocation,
+           const QPixmap &pixmap,
+           QGraphicsItem *parent = nullptr);
 
     /// Override to reset the previous position of the piece
     void resetPreviousPosition() override;
@@ -21,9 +24,9 @@ public:
     QList<QPoint> calculateAttackRange(int startX, int startY) const override;
 
     /// Override to check if move is valid for a knight
-    bool isValidMove(const QPoint& destination) const override;
+    bool isValidMove(const QPoint &destination) const override;
 
     /// Override to track move location
-    void moveTo(const QPoint& destination) override;
+    void moveTo(const QPoint &destination) override;
 };
 #endif // KNIGHT_H

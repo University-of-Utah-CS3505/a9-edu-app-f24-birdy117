@@ -596,30 +596,46 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLineEdit" name="inputBackRank">
+   <widget class="QLabel" name="CheckmateLabel">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>160</y>
-      <width>113</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="BackRankDesc">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>201</y>
-      <width>281</width>
-      <height>281</height>
+      <x>80</x>
+      <y>260</y>
+      <width>311</width>
+      <height>91</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>13</pointsize>
+      <family>Arial Black</family>
+      <pointsize>28</pointsize>
       <italic>false</italic>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel { color : red; }</string>
+    </property>
+    <property name="text">
+     <string>Checkmate!</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="NextLevelButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>490</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Next Level</string>
     </property>
    </widget>
    <zorder>Title</zorder>
@@ -636,8 +652,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <zorder>BackRankText</zorder>
    <zorder>CorrectLabel</zorder>
    <zorder>directionsLabel</zorder>
-   <zorder>inputBackRank</zorder>
-   <zorder>BackRankDesc</zorder>
+   <zorder>CheckmateLabel</zorder>
+   <zorder>NextLevelButton</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

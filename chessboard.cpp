@@ -1,33 +1,36 @@
 #include "chessboard.h"
-#include "pawn.h"
+#include "bishop.h"
 #include "king.h"
+#include "knight.h"
+#include "pawn.h"
 #include "queen.h"
 #include "rook.h"
-#include "knight.h"
-#include "bishop.h"
 
 const int ChessBoard::SQUARE_SIZE = 50;
 const int ChessBoard::BOARD_SIZE = 8;
 
-ChessBoard::ChessBoard(QWidget* parent) : QWidget(parent) {
+ChessBoard::ChessBoard(QWidget *parent)
+    : QWidget(parent)
+{
     scene = new QGraphicsScene(this);
     view = new QGraphicsView(scene, this);
 
     view->setFixedSize(BOARD_SIZE * SQUARE_SIZE + 2, BOARD_SIZE * SQUARE_SIZE + 2);
     view->setSceneRect(0, 0, BOARD_SIZE * SQUARE_SIZE, BOARD_SIZE * SQUARE_SIZE);
 
-    QVBoxLayout* layout = new QVBoxLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(view);
     setLayout(layout);
 
     setupBoard();
 }
 
-void ChessBoard::resetBoard() {
+void ChessBoard::resetBoard()
+{
     // Clear all existing items from the scene
-    QList<QGraphicsItem*> items = scene->items();
-    for (QGraphicsItem* item : items) {
-        if (DraggablePiece* piece = dynamic_cast<DraggablePiece*>(item)) {
+    QList<QGraphicsItem *> items = scene->items();
+    for (QGraphicsItem *item : items) {
+        if (DraggablePiece *piece = dynamic_cast<DraggablePiece *>(item)) {
             scene->removeItem(piece);
             delete piece;
         }
@@ -35,14 +38,18 @@ void ChessBoard::resetBoard() {
     deleteHighlights();
 }
 
-void ChessBoard::setupBoard() {
+void ChessBoard::setupBoard()
+{
     QPixmap whiteTile(":/Images/whiteTile.png");
     QPixmap greenTile(":/Images/greenTile.png");
 
     for (int row = 0; row < BOARD_SIZE; ++row) {
         for (int col = 0; col < BOARD_SIZE; ++col) {
             // Create a square
-            QGraphicsRectItem* square = new QGraphicsRectItem(col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+            QGraphicsRectItem *square = new QGraphicsRectItem(col * SQUARE_SIZE,
+                                                              row * SQUARE_SIZE,
+                                                              SQUARE_SIZE,
+                                                              SQUARE_SIZE);
 
             // Set the color based on the row and column
             if ((row + col) % 2 == 0) {
@@ -57,12 +64,13 @@ void ChessBoard::setupBoard() {
     }
 }
 
-void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
+void ChessBoard::setupPieces(const QString pieceImages[8][8])
+{
     for (int row = 0; row < BOARD_SIZE; ++row) {
         for (int col = 0; col < BOARD_SIZE; ++col) {
             if (!pieceImages[row][col].isEmpty()) {
                 QPixmap pixmap(pieceImages[row][col]);
-                DraggablePiece* piece = nullptr;
+                DraggablePiece *piece = nullptr;
                 Color pieceColor = (row < 2) ? Color::White : Color::Black;
 
                 if (row == 1 || row == 6) {
@@ -118,9 +126,13 @@ void ChessBoard::setupPieces(const QString pieceImages[8][8]) {
     // }
 }
 
-void ChessBoard::highlightSquare(int col, int row, QColor color) {
-    QGraphicsRectItem* highlight = new QGraphicsRectItem();
-    highlight->setRect(col * SQUARE_SIZE, (BOARD_SIZE - row - 1) * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+void ChessBoard::highlightSquare(int col, int row, QColor color)
+{
+    QGraphicsRectItem *highlight = new QGraphicsRectItem();
+    highlight->setRect(col * SQUARE_SIZE,
+                       (BOARD_SIZE - row - 1) * SQUARE_SIZE,
+                       SQUARE_SIZE,
+                       SQUARE_SIZE);
     highlight->setBrush(color);
     highlight->setOpacity(0.5);
 

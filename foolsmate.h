@@ -1,17 +1,17 @@
 #ifndef FOOLSMATE_H
 #define FOOLSMATE_H
 
-#include "chessboard.h"
 #include <QObject>
+#include "chessboard.h"
 
 class FoolsMate : public QObject
 {
     Q_OBJECT
 public:
-    ChessBoard* board;
-    QTimer* timer;
+    ChessBoard *board;
+    QTimer *timer;
 
-    FoolsMate(ChessBoard* board, QObject* parent = nullptr);
+    FoolsMate(ChessBoard *board, QObject *parent = nullptr);
     void moveSecondWhitePawn();
 
     // public slots:

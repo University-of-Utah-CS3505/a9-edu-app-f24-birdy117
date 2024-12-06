@@ -2,10 +2,10 @@
 #define STARTMENU_H
 
 #include <QMainWindow>
-#include <QTimer.h>
-#include "chessboard.h"
-#include "ui_startmenu.h"
 #include <QSettings>
+#include <QTimer.h>
+#include <QPushButton>
+#include "chessboard.h"
 
 namespace Ui {
 class StartMenu;

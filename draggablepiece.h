@@ -6,10 +6,7 @@
 #include <QPoint>
 #include <QString>
 
-enum Color {
-    White,
-    Black
-};
+enum Color { White, Black };
 
 ///
 /// \authors Anne Arnold, Nicole Glazier, Ethan Kerrigan
@@ -21,7 +18,8 @@ enum Color {
 /// It will track the location of the piece, revert to a
 /// previous position, and validate movements.
 ///
-class DraggablePiece : public QGraphicsPixmapItem {
+class DraggablePiece : public QGraphicsPixmapItem
+{
 protected:
     // Current position on the board
     QPoint currentLocation;
@@ -46,14 +44,17 @@ protected:
     /// \param position - position of the piece
     /// \return new coordinate position of the piece
     ///
-    QPointF snapToGrid(const QPointF& position);
+    QPointF snapToGrid(const QPointF &position);
 
 public:
-    explicit DraggablePiece(Color color, const QPoint& startLocation, const QPixmap& pixmap, QGraphicsItem* parent = nullptr);
+    explicit DraggablePiece(Color color,
+                            const QPoint &startLocation,
+                            const QPixmap &pixmap,
+                            QGraphicsItem *parent = nullptr);
 
     // Getters and setters
     QPoint getCurrentLocation() const { return currentLocation; }
-    void setCurrentLocation(const QPoint& location) { currentLocation = location; }
+    void setCurrentLocation(const QPoint &location) { currentLocation = location; }
     QPoint getPreviousPosition() const { return previousPosition; }
     virtual void resetPreviousPosition() { previousPosition = QPoint(-1, -1); }
     Color getPieceColor() const { return pieceColor; }
@@ -68,15 +69,14 @@ public:
     virtual QList<QPoint> calculateAttackRange(int startX, int startY) const = 0;
 
     // Validation and movement methods
-    virtual bool isValidMove(const QPoint& destination) const = 0;
-    virtual void moveTo(const QPoint& destination);
+    virtual bool isValidMove(const QPoint &destination) const = 0;
+    virtual void moveTo(const QPoint &destination);
 
     // Mouse interaction
     void setInteractive(bool interactive);
-    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
-
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
 #endif // DRAGGABLEPIECE_H

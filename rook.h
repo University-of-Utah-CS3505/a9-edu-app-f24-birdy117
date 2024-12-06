@@ -3,9 +3,13 @@
 
 #include "draggablepiece.h"
 
-class Rook: public DraggablePiece {
+class Rook : public DraggablePiece
+{
 public:
-    Rook(Color color, const QPoint& startLocation, const QPixmap& pixmap, QGraphicsItem* parent = nullptr);
+    Rook(Color color,
+         const QPoint &startLocation,
+         const QPixmap &pixmap,
+         QGraphicsItem *parent = nullptr);
 
     /// Override to reset the previous position of the piece
     void resetPreviousPosition() override;
@@ -20,10 +24,10 @@ public:
     QList<QPoint> calculateAttackRange(int startX, int startY) const override;
 
     /// Override to check if move is valid for a rook
-    bool isValidMove(const QPoint& destination) const override;
+    bool isValidMove(const QPoint &destination) const override;
 
     /// Override to track move location
-    void moveTo(const QPoint& destination) override;
+    void moveTo(const QPoint &destination) override;
 };
 
 #endif // ROOK_H
