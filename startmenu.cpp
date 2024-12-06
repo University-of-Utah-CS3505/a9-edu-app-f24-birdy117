@@ -5,7 +5,6 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::StartMenu)
     , chessBoard(chessBoard)
-    , stockfishEngine(new StockfishEngine(this))
     , settings("Placeholder", "AppName")
 {
     ui->setupUi(this);
@@ -36,19 +35,6 @@ StartMenu::~StartMenu()
 {
     saveButtonStates();
     delete ui;
-}
-
-void StartMenu::stockfishStart() {
-    // Set up stockfish
-    //QString basePath = QCoreApplication::applicationDirPath();
-    QString stockfishPath = QCoreApplication::applicationDirPath() + "/../../../stockfish.exe";
-
-    // stockfishEngine->startEngine(stockfishPath);
-
-    // Can only connect to stockfish through slots or lambda expressions.
-    // connect(stockfishEngine, &StockfishEngine::engineOutput, this, [](const QString &output) {
-    //     // qDebug() << "STOCKFISH SAYS:" << output;
-    // });
 }
 
 const QString StartMenu::foolMateSetup[8][8] = {
@@ -276,7 +262,6 @@ void StartMenu::vsComputerStart() {
     hideStartingScreen();
     showChessBoard();
     ui->Title->setText("VS Computer");
-    stockfishStart();
 }
 
 void StartMenu::quitButtonClicked() {
@@ -284,9 +269,6 @@ void StartMenu::quitButtonClicked() {
         chessBoard->resetBoard();
     }
     hideChessBoard();
-    if (stockfishEngine) {
-        stockfishEngine->terminateEngine();
-    }
 }
 
 void StartMenu::hideChessBoard() {
@@ -418,7 +400,6 @@ void StartMenu::backRankMateFirst() {
     ui->inputBackRank->setText("");
     chessBoard->highlightSquare(2, 0, Qt::yellow);
     chessBoard->highlightSquare(4, 2, Qt::darkYellow);
-
 }
 
 void StartMenu::backRankMateSecond() {
@@ -435,7 +416,7 @@ void StartMenu::backRankMateThird() {
     rankMove2 = true;
     ui->inputBackRank->setText("");
     chessBoard->highlightSquare(0, 0, Qt::yellow);
-    chessBoard->highlightSquare(0, 7, Qt::darkYellow);
+    chessBoard->highlightSquare(4, 0, Qt::darkYellow);
 }
 
 void StartMenu::checkQueenKingCheckmateAnswer() {

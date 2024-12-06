@@ -1,12 +1,9 @@
 #ifndef STARTMENU_H
 #define STARTMENU_H
 
-#include "backrank.h"
-
 #include <QMainWindow>
 #include <QTimer.h>
 #include "chessboard.h"
-#include "stockfishengine.h"
 #include "ui_startmenu.h"
 #include <QSettings>
 
@@ -28,9 +25,6 @@ private:
     ChessBoard *chessBoard;
     bool rankMove1 = false;
     bool rankMove2 = false;
-
-    /// Stockfish executable
-    StockfishEngine *stockfishEngine;
 
     QSettings settings;
     QList<QPushButton *> buttons;

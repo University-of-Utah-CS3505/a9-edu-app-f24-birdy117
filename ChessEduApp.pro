@@ -9,7 +9,6 @@ CONFIG += c++17 moc
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    backrank.cpp \
     bishop.cpp \
     chessboard.cpp \
     draggablepiece.cpp \
@@ -20,11 +19,9 @@ SOURCES += \
     pawn.cpp \
     queen.cpp \
     rook.cpp \
-    startmenu.cpp \
-    stockfishengine.cpp
+    startmenu.cpp
 
 HEADERS += \
-    backrank.h \
     bishop.h \
     chessboard.h \
     draggablepiece.h \
@@ -34,8 +31,7 @@ HEADERS += \
     pawn.h \
     queen.h \
     rook.h \
-    startmenu.h \
-    stockfishengine.h
+    startmenu.h
 
 FORMS += \
     startmenu.ui
