@@ -638,22 +638,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Next Level</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="BackRankDesc">
-    <property name="geometry">
-     <rect>
-      <x>483</x>
-      <y>194</y>
-      <width>271</width>
-      <height>281</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-      <italic>false</italic>
-     </font>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="inputBackRank">
     <property name="geometry">
      <rect>
@@ -664,6 +648,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </rect>
     </property>
    </widget>
+   <zorder>chessBoardContainer</zorder>
    <zorder>Title</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>QuitButton</zorder>
@@ -679,9 +664,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <zorder>directionsLabel</zorder>
    <zorder>CheckmateLabel</zorder>
    <zorder>NextLevelButton</zorder>
-   <zorder>BackRankDesc</zorder>
    <zorder>inputBackRank</zorder>
-   <zorder>chessBoardContainer</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
