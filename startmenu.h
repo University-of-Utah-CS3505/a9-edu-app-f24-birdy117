@@ -27,6 +27,7 @@ private:
     Foolsmate *fool; // Member to hold the foolsmate instance
     bool rankMove1 = false;
     bool rankMove2 = false;
+    bool queenKingMove1 = false;
 
     QSettings settings;
     QList<QPushButton *> buttons;
@@ -57,10 +58,12 @@ private:
     /// \brief Hides anything not on the StartMenu
     ///
     void hideNonStartingWidgets();
-    void QueenKingG7Checkmate();
-    void QueenKingH3Checkmate();
-    void QueenKingH4Checkmate();
-    void QueenKingH5Checkmate();
+    void QueenKingMateFirst();
+    void QueenKingMateSecond();
+    void QueenKingB2Checkmate();
+    void QueenKingA4Checkmate();
+    void QueenKingA5Checkmate();
+    void QueenKingA6Checkmate();
     void displayCheckmate();
     void displayRankCorrect1();
     void displayRankCorrect2();

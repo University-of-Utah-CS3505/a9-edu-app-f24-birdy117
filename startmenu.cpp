@@ -21,9 +21,10 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
 
     // Level 2 slots
     connect(ui->inputBackRank, &QLineEdit::returnPressed, this, &StartMenu::checkBackRankAnswer);
+    //connect(ui->inputBackRank, &QLineEdit::returnPressed, this, &StartMenu::checkBackRankAnswer);
 
     //Level 3 slots
-    connect(ui->inputBox, &QLineEdit::textChanged, this, &StartMenu::checkQueenKingCheckmateAnswer);
+    //connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkQueenKingCheckmateAnswer);
 
     buttons = {ui->level1Button, ui->level2Button, ui->level3Button};
 
@@ -127,22 +128,22 @@ const QString StartMenu::backRankMateMove3[8][8] = {
 };
 
 const QString StartMenu::kingQueenMateSetup[8][8] = {
-    {"", "", "", "", "", "", "", ":/Images/KingB.png"},
+    {"", "", "", "", "", "", "", ":/Images/KingW.png"},
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", ":/Images/KingW.png", "", ""},
+    {"", "", "", "", "", ":/Images/KingB.png", "", ""},
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", "", ":/Images/QueenW.png", ""},
+    {"", "", "", "", "", "", ":/Images/QueenB.png", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""}
 };
 
 const QString StartMenu::kingQueenMateMove1[8][8] = {
-    {"", "", "", "", "", "", "", ":/Images/KingB.png"},
-    {"", "", "", "", "", ":/Images/KingW.png", "", ""},
+    {"", "", "", "", "", "", "", ":/Images/KingW.png"},
+    {"", "", "", "", "", ":/Images/KingB.png", "", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", "", ":/Images/QueenW.png", ""},
+    {"", "", "", "", "", "", ":/Images/QueenB.png", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""}
@@ -150,10 +151,10 @@ const QString StartMenu::kingQueenMateMove1[8][8] = {
 
 const QString StartMenu::kingQueenMateMove2[8][8] = {
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", ":/Images/KingW.png", "", ":/Images/KingB.png"},
+    {"", "", "", "", "", ":/Images/KingB.png", "", ":/Images/KingW.png"},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", "", ":/Images/QueenW.png", ""},
+    {"", "", "", "", "", "", ":/Images/QueenB.png", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""}
@@ -161,7 +162,7 @@ const QString StartMenu::kingQueenMateMove2[8][8] = {
 
 const QString StartMenu::kingQueenCheckmateG7[8][8] = {
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", ":/Images/KingW.png", ":/Images/QueenW.png", ":/Images/KingB.png"},
+    {"", "", "", "", "", ":/Images/KingB.png", ":/Images/QueenB.png", ":/Images/KingW.png"},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
@@ -172,21 +173,21 @@ const QString StartMenu::kingQueenCheckmateG7[8][8] = {
 
 const QString StartMenu::kingQueenCheckmateH3[8][8] = {
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", ":/Images/KingW.png", "", ":/Images/KingB.png"},
+    {"", "", "", "", "", ":/Images/KingB.png", "", ":/Images/KingW.png"},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", "", "", ":/Images/QueenW.png"},
+    {"", "", "", "", "", "", "", ":/Images/QueenB.png"},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""}
 };
 
 const QString StartMenu::kingQueenCheckmateH4[8][8] = {
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", ":/Images/KingW.png", "", ":/Images/KingB.png"},
+    {"", "", "", "", "", ":/Images/KingB.png", "", ":/Images/KingW.png"},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", "", "", ":/Images/QueenW.png"},
+    {"", "", "", "", "", "", "", ":/Images/QueenB.png"},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""}
@@ -194,9 +195,9 @@ const QString StartMenu::kingQueenCheckmateH4[8][8] = {
 
 const QString StartMenu::kingQueenCheckmateH5[8][8] = {
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", ":/Images/KingW.png", "", ":/Images/KingB.png"},
+    {"", "", "", "", "", ":/Images/KingB.png", "", ":/Images/KingW.png"},
     {"", "", "", "", "", "", "", ""},
-    {"", "", "", "", "", "", "", ":/Images/QueenW.png"},
+    {"", "", "", "", "", "", "", ":/Images/QueenB.png"},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
@@ -252,6 +253,7 @@ void StartMenu::level1Start() {
     ui->Title->setText("Level 1: The Fool's Mate");
     ui->inputBox->show();
 
+    // fool = new foolsmate(chessBoard, this);
 
     connect(fool, &Foolsmate::updateStatusLabel, this, &StartMenu::updateLabel);
     connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
@@ -275,6 +277,8 @@ void StartMenu::level2Start()
     ui->inputBackRank->show();
     ui->directionsLabel->setText("Follow the instructions on the screen");
 
+    connect(ui->inputBackRank, &QLineEdit::textChanged, this, &StartMenu::checkBackRankAnswer);
+
     chessBoard->setupPieces(backRankMateSetup);
     ui->Title->setText("Level 2: The Back Rank Mate");
     ui->TeamCreditsLabel->hide();
@@ -295,7 +299,9 @@ void StartMenu::level3Start()
     ui->startButton->show();
     ui->startButton->setEnabled(true);
     ui->startButton->raise();
-    ui->inputBox->show();
+
+    connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkQueenKingCheckmateAnswer);
+
 
     chessBoard->setupPieces(kingQueenMateSetup);
     ui->Title->setText("Level 3: The King and Queen Mate");
@@ -308,6 +314,7 @@ void StartMenu::level3Start()
         }
     }
     addBorder();
+    QueenKingMateFirst();
 }
 
 void StartMenu::addBorder() {
@@ -328,12 +335,27 @@ void StartMenu::addBorder() {
         chessBoard->scene->addItem(rowNumber);
         chessBoard->border.push_back(rowNumber);
     }
+
+    // Add row numbers on the left side of the board (1 to BOARD_SIZE)
+    for (int row = 0; row < 8; ++row) {
+        QGraphicsTextItem *rowNumber = new QGraphicsTextItem(QString::number(row + 1));
+        rowNumber->setPos(-4, row * 50 + 50 / 2);  // Adjust for positioning
+        rowNumber->setDefaultTextColor(Qt::black);
+        chessBoard->scene->addItem(rowNumber);
+    }
+
+    // Add column letters on the top side of the board (A to Z)
+    for (int col = 0; col < 8; ++col) {
+        QGraphicsTextItem *colLetter = new QGraphicsTextItem(QString(QChar('H' - col)));
+        colLetter->setPos(col * 50 + 50 / 2 - 28, -6);  // Adjust for positioning
+        colLetter->setDefaultTextColor(Qt::black);
+        chessBoard->scene->addItem(colLetter);
+    }
 }
 
 void StartMenu::startClicked()
 {
     showChessBoard();
-
 }
 
 void StartMenu::vsComputerStart()
@@ -349,6 +371,10 @@ void StartMenu::quitButtonClicked()
         chessBoard->resetBoard();
     }
     hideChessBoard();
+    hideChessBoard(); // Todo: aaron doesn't have this in his
+    queenKingMove1 = false;
+    rankMove1 = false;
+    rankMove2 = false;
 }
 
 void StartMenu::hideChessBoard()
@@ -385,6 +411,8 @@ void StartMenu::hideChessBoard()
         }
     }
 
+    // Disconnect all signals from the QLineEdit
+    disconnect(ui->inputBox, nullptr, nullptr, nullptr);
     ui->Title->setText("Welcome to Checkmate Simulator");
 }
 
@@ -418,6 +446,8 @@ void StartMenu::showChessBoard()
     ui->startButton->hide();
     ui->startButton->setEnabled(false);
 
+    ui->inputBox->show();
+
     ui->directionsLabel->show();
 
     ui->chessBoardContainer->show();
@@ -427,16 +457,15 @@ void StartMenu::showChessBoard()
     ui->inputBoxLabel->show();
 }
 
-void StartMenu::displayCorrect()
-{
+void StartMenu::displayCorrect() {
     ui->CorrectLabel->show();
 
-    //In 2000 ms move the White King Forward
-    QTimer::singleShot(2000, this, [this]() {
-        chessBoard->resetBoard();
-        addBorder();
-        chessBoard->setupPieces(kingQueenMateMove1);
-    });
+    chessBoard->resetBoard();
+    addBorder();
+    chessBoard->setupPieces(kingQueenMateMove1);
+    //move the White King Forward
+    chessBoard->resetBoard();
+    chessBoard->setupPieces(kingQueenMateMove1);
 
     //In 3000 ms move the Black King forward
     QTimer::singleShot(3000, this, [this]() {
@@ -446,6 +475,7 @@ void StartMenu::displayCorrect()
         ui->inputBox->setText("");
         ui->CorrectLabel->hide();
         ui->directionsLabel->setText("Move the White Queen to force a checkmate.");
+        QueenKingMateSecond();
     });
 }
 
@@ -538,48 +568,47 @@ void StartMenu::backRankMateThird() {
 
 void StartMenu::checkQueenKingCheckmateAnswer()
 {
-    if (ui->inputBox->text() == "F2" && !fool) {
+    QString userInput = ui->inputBox->text();
+
+    if (userInput == "C2" && queenKingMove1 == false) {
         displayCorrect();
+        queenKingMove1 = true;
     }
-    if (ui->inputBox->text() == "G7" && !fool) {
-        QueenKingG7Checkmate();
+    else if (userInput == "B2" && queenKingMove1 == true) {
+        QueenKingB2Checkmate();
     }
-    if (ui->inputBox->text() == "H5" && !fool) {
-        QueenKingH5Checkmate();
+    else if (userInput == "A4" && queenKingMove1 == true) {
+        QueenKingA4Checkmate();
     }
-    if (ui->inputBox->text() == "H4" && !fool) {
-        QueenKingH4Checkmate();
+    else if (userInput == "A5" && queenKingMove1 == true) {
+        QueenKingA5Checkmate();
     }
-    if (ui->inputBox->text() == "H3" && !fool) {
-        QueenKingH3Checkmate();
+    else if (userInput == "A6" && queenKingMove1 == true) {
+        QueenKingA6Checkmate();
+    }
+    else {
+        QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
     }
 }
 
-void StartMenu::QueenKingG7Checkmate()
-{
-    //In 2000 ms move the White Queen to G7
-    QTimer::singleShot(2000, this, [this]() {
-        chessBoard->resetBoard();
-        addBorder();
-        chessBoard->setupPieces(kingQueenCheckmateG7);
-        displayCheckmate();
-        ui->vsComputerButton->isEnabled();
-    });
+void StartMenu::QueenKingMateFirst() {
+    ui->CorrectLabel->hide();
+    ui->inputBox->setText("");
+    chessBoard->highlightSquare(5, 5, Qt::yellow);
+    chessBoard->highlightSquare(5, 6, Qt::darkYellow);
 }
 
-void StartMenu::QueenKingH5Checkmate()
-{
-    //In 2000 ms move the White Queen to H5
-    QTimer::singleShot(2000, this, [this]() {
-        chessBoard->resetBoard();
-        addBorder();
-        chessBoard->setupPieces(kingQueenCheckmateH5);
-        displayCheckmate();
-        ui->vsComputerButton->isEnabled();
-    });
+void StartMenu::QueenKingMateSecond() {
+    ui->CorrectLabel->hide();
+    ui->inputBox->setText("");
+    chessBoard->highlightSquare(6, 3, Qt::yellow);
+    chessBoard->highlightSquare(6, 6, Qt::darkYellow);
+    chessBoard->highlightSquare(7, 2, Qt::darkYellow);
+    chessBoard->highlightSquare(7, 3, Qt::darkYellow);
+    chessBoard->highlightSquare(7, 4, Qt::darkYellow);
 }
 
-void StartMenu::QueenKingH4Checkmate()
+void StartMenu::QueenKingB2Checkmate()
 {
     //In 2000 ms move the White Queen to H4
     QTimer::singleShot(2000, this, [this]() {
@@ -589,9 +618,14 @@ void StartMenu::QueenKingH4Checkmate()
         displayCheckmate();
         ui->vsComputerButton->isEnabled();
     });
+    //move the White Queen to G7
+    chessBoard->resetBoard();
+    chessBoard->setupPieces(kingQueenCheckmateG7);
+    displayCheckmate();
+    ui->vsComputerButton->isEnabled();
 }
 
-void StartMenu::QueenKingH3Checkmate()
+void StartMenu::QueenKingA4Checkmate()
 {
     //In 2000 ms move the White Queen to H3
     QTimer::singleShot(2000, this, [this]() {
@@ -601,10 +635,34 @@ void StartMenu::QueenKingH3Checkmate()
         displayCheckmate();
         ui->vsComputerButton->isEnabled();
     });
+    //move the White Queen to H5
+    chessBoard->resetBoard();
+     chessBoard->setupPieces(kingQueenCheckmateH5);
+    displayCheckmate();
+    ui->vsComputerButton->isEnabled();
+}
+
+void StartMenu::QueenKingA5Checkmate()
+{
+    //move the White Queen to H4
+    chessBoard->resetBoard();
+    chessBoard->setupPieces(kingQueenCheckmateH4);
+    displayCheckmate();
+    ui->vsComputerButton->isEnabled();
+}
+
+void StartMenu::QueenKingA6Checkmate()
+{
+    //move the White Queen to H3
+    chessBoard->resetBoard();
+    chessBoard->setupPieces(kingQueenCheckmateH3);
+    displayCheckmate();
+    ui->vsComputerButton->isEnabled();
 }
 
 void StartMenu::displayCheckmate() {
     ui->CheckmateLabel->show();
+    ui->CheckmateLabel->raise();
     ui->NextLevelButton->setEnabled(1);
 }
 
@@ -631,7 +689,6 @@ void StartMenu::updateLabel(const QString& message) {
     ui->directionsLabel->setText(message);
     ui->directionsLabel->setWordWrap(true);
 }
-
 
 void StartMenu::checkInputFirstMove() {
     QString userInput = ui->inputBox->text(); // Get the text from QLineEdit
