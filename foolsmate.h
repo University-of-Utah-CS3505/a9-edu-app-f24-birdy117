@@ -3,16 +3,17 @@
 
 #include "chessboard.h"
 #include <QObject>
-#include "draggablepiece.h"
+// #include "draggablepiece.h"
 
-class foolsmate : public QObject
+class Foolsmate : public QObject
 {
     Q_OBJECT
 public:
     ChessBoard* board;
-    QTimer* timer;
+    // QTimer* timer;
 
-    foolsmate(ChessBoard* board, QObject* parent = nullptr);
+    Foolsmate(ChessBoard* board, QObject* parent = nullptr);
+    ~Foolsmate();
 
     // public slots:
     void moveFirstWhitePawn();

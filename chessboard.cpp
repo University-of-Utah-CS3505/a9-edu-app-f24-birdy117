@@ -36,6 +36,7 @@ void ChessBoard::resetBoard()
         }
     }
     deleteHighlights();
+    allPieces.clear();
 }
 
 void ChessBoard::setupBoard()

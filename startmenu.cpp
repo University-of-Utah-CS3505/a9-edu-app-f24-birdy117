@@ -9,6 +9,8 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     , chessBoard(chessBoard)
     , settings("Placeholder", "AppName")
 {
+    fool = new Foolsmate(chessBoard);
+
     ui->setupUi(this);
     connect(ui->level1Button, &QPushButton::clicked, this, &StartMenu::level1Start);
     connect(ui->level2Button, &QPushButton::clicked, this, &StartMenu::level2Start);
@@ -37,6 +39,8 @@ StartMenu::~StartMenu()
 {
     saveButtonStates();
     delete ui;
+    delete chessBoard;
+    delete fool;
 }
 
 const QString StartMenu::foolMateSetup[8][8] = {
@@ -76,7 +80,7 @@ const QString StartMenu::foolMateSetup[8][8] = {
      ":/Images/BishopB.png",
      ":/Images/KnightB.png",
      ":/Images/RookB.png"},
-};
+    };
 
 const QString StartMenu::backRankMateSetup[8][8] = {
     {"", "", "", "", "", "", ":/Images/KingB.png", ""},
@@ -130,7 +134,7 @@ const QString StartMenu::kingQueenMateSetup[8][8] = {
     {"", "", "", "", "", "", ":/Images/QueenW.png", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
-{"", "", "", "", "", "", "", ""}
+    {"", "", "", "", "", "", "", ""}
 };
 
 const QString StartMenu::kingQueenMateMove1[8][8] = {
@@ -141,7 +145,7 @@ const QString StartMenu::kingQueenMateMove1[8][8] = {
     {"", "", "", "", "", "", ":/Images/QueenW.png", ""},
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", "", "", ""},
-{"", "", "", "", "", "", "", ""}
+    {"", "", "", "", "", "", "", ""}
 };
 
 const QString StartMenu::kingQueenMateMove2[8][8] = {
@@ -189,14 +193,14 @@ const QString StartMenu::kingQueenCheckmateH4[8][8] = {
 };
 
 const QString StartMenu::kingQueenCheckmateH5[8][8] = {
-   {"", "", "", "", "", "", "", ""},
-   {"", "", "", "", "", ":/Images/KingW.png", "", ":/Images/KingB.png"},
-   {"", "", "", "", "", "", "", ""},
-   {"", "", "", "", "", "", "", ":/Images/QueenW.png"},
-   {"", "", "", "", "", "", "", ""},
-   {"", "", "", "", "", "", "", ""},
-   {"", "", "", "", "", "", "", ""},
-   {"", "", "", "", "", "", "", ""}
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", ":/Images/KingW.png", "", ":/Images/KingB.png"},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ":/Images/QueenW.png"},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", ""}
 };
 
 void StartMenu::hideNonStartingWidgets()
@@ -231,19 +235,19 @@ void StartMenu::level1Start() {
     ui->startButton->raise();
     chessBoard->setupPieces(foolMateSetup);
     ui->Title->setText("Level 1: The Fool's Mate");
-    fool = new foolsmate(chessBoard, this);
+    // fool = new foolsmate(chessBoard, this);
     ui->inputBox->show();
 
 
-    connect(fool, &foolsmate::updateStatusLabel, this, &StartMenu::updateLabel);
+    connect(fool, &Foolsmate::updateStatusLabel, this, &StartMenu::updateLabel);
     connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
 
 
     fool->moveFirstWhitePawn();
     fool->firstMove();
-    connect(fool, &foolsmate::updateStatusLabel, this, &StartMenu::updateLabel);
-    connect(this, &StartMenu::correctInputReceived, fool, &foolsmate::moveSecondWhitePawn);
-    connect(this, &StartMenu::correctSecondInputReceived, fool, &foolsmate::moveThirdWhitePawn);
+    connect(fool, &Foolsmate::updateStatusLabel, this, &StartMenu::updateLabel);
+    connect(this, &StartMenu::correctInputReceived, fool, &Foolsmate::moveSecondWhitePawn);
+    connect(this, &StartMenu::correctSecondInputReceived, fool, &Foolsmate::moveThirdWhitePawn);
 }
 
 
@@ -668,6 +672,4 @@ void StartMenu::checkInputThirdMove() {
         QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
     }
     ui->inputBox->clear(); // Clear the input box for retry
-
 }
-

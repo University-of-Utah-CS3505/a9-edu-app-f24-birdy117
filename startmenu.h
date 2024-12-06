@@ -24,7 +24,7 @@ private:
     Ui::StartMenu *ui;
     QWidget *levelUI;
     ChessBoard *chessBoard;
-    foolsmate *fool; // Member to hold the foolsmate instance
+    Foolsmate *fool; // Member to hold the foolsmate instance
     bool rankMove1 = false;
     bool rankMove2 = false;
 

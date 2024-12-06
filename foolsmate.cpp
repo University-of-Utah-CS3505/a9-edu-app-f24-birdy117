@@ -9,13 +9,17 @@
  * 24-31 back row of black, starting with left rook moving right.
  */
 
-foolsmate::foolsmate(ChessBoard* board, QObject* parent)
+Foolsmate::Foolsmate(ChessBoard* board, QObject* parent)
     : QObject(parent)
     , board(board) {
 
 }
 
-void foolsmate::moveFirstWhitePawn() {
+Foolsmate::~Foolsmate() {
+    delete board;
+}
+
+void Foolsmate::moveFirstWhitePawn() {
     DraggablePiece* whitePawn = board->allPieces[10];
 
     qDebug() << whitePawn->pieceType();
@@ -30,7 +34,7 @@ void foolsmate::moveFirstWhitePawn() {
 }
 
 
-void foolsmate::firstMove() {
+void Foolsmate::firstMove() {
     board->highlightSquare(3, 1, Qt::yellow);
 
     QString message = "1. Where should the highlighted pawn move?";
@@ -38,7 +42,7 @@ void foolsmate::firstMove() {
     qDebug() << "Signal emitted:" << message;
 }
 
-void foolsmate::moveFirstBlackPawn() {
+void Foolsmate::moveFirstBlackPawn() {
     DraggablePiece* blackPawn = board->allPieces[19];
 
     qDebug() << blackPawn->pieceType();
@@ -48,7 +52,7 @@ void foolsmate::moveFirstBlackPawn() {
     blackPawn->moveTo(pos);
 }
 
-void foolsmate::moveSecondWhitePawn() {
+void Foolsmate::moveSecondWhitePawn() {
     DraggablePiece* whitePawn = board->allPieces[9];
 
     qDebug() << whitePawn->pieceType();
@@ -62,7 +66,7 @@ void foolsmate::moveSecondWhitePawn() {
         qDebug() << "White pawn moved to" << pos;
     });
 }
-void foolsmate::secondMove() {
+void Foolsmate::secondMove() {
     //board->unhighlightSquare(3, 1);
     board-> deleteHighlights();
     board->highlightSquare(4, 0, Qt::yellow);
@@ -72,7 +76,7 @@ void foolsmate::secondMove() {
     qDebug() << "Signal emitted:" << message;
 }
 
-void foolsmate::moveBlackQueen() {
+void Foolsmate::moveBlackQueen() {
     DraggablePiece* blackQueen = board->allPieces[28];
 
     qDebug() << blackQueen->pieceType();
@@ -82,7 +86,7 @@ void foolsmate::moveBlackQueen() {
     blackQueen->moveTo(pos);
 }
 
-void foolsmate::thirdMove() {
+void Foolsmate::thirdMove() {
     //board->unhighlightSquare(4,0);
     board->deleteHighlights();
     board->highlightSquare(0, 4, Qt::yellow);
@@ -92,7 +96,7 @@ void foolsmate::thirdMove() {
     qDebug() << "Signal emitted:" << message;
 }
 
-void foolsmate::moveThirdWhitePawn() {
+void Foolsmate::moveThirdWhitePawn() {
     DraggablePiece* whitePawn = board->allPieces[12];
 
     qDebug() << whitePawn->pieceType();
@@ -106,7 +110,7 @@ void foolsmate::moveThirdWhitePawn() {
     });
 }
 
-void foolsmate::moveBlackQueen2() {
+void Foolsmate::moveBlackQueen2() {
     DraggablePiece* blackQueen = board->allPieces[28];
 
     qDebug() << blackQueen->pieceType();
