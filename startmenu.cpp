@@ -1,4 +1,6 @@
 #include "startmenu.h"
+#include "foolsmate.h"
+#include <QMessageBox>
 
 StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     : QMainWindow(parent)
@@ -100,8 +102,18 @@ void StartMenu::level1Start() {
     ui->startButton->raise();
     chessBoard->setupPieces(foolMateSetup);
     ui->Title->setText("Level 1: The Fool's Mate");
-    ui->inputBox->show();
-    ui->inputBoxQuestion->show();
+    fool = new foolsmate(chessBoard, this);
+
+    connect(fool, &foolsmate::updateStatusLabel, this, &StartMenu::updateLabel);
+    connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
+
+
+    fool->moveFirstWhitePawn();
+    fool->firstMove();
+    connect(fool, &foolsmate::updateStatusLabel, this, &StartMenu::updateLabel);
+    connect(this, &StartMenu::correctInputReceived, fool, &foolsmate::moveSecondWhitePawn);
+    connect(this, &StartMenu::correctSecondInputReceived, fool, &foolsmate::moveThirdWhitePawn);
+
     // stockfishStart();
 }
 
@@ -133,6 +145,8 @@ void StartMenu::level3Start() {
 
 void StartMenu::startClicked() {
     showChessBoard();
+    ui->inputBox->show();
+    ui->inputBoxQuestion->show();
 }
 
 void StartMenu::vsComputerStart() {
@@ -222,3 +236,123 @@ void StartMenu::loadButtonStates() {
     }
     settings.endGroup();
 }
+
+void StartMenu::updateLabel(const QString& message) {
+    qDebug() << "Slot received message:" << message;
+    ui->inputBoxQuestion->setText(message);
+    ui->inputBoxQuestion->setWordWrap(true);
+}
+
+void StartMenu::checkInputFirstMove() {
+    QString userInput = ui->inputBox->text(); // Get the text from QLineEdit
+    QString expectedValue = "D3";   // Define the value you want
+
+    if (userInput == expectedValue) {
+        qDebug() << "Input matches the desired value!";
+        fool->moveFirstBlackPawn();
+
+        // Disconnect the first move slot
+        disconnect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
+
+        // Now connect to the second move slot
+        connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputSecondMove);
+
+        // Create the message box
+        QMessageBox* msgBox = new QMessageBox(QMessageBox::Information, "Correct Answer", "Good job! That's the correct move.", QMessageBox::Ok, this);
+
+        // Connect the finished signal to a lambda that will emit the signal
+        connect(msgBox, &QMessageBox::finished, this, [this, msgBox](int result) {
+            // Check if "OK" button was pressed (QMessageBox::Ok has value 1)
+            if (result == QMessageBox::Ok) {
+                emit correctInputReceived();
+            }
+            msgBox->deleteLater(); // Clean up the message box after it's done
+        });
+        fool->secondMove();
+
+        // Show the message box
+        msgBox->exec();
+    } else {
+        qDebug() << "Input does not match. User entered:" << userInput;
+
+        // Show a message box for incorrect input
+        QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
+    }
+    ui->inputBox->clear(); // Clear the input box for retry
+
+}
+
+void StartMenu::checkInputSecondMove() {
+    QString userInput = ui->inputBox->text(); // Get the text from QLineEdit
+    QString expectedValue = "A5";   // Define the value you want
+
+    if (userInput == expectedValue) {
+        qDebug() << "Input matches the desired value!";
+        fool->moveBlackQueen();
+
+        // Disconnect the first move slot
+        disconnect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
+
+        // Now connect to the second move slot
+        connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputSecondMove);
+
+        // Create the message box
+        QMessageBox* msgBox = new QMessageBox(QMessageBox::Information, "Correct Answer", "Good job! That's the correct move.", QMessageBox::Ok, this);
+
+        // Connect the finished signal to a lambda that will emit the signal
+        connect(msgBox, &QMessageBox::finished, this, [this, msgBox](int result) {
+            // Check if "OK" button was pressed (QMessageBox::Ok has value 1)
+            if (result == QMessageBox::Ok) {
+                emit correctSecondInputReceived();
+                disconnect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputSecondMove);
+                connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputThirdMove);
+            }
+            msgBox->deleteLater(); // Clean up the message box after it's done
+        });
+
+        fool->thirdMove();
+        // Show the message box
+        msgBox->exec();
+    } else {
+        qDebug() << "Input does not match. User entered:" << userInput;
+
+        // Show a message box for incorrect input
+        QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
+    }
+    ui->inputBox->clear(); // Clear the input box for retry
+
+}
+
+void StartMenu::checkInputThirdMove() {
+    QString userInput = ui->inputBox->text(); // Get the text from QLineEdit
+    QString expectedValue = "D8";   // Define the value you want
+
+    if (userInput == expectedValue) {
+        qDebug() << "Input matches the desired value!";
+        fool->moveBlackQueen2();
+        // Create the message box
+        QMessageBox* msgBox = new QMessageBox(QMessageBox::Information, "Checkmate!", "Good job! You completed Level 1", QMessageBox::Ok, this);
+
+        // Connect the finished signal to a lambda that will emit the signal
+        connect(msgBox, &QMessageBox::finished, this, [this, msgBox](int result) {
+            // Check if "OK" button was pressed (QMessageBox::Ok has value 1)
+            if (result == QMessageBox::Ok) {
+
+            }
+            msgBox->deleteLater(); // Clean up the message box after it's done
+        });
+
+        // Show the message box
+        msgBox->exec();
+    } else {
+        qDebug() << "Input does not match. User entered:" << userInput;
+
+        // Show a message box for incorrect input
+        QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
+    }
+    ui->inputBox->clear(); // Clear the input box for retry
+
+}
+
+
+

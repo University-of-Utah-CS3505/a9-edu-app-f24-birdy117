@@ -14,10 +14,15 @@ class ChessBoard : public QWidget {
 
 public:
     QList<DraggablePiece*> allPieces;
+    QList<QGraphicsRectItem*> highlights;
+    QColor originalColors[8][8];  // Store the original colors of squares
+
 
     explicit ChessBoard(QWidget* parent = nullptr);
     void resetBoard();
     void setupPieces(const QString setup[8][8]);
+    void highlightSquare(int row, int col, QColor color);
+    void unhighlightSquare(int col, int row);
 
 private:
     void setupBoard();
