@@ -2,7 +2,7 @@
 #include "foolsmate.h"
 #include "ui_startmenu.h"
 #include <QMessageBox>
-#include <QTimer.h>
+#include <QTimer>
 
 StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     : QMainWindow(parent)
@@ -226,38 +226,25 @@ void StartMenu::level1Start() {
     ui->startButton->setEnabled(true);
     ui->startButton->raise();
     chessBoard->setupPieces(foolMateSetup);
-    // Add row numbers on the left side of the board (1 to BOARD_SIZE)
-    for (int row = 0; row < 8; ++row) {
-        QGraphicsTextItem *rowNumber = new QGraphicsTextItem(QString::number(row + 1));
-        rowNumber->setPos(-4, row * 50 + 50 / 2);
-        rowNumber->setDefaultTextColor(Qt::black);
-        chessBoard->scene->addItem(rowNumber);
-        chessBoard->border.push_back(rowNumber);
-    }
 
-    // Add column letters on the top side of the board (A to Z)
-    for (int col = 0; col < 8; ++col) {
-        QGraphicsTextItem *colLetter = new QGraphicsTextItem(QString(QChar('H' - col)));
-        colLetter->setPos(col * 50 + 50 / 2 - 28, -6);
-        colLetter->setDefaultTextColor(Qt::black);
-        chessBoard->scene->addItem(colLetter);
-        chessBoard->border.push_back(colLetter);
-    }
+    addBorderReversed();
+
     ui->Title->setText("Level 1: The Fool's Mate");
-    ui->inputBox->show();
+    ui->inputFoolsMate->show();
 
     connect(fool, &Foolsmate::updateStatusLabel, this, &StartMenu::updateLabel);
-    connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
+    connect(ui->inputFoolsMate, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
 
     fool->moveFirstWhitePawn();
     fool->firstMove();
     connect(fool, &Foolsmate::updateStatusLabel, this, &StartMenu::updateLabel);
     connect(this, &StartMenu::correctInputReceived, fool, &Foolsmate::moveSecondWhitePawn);
-    connect(this, &StartMenu::correctSecondInputReceived, fool, &Foolsmate::moveThirdWhitePawn);
+
 }
 
 void StartMenu::level2Start()
 {
+    quitButtonClicked();
     hideStartingScreen();
     ui->BackRankText->show();
     ui->startButton->show();
@@ -283,6 +270,7 @@ void StartMenu::level2Start()
 
 void StartMenu::level3Start()
 {
+    qDebug() << "hit 1";
     hideStartingScreen();
     ui->KingQueenText->show();
     ui->startButton->show();
@@ -301,7 +289,7 @@ void StartMenu::level3Start()
             widget->hide();
         }
     }
-    addBorder();
+    addBorderReversed();
     QueenKingMateFirst();
 }
 
@@ -322,6 +310,26 @@ void StartMenu::addBorder() {
         rowNumber->setDefaultTextColor(Qt::black);
         chessBoard->scene->addItem(rowNumber);
         chessBoard->border.push_back(rowNumber);
+    }
+}
+
+void StartMenu::addBorderReversed() {
+    // Add row numbers on the left side of the board (1 to BOARD_SIZE)
+    for (int row = 0; row < 8; ++row) {
+        QGraphicsTextItem *rowNumber = new QGraphicsTextItem(QString::number(row + 1));
+        rowNumber->setPos(-4, row * 50 + 50 / 2);
+        rowNumber->setDefaultTextColor(Qt::black);
+        chessBoard->scene->addItem(rowNumber);
+        chessBoard->border.push_back(rowNumber);
+    }
+
+    // Add column letters on the top side of the board (A to Z)
+    for (int col = 0; col < 8; ++col) {
+        QGraphicsTextItem *colLetter = new QGraphicsTextItem(QString(QChar('H' - col)));
+        colLetter->setPos(col * 50 + 50 / 2 - 28, -6);
+        colLetter->setDefaultTextColor(Qt::black);
+        chessBoard->scene->addItem(colLetter);
+        chessBoard->border.push_back(colLetter);
     }
 }
 
@@ -359,7 +367,9 @@ void StartMenu::hideChessBoard()
     ui->CorrectLabel->hide();
     ui->inputBoxLabel->hide();
     ui->inputBox->setText("");
+
     ui->inputBox->hide();
+    ui->inputFoolsMate->hide();
     ui->inputBackRank->hide();
     ui->BackRankText->hide();
 
@@ -430,7 +440,7 @@ void StartMenu::displayCorrect() {
     ui->CorrectLabel->show();
 
     chessBoard->resetBoard();
-    addBorder();
+    addBorderReversed();
     chessBoard->setupPieces(kingQueenMateMove1);
     //move the White King Forward
     chessBoard->resetBoard();
@@ -439,7 +449,7 @@ void StartMenu::displayCorrect() {
     //In 3000 ms move the Black King forward
     QTimer::singleShot(3000, this, [this]() {
         chessBoard->resetBoard();
-        addBorder();
+        addBorderReversed();
         chessBoard->setupPieces(kingQueenMateMove2);
         ui->inputBox->setText("");
         ui->CorrectLabel->hide();
@@ -531,6 +541,7 @@ void StartMenu::backRankMateThird() {
 
 void StartMenu::checkQueenKingCheckmateAnswer()
 {
+    qDebug() << "check";
     QString userInput = ui->inputBox->text();
 
     if (userInput == "C2" && queenKingMove1 == false) {
@@ -555,6 +566,7 @@ void StartMenu::checkQueenKingCheckmateAnswer()
 }
 
 void StartMenu::QueenKingMateFirst() {
+    qDebug() << "hit2";
     ui->CorrectLabel->hide();
     ui->inputBox->setText("");
     chessBoard->highlightSquare(5, 5, Qt::yellow);
@@ -576,13 +588,14 @@ void StartMenu::QueenKingB2Checkmate()
     //In 2000 ms move the White Queen to H4
     QTimer::singleShot(2000, this, [this]() {
         chessBoard->resetBoard();
-        addBorder();
+        addBorderReversed();
         chessBoard->setupPieces(kingQueenCheckmateH4);
         displayCheckmate();
         ui->vsComputerButton->isEnabled();
     });
     //move the White Queen to G7
     chessBoard->resetBoard();
+    addBorderReversed();
     chessBoard->setupPieces(kingQueenCheckmateG7);
     displayCheckmate();
     ui->vsComputerButton->isEnabled();
@@ -593,13 +606,14 @@ void StartMenu::QueenKingA4Checkmate()
     //In 2000 ms move the White Queen to H3
     QTimer::singleShot(2000, this, [this]() {
         chessBoard->resetBoard();
-        addBorder();
+        addBorderReversed();
         chessBoard->setupPieces(kingQueenCheckmateH3);
         displayCheckmate();
         ui->vsComputerButton->isEnabled();
     });
     //move the White Queen to H5
     chessBoard->resetBoard();
+    addBorderReversed();
      chessBoard->setupPieces(kingQueenCheckmateH5);
     displayCheckmate();
     ui->vsComputerButton->isEnabled();
@@ -609,6 +623,7 @@ void StartMenu::QueenKingA5Checkmate()
 {
     //move the White Queen to H4
     chessBoard->resetBoard();
+    addBorderReversed();
     chessBoard->setupPieces(kingQueenCheckmateH4);
     displayCheckmate();
     ui->vsComputerButton->isEnabled();
@@ -618,6 +633,7 @@ void StartMenu::QueenKingA6Checkmate()
 {
     //move the White Queen to H3
     chessBoard->resetBoard();
+    addBorderReversed();
     chessBoard->setupPieces(kingQueenCheckmateH3);
     displayCheckmate();
     ui->vsComputerButton->isEnabled();
@@ -653,14 +669,18 @@ void StartMenu::updateLabel(const QString& message) {
 }
 
 void StartMenu::checkInputFirstMove() {
-    QString userInput = ui->inputBox->text();
-    QString expectedValue = "E5";
+    QString userInput = ui->inputFoolsMate->text();
+    QString expectedValue1 = "E5";
+    QString expectedValue2 = "e5";
 
-    if (fool && userInput == expectedValue) {
+
+    if (fool && (userInput == expectedValue1|| userInput == expectedValue2)) {
+        qDebug() << "Input matches the desired value!";
         fool->moveFirstBlackPawn();
 
-        disconnect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
-        connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputSecondMove);
+        disconnect(ui->inputFoolsMate, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
+
+        connect(ui->inputFoolsMate, &QLineEdit::returnPressed, this, &StartMenu::checkInputSecondMove);
 
         ui->CorrectLabel->show();
         QTimer::singleShot(2000, this, [this]() {
@@ -671,17 +691,20 @@ void StartMenu::checkInputFirstMove() {
         fool->secondMove();
     } else {
         QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
-        disconnect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
-        connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
+        disconnect(ui->inputFoolsMate, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
+        connect(ui->inputFoolsMate, &QLineEdit::returnPressed, this, &StartMenu::checkInputFirstMove);
+
     }
-    ui->inputBox->clear();
+    ui->inputFoolsMate->clear();
 }
 
 void StartMenu::checkInputSecondMove() {
-    QString userInput = ui->inputBox->text();
-    QString expectedValue = "H4";
+    QString userInput = ui->inputFoolsMate->text();
+    QString expectedValue1 = "H4";
+    QString expectedValue2 = "h4";
 
-    if (fool && userInput == expectedValue) {
+    if (fool && (userInput == expectedValue1 || userInput == expectedValue2)) {
+        qDebug() << "Input matches the desired value!";
         fool->moveBlackQueen();
 
         ui->CorrectLabel->setText("Correct!");
@@ -690,38 +713,37 @@ void StartMenu::checkInputSecondMove() {
 
         QTimer::singleShot(2000, this, [this]() {
             ui->CorrectLabel->hide();
+            displayCheckmate();
         });
 
-        emit correctSecondInputReceived();
-
-        disconnect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputSecondMove);
-
-        connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkInputThirdMove);
-
-        fool->thirdMove();
     } else {
         QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
     }
-
     ui->inputBox->clear();
 }
 
 void StartMenu::checkInputThirdMove() {
-    QString userInput = ui->inputBox->text();
-    QString expectedValue = "E1";
+    QString userInput = ui->inputFoolsMate->text();
+    QString expectedValue1 = "H4";
+    QString expectedValue2 = "h4";
 
-    if (fool && userInput == expectedValue) {
-        fool->moveBlackQueen2();
-        QMessageBox* msgBox = new QMessageBox(QMessageBox::Information, "Checkmate!", "Good job! You completed Level 1", QMessageBox::Ok, this);
+    if (fool && (userInput == expectedValue1|| userInput == expectedValue2)) {
+        qDebug() << "Input matches the desired value!";
+        fool->moveBlackQueen();
 
-        connect(msgBox, &QMessageBox::finished, this, [msgBox](int result) {
-            if (result == QMessageBox::Ok) {
-            }
-            msgBox->deleteLater();
-        });        
-        msgBox->exec();
+        ui->CorrectLabel->setText("Correct!");
+        ui->CorrectLabel->setStyleSheet("color: green;");
+        ui->CorrectLabel->show();
+
+        QTimer::singleShot(2000, this, [this]() {
+            ui->CorrectLabel->hide();
+            displayCheckmate();
+        });
+
     } else {
+        qDebug() << "Input does not match. User entered:" << userInput;
         QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
     }
-    ui->inputBox->clear();
+
+    ui->inputFoolsMate->clear();
 }

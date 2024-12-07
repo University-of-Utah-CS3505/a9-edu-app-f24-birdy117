@@ -58,6 +58,12 @@ private:
     ///
     void addBorder();
 
+    ///
+    /// \brief addBorder
+    /// Adds hgf... 876.. around the chessboard.
+    ///
+    void addBorderReversed();
+
     // Setup for foolsmate and back rank mate
     static const QString foolMateSetup[8][8];
     static const QString backRankMateSetup[8][8];
@@ -266,7 +272,6 @@ public slots:
     /// correct.
     ///
     void checkInputThirdMove();
-
 
 signals:
     void correctInputReceived();
