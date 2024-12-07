@@ -364,13 +364,6 @@ public slots:
     ///
     void showTryAgainButton();
 
-    ///
-    /// \brief checkInputThirdMove
-    /// Verifies that input for Foolsmate move 3 is
-    /// correct.
-    ///
-    void checkInputThirdMove();
-
 signals:
     void correctInputReceived();
     void correctSecondInputReceived();

@@ -62,7 +62,7 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     ui->firstQuestion->setReadOnly(true);
     currentQuestion = 1;
 
-    buttons = {ui->level1Button, ui->level2Button, ui->level3Button};
+    buttons = {ui->level2Button, ui->level3Button, ui->finalQuizButton};
 
     loadButtonStates();
 
@@ -139,9 +139,9 @@ void StartMenu::paintEvent(QPaintEvent*)
 
     for (auto it = confetti.cbegin(); it != confetti.cend(); ++it)
     {
-        // painter.translate(it.value()->center());
-        // painter.rotate(qRadiansToDegrees(it.key()->GetAngle()));
-        // painter.translate(-(it.value()->center()));
+         //painter.translate(it.value()->center());
+         //painter.rotate(qRadiansToDegrees(it.key()->GetAngle()));
+         //painter.translate(-(it.value()->center()));
 
         int rand = rng.generate();
         int absoluteValue = qFabs(rand);
@@ -765,6 +765,7 @@ void StartMenu::displayRankCorrect2() {
         ui->directionsLabel->setText("You win!");
         rankMove2 = false;
         displayCheckmate();
+        ui->level3Button->setEnabled(true);
         QMessageBox* msgBox = new QMessageBox(QMessageBox::Information
             , "Checkmate!", "Good job! You completed Level 2!", QMessageBox::Ok, this);
 
@@ -867,40 +868,35 @@ void StartMenu::QueenKingMateSecond() {
 void StartMenu::QueenKingB2Checkmate()
 {
     //In 2000 ms move the White Queen to H4
-    QTimer::singleShot(2000, this, [this]() {
-        chessBoard->resetBoard();
-        addBorderReversed();
-        chessBoard->setupPieces(kingQueenCheckmateH4);
-        displayCheckmate();
-        ui->finalQuizButton->isEnabled();
-    });
+    chessBoard->resetBoard();
+    addBorderReversed();
+    chessBoard->setupPieces(kingQueenCheckmateH4);
+    displayCheckmate();
+    ui->finalQuizButton->isEnabled();
+
     //move the White Queen to G7
     chessBoard->resetBoard();
     addBorderReversed();
     chessBoard->setupPieces(kingQueenCheckmateG7);
     displayCheckmate();
-    ui->finalQuizButton->isEnabled();
+    ui->finalQuizButton->setEnabled(true);;
     ui->NextLevelButton->setEnabled(false);
 }
 
 void StartMenu::QueenKingA4Checkmate()
 {
     //In 2000 ms move the White Queen to H3
-    QTimer::singleShot(2000, this, [this]() {
-        chessBoard->resetBoard();
-        addBorderReversed();
-        chessBoard->setupPieces(kingQueenCheckmateH3);
-        displayCheckmate();
-        ui->finalQuizButton->isEnabled();
-        ui->NextLevelButton->setEnabled(false);
-    });
+    chessBoard->resetBoard();
+    addBorderReversed();
+    chessBoard->setupPieces(kingQueenCheckmateH3);
+
     //move the White Queen to H5
     chessBoard->resetBoard();
     addBorderReversed();
      chessBoard->setupPieces(kingQueenCheckmateH5);
     displayCheckmate();
-    ui->finalQuizButton->isEnabled();
-    ui->NextLevelButton->setEnabled(false);
+    ui->NextLevelButton->setEnabled(true);
+    ui->finalQuizButton->setEnabled(true);
 }
 
 void StartMenu::QueenKingA5Checkmate()
@@ -910,8 +906,8 @@ void StartMenu::QueenKingA5Checkmate()
     addBorderReversed();
     chessBoard->setupPieces(kingQueenCheckmateH4);
     displayCheckmate();
-    ui->finalQuizButton->isEnabled();
-    ui->NextLevelButton->setEnabled(false);
+    ui->NextLevelButton->setEnabled(true);
+    ui->finalQuizButton->setEnabled(true);
 }
 
 void StartMenu::QueenKingA6Checkmate()
@@ -921,8 +917,8 @@ void StartMenu::QueenKingA6Checkmate()
     addBorderReversed();
     chessBoard->setupPieces(kingQueenCheckmateH3);
     displayCheckmate();
-    ui->finalQuizButton->isEnabled();
-    ui->NextLevelButton->setEnabled(false);
+    ui->finalQuizButton->setEnabled(true);
+    ui->NextLevelButton->setEnabled(true);
 }
 
 void StartMenu::displayCheckmate() {
@@ -996,6 +992,7 @@ void StartMenu::checkInputSecondMove() {
         ui->CorrectLabel->setText("Correct!");
         ui->CorrectLabel->setStyleSheet("color: green;");
         ui->CorrectLabel->show();
+        ui->level2Button->setEnabled(true);
 
         QTimer::singleShot(2000, this, [this]() {
             ui->CorrectLabel->hide();
@@ -1006,30 +1003,4 @@ void StartMenu::checkInputSecondMove() {
         QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
     }
     ui->inputBox->clear();
-}
-
-void StartMenu::checkInputThirdMove() {
-    QString userInput = ui->inputFoolsMate->text();
-    QString expectedValue1 = "H4";
-    QString expectedValue2 = "h4";
-
-    if (fool && (userInput == expectedValue1|| userInput == expectedValue2)) {
-        qDebug() << "Input matches the desired value!";
-        fool->moveBlackQueen();
-
-        ui->CorrectLabel->setText("Correct!");
-        ui->CorrectLabel->setStyleSheet("color: green;");
-        ui->CorrectLabel->show();
-
-        QTimer::singleShot(2000, this, [this]() {
-            ui->CorrectLabel->hide();
-            displayCheckmate();
-        });
-
-    } else {
-        qDebug() << "Input does not match. User entered:" << userInput;
-        QMessageBox::warning(this, "Incorrect Answer", "Try again! That move is not correct.");
-    }
-
-    ui->inputFoolsMate->clear();
 }
