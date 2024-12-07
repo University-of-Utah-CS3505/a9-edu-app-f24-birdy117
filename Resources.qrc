@@ -14,5 +14,8 @@
         <file>QueenW.png</file>
         <file>RookB.png</file>
         <file>RookW.png</file>
+        <file>brmate.png</file>
+        <file>chessPic.png</file>
+        <file>johnsoncelebrate.png</file>
     </qresource>
 </RCC>

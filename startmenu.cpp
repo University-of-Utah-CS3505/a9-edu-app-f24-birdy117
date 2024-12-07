@@ -456,7 +456,7 @@ void StartMenu::secondQuestion() {
     ui->q1option3->setStyleSheet("");
     ui->q1option4->setStyleSheet("");
 
-    QString imagePath = "/Users/ethankerrigan/Desktop/chessPic.png";
+    QString imagePath = ":/Images/chessPic.png";
 
     QString html = QString("<img src='%1' width='130' height='130'/><br/> Question 2: In the figure above, which square should the queen move to in order to secure a checkmate in one move?").arg(imagePath);
     ui->q1option1->move(420, 150);
@@ -478,7 +478,7 @@ void StartMenu::thirdQuestion(){
     ui->q1option3->setStyleSheet("");
     ui->q1option4->setStyleSheet("");
 
-    QString imagePath = "/Users/ethankerrigan/Desktop/backRankCheck.png";
+    QString imagePath = ":/Images/brmate.png";
 
     QString html = QString("<img src='%1' width='130' height='130'/><br/> Question 3: You are playing as black and it's your move. What is your next possible best move to avoid a backrank checkmate?").arg(imagePath);
     ui->q1option1->setText("king to H8");
@@ -491,7 +491,7 @@ void StartMenu::thirdQuestion(){
 
 void StartMenu::celebrate(){
     hideOptions();
-    QString imagePath = "/Users/ethankerrigan/Desktop/johnsoncelebrate.png";
+    QString imagePath = ":/Images/johnsoncelebrate.png";
     QString html = QString("<img src='%1' width='311' height='192'/>").arg(imagePath);
     ui->firstQuestion->setHtml(html);
 }
