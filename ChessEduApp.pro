@@ -55,6 +55,7 @@ SOURCES += \
     Box2D/Dynamics/b2World.cpp \
     Box2D/Dynamics/b2WorldCallbacks.cpp \
     Box2D/Rope/b2Rope.cpp \
+    ConfettiCode/mainwindow.cpp \
     Lab14/Box2D/Collision/Shapes/b2ChainShape.cpp \
     Lab14/Box2D/Collision/Shapes/b2CircleShape.cpp \
     Lab14/Box2D/Collision/Shapes/b2EdgeShape.cpp \
@@ -157,6 +158,7 @@ HEADERS += \
     Box2D/Dynamics/b2World.h \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
+    ConfettiCode/mainwindow.h \
     Lab14/Box2D/Box2D.h \
     Lab14/Box2D/Collision/Shapes/b2ChainShape.h \
     Lab14/Box2D/Collision/Shapes/b2CircleShape.h \
@@ -211,6 +213,7 @@ HEADERS += \
     startmenu.h
 
 FORMS += \
+    ConfettiCode/mainwindow.ui \
     Lab14/mainwindow.ui \
     startmenu.ui
 
@@ -232,4 +235,5 @@ DISTFILES += \
     stockfish.exe
 
 SUBDIRS += \
+    ConfettiCode/Lab14.pro \
     Lab14/Lab14.pro
