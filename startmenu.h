@@ -6,7 +6,13 @@
 #include <QMainWindow>
 #include <QSettings>
 #include <QPushButton>
+#include <Box2D/Box2D.h>
+#include <QMainWindow>
+#include <QPainter>
+#include <QRandomGenerator>
+#include <QTimer>
 
+using std::pair;
 
 namespace Ui {
 class StartMenu;
@@ -26,6 +32,10 @@ class StartMenu : public QMainWindow
 public:
     explicit StartMenu(ChessBoard *chessBoard, QWidget *parent = nullptr);
     ~StartMenu();
+
+    void paintEvent(QPaintEvent* event);
+
+    b2Body* makeBody();
 
 private:
     // Displays the interface
@@ -170,7 +180,20 @@ private:
     ///
     void backRankMateThird();
 
+    //Box2D Stuff
+    b2World* world;
+    bool bounceGoing;
+    QTimer *timer;
+    b2Vec2 const launchForce;
+    QMap<b2Body*, QRectF*> confetti;
+    QList<QColor> colors;
+
 private slots:
+    //Box2D Methods
+    void updateWorld();
+
+    void goPushed();
+
     ///
     /// \brief level1Start
     /// Begin playing level 1.

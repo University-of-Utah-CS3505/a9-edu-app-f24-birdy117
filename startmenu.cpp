@@ -9,6 +9,11 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     , ui(new Ui::StartMenu)
     , chessBoard(chessBoard)
     , settings("Placeholder", "AppName")
+    , world(new b2World(b2Vec2(0.0f, -10.0f)))
+    , bounceGoing(false)
+    , timer(new QTimer(this))
+    , launchForce(250, 500)
+    , colors({Qt::red, Qt::yellow, Qt::blue})
 {
     fool = new Foolsmate(chessBoard);
     ui->setupUi(this);
@@ -37,6 +42,16 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
         }
     });
 
+    //Box2D Make Body
+    for (int i = 0; i < 15; ++i)
+    {
+        b2Body* body = makeBody();
+        confetti[body] = new QRectF(300, 700, 10, 10);
+    }
+    //Box2D Connection
+    connect(ui->level1Button, &QPushButton::clicked, this, &StartMenu::goPushed);
+
+
     ui->firstQuestion->hide();
     ui->q1option1->hide();
     ui->q1option2->hide();
@@ -63,6 +78,122 @@ StartMenu::~StartMenu()
     delete ui;
     delete chessBoard;
     delete fool;
+    delete world;
+    delete timer;
+}
+
+void StartMenu::updateWorld()
+{
+    // Instruct the world to perform a single step of simulation.
+    // It is generally best to keep the time step and iterations fixed.
+    float32 timeStep = 1.0f / 25.0f;
+    int32 velocityIterations = 6;
+    int32 positionIterations = 2;
+
+    world->Step(timeStep, velocityIterations, positionIterations);
+
+    b2Vec2 newPosition;
+
+    // Move all the confetti, then update.
+    for (auto it = confetti.cbegin(); it != confetti.cend(); ++it)
+    {
+        newPosition = it.key()->GetPosition();
+        // it.value()->moveTo(300 + newPosition.x, 25 * (newPosition.y));
+        it.value()->moveTo(100 + newPosition.x * 100, 690 - (newPosition.y * 50));
+    }
+
+    update();
+}
+
+void StartMenu::goPushed()
+{
+    if (bounceGoing)
+    {
+        bounceGoing = false;
+        timer->stop();
+
+        for (auto it = confetti.cbegin(); it != confetti.cend(); ++it)
+        {
+            world->DestroyBody(it.key());
+        }
+
+        for (int i = 0; i < 5; ++i)
+        {
+            b2Body* body = makeBody();
+            confetti[body] = new QRectF(300, 10, 10, 10);
+        }
+
+    }
+    else
+    {
+        bounceGoing = true;
+        timer->start(100);
+
+    }
+}
+
+void StartMenu::paintEvent(QPaintEvent*)
+{
+    QPainter painter(this);
+    QRandomGenerator rng = QRandomGenerator(4);
+
+    for (auto it = confetti.cbegin(); it != confetti.cend(); ++it)
+    {
+        // painter.translate(it.value()->center());
+        // painter.rotate(qRadiansToDegrees(it.key()->GetAngle()));
+        // painter.translate(-(it.value()->center()));
+
+        int rand = rng.generate();
+        int absoluteValue = qFabs(rand);
+        painter.fillRect(*it.value(), colors[absoluteValue % colors.size()]);
+    }
+}
+
+b2Body* StartMenu::makeBody()
+{
+    // Define the dynamic body. We set its position and call the body factory.
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(0.0f, 4.0f);
+    bodyDef.angle = 0;
+    b2Body* body = world->CreateBody(&bodyDef);
+
+    // Define another box shape for our dynamic body.
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(1.0f, 1.0f);
+
+    // Define the dynamic body fixture.
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+
+    // Set the box density to be non-zero, so it will be dynamic.
+    fixtureDef.density = 1.0f;
+
+    // Override the default friction.
+    fixtureDef.friction = 0.3f;
+
+    // Change restitution
+    fixtureDef.restitution = 0.1;
+
+    // Add the shape to the body.
+    body->CreateFixture(&fixtureDef);
+
+    // Apply the launch force to the body.
+    // Note: applying force here instead of in updateWorld means that the force will only be
+    // applied once, at the body's creation and the beginning of the world. If we apply this
+    // force in updateWorld, it applies force every time the world Steps, so it just keeps
+    // pushing the body. That is not what we want. We want it to launch one time, right at the
+    // beginning. So YES, keep it here, or I will send you to the ghouls.
+
+    QRandomGenerator rng = QRandomGenerator(4);
+
+    // body->ApplyForce(launchForce, body->GetWorldPoint(b2Vec2(1, 1)), true);
+    // body->ApplyForce(launchForce, b2Vec2(1, 1), true);
+    // body->SetLinearVelocity(b2Vec2(-1, 15));
+    // body->ApplyAngularImpulse(rng.generate() % 100, true);
+    body->ApplyForce(b2Vec2(350 + rng.generate() % 50, 750 + rng.generate() % 50), body->GetWorldPoint(b2Vec2(1, 1)), true);
+
+    return body;
 }
 
 const QString StartMenu::foolMateSetup[8][8] = {
