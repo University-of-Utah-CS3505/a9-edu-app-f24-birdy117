@@ -7,6 +7,7 @@
 #include <QSettings>
 #include <QPushButton>
 
+
 namespace Ui {
 class StartMenu;
 }
