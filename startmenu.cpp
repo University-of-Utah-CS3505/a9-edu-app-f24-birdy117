@@ -308,7 +308,7 @@ void StartMenu::level3Start()
 
     chessBoard->setupPieces(kingQueenMateSetup);
     ui->Title->setText("Level 3: The King and Queen Mate");
-    ui->directionsLabel->setText("Move the White King to corner the Black King.");
+    ui->directionsLabel->setText("Move the Black King to corner the White King.");
     ui->TeamCreditsLabel->hide();
     for (int i = 0; i < ui->NamesLayout->count(); ++i) {
         QWidget *widget = ui->NamesLayout->itemAt(i)->widget();
@@ -695,20 +695,20 @@ void StartMenu::checkQueenKingCheckmateAnswer()
     qDebug() << "check";
     QString userInput = ui->inputBox->text();
 
-    if (userInput == "C2" && queenKingMove1 == false) {
+    if ((userInput == "C2" || userInput == "c2") && queenKingMove1 == false) {
         displayCorrect();
         queenKingMove1 = true;
     }
-    else if (userInput == "B2" && queenKingMove1 == true) {
+    else if ((userInput == "B2" || userInput == "b2") && queenKingMove1 == true) {
         QueenKingB2Checkmate();
     }
-    else if (userInput == "A4" && queenKingMove1 == true) {
+    else if ((userInput == "A4" || userInput == "a4") && queenKingMove1 == true) {
         QueenKingA4Checkmate();
     }
-    else if (userInput == "A5" && queenKingMove1 == true) {
+    else if ((userInput == "A5" || userInput == "a5") && queenKingMove1 == true) {
         QueenKingA5Checkmate();
     }
-    else if (userInput == "A6" && queenKingMove1 == true) {
+    else if ((userInput == "A6" || userInput == "a6") && queenKingMove1 == true) {
         QueenKingA6Checkmate();
     }
     else {
@@ -749,6 +749,7 @@ void StartMenu::QueenKingB2Checkmate()
     chessBoard->setupPieces(kingQueenCheckmateG7);
     displayCheckmate();
     ui->finalQuizButton->isEnabled();
+    ui->NextLevelButton->setEnabled(false);
 }
 
 void StartMenu::QueenKingA4Checkmate()
@@ -760,6 +761,7 @@ void StartMenu::QueenKingA4Checkmate()
         chessBoard->setupPieces(kingQueenCheckmateH3);
         displayCheckmate();
         ui->finalQuizButton->isEnabled();
+        ui->NextLevelButton->setEnabled(false);
     });
     //move the White Queen to H5
     chessBoard->resetBoard();
@@ -767,6 +769,7 @@ void StartMenu::QueenKingA4Checkmate()
      chessBoard->setupPieces(kingQueenCheckmateH5);
     displayCheckmate();
     ui->finalQuizButton->isEnabled();
+    ui->NextLevelButton->setEnabled(false);
 }
 
 void StartMenu::QueenKingA5Checkmate()
@@ -777,6 +780,7 @@ void StartMenu::QueenKingA5Checkmate()
     chessBoard->setupPieces(kingQueenCheckmateH4);
     displayCheckmate();
     ui->finalQuizButton->isEnabled();
+    ui->NextLevelButton->setEnabled(false);
 }
 
 void StartMenu::QueenKingA6Checkmate()
@@ -787,6 +791,7 @@ void StartMenu::QueenKingA6Checkmate()
     chessBoard->setupPieces(kingQueenCheckmateH3);
     displayCheckmate();
     ui->finalQuizButton->isEnabled();
+    ui->NextLevelButton->setEnabled(false);
 }
 
 void StartMenu::displayCheckmate() {
