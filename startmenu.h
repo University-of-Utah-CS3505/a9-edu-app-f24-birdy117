@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include "chessboard.h"
 #include "foolsmate.h"
+// #include "ui_startmenu.h"
 
 namespace Ui {
 class StartMenu;
@@ -34,6 +35,10 @@ private:
 
     void hideStartingScreen();
     void addBorder();
+
+    int currentQuestion;
+
+    int level;
 
     static const QString foolMateSetup[8][8];
     static const QString backRankMateSetup[8][8];
@@ -77,7 +82,12 @@ private slots:
     void level1Start();
     void level2Start();
     void level3Start();
-    void vsComputerStart();
+    void finalQuizButton();
+    void firstQuestion();
+    void secondQuestion();
+    void thirdQuestion();
+    void hideOptions();
+    void celebrate();
     void quitButtonClicked();
     void hideChessBoard();
     void showChessBoard();
@@ -93,6 +103,12 @@ public slots:
     void updateLabel(const QString& message);
     void checkInputFirstMove();
     void checkInputSecondMove();
+    void q1option1Clicked();
+    void q1option2Clicked();
+    void q1option3Clicked();
+    void q1option4Clicked();
+    void tryAgainClicked();
+    void showTryAgainButton();
 
 
 signals:

@@ -2,6 +2,7 @@
 #include "foolsmate.h"
 #include "ui_startmenu.h"
 #include <QMessageBox>
+#include <QTimer>
 
 StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     : QMainWindow(parent)
@@ -10,22 +11,40 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     , settings("Placeholder", "AppName")
 {
     fool = new Foolsmate(chessBoard);
-
     ui->setupUi(this);
+    level = 1;
     connect(ui->level1Button, &QPushButton::clicked, this, &StartMenu::level1Start);
     connect(ui->level2Button, &QPushButton::clicked, this, &StartMenu::level2Start);
     connect(ui->level3Button, &QPushButton::clicked, this, &StartMenu::level3Start);
-    connect(ui->vsComputerButton, &QPushButton::clicked, this, &StartMenu::vsComputerStart);
+    connect(ui->finalQuizButton, &QPushButton::clicked, this, &StartMenu::finalQuizButton);
     connect(ui->QuitButton, &QPushButton::clicked, this, &StartMenu::quitButtonClicked);
     connect(ui->startButton, &QPushButton::clicked, this, &StartMenu::startClicked);
 
-    connect(ui->NextLevelButton, &QPushButton::clicked, this, &StartMenu::level2Start);
-    // Level 2 slots
-    // disconnect(ui->inputBackRank, &QLineEdit::returnPressed, this, &StartMenu::checkBackRankAnswer);
-    //connect(ui->inputBackRank, &QLineEdit::returnPressed, this, &StartMenu::checkBackRankAnswer);
+    connect(ui->q1option1, &QPushButton::clicked, this, &StartMenu::q1option1Clicked);
+    connect(ui->q1option2, &QPushButton::clicked, this, &StartMenu::q1option2Clicked);
+    connect(ui->q1option3, &QPushButton::clicked, this, &StartMenu::q1option3Clicked);
+    connect(ui->q1option4, &QPushButton::clicked, this, &StartMenu::q1option4Clicked);
 
-    //Level 3 slots
-    //connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkQueenKingCheckmateAnswer);
+    connect(ui->tryAgain, &QPushButton::clicked, this, &StartMenu::tryAgainClicked);
+
+    connect(ui->NextLevelButton, &QPushButton::clicked, this, [this]() {
+        if (level == 1) {
+            level2Start();
+            level = 2;
+        } else if (level == 2) {
+            level = 3;
+            level3Start();
+        }
+    });
+
+    ui->firstQuestion->hide();
+    ui->q1option1->hide();
+    ui->q1option2->hide();
+    ui->q1option3->hide();
+    ui->q1option4->hide();
+    ui->tryAgain->hide();
+    ui->firstQuestion->setReadOnly(true);
+    currentQuestion = 1;
 
     buttons = {ui->level1Button, ui->level2Button, ui->level3Button};
 
@@ -289,13 +308,15 @@ void StartMenu::level2Start()
         if (widget) {
             widget->hide();
         }
-    }
+    }    
     addBorder();
     backRankMateFirst();
 }
 
 void StartMenu::level3Start()
 {
+    ui->NextLevelButton->hide();
+    quitButtonClicked();
     hideStartingScreen();
     ui->KingQueenText->show();
     ui->startButton->show();
@@ -344,12 +365,138 @@ void StartMenu::startClicked()
     showChessBoard();
 }
 
-void StartMenu::vsComputerStart()
-{
-    hideStartingScreen();
-    showChessBoard();
-    ui->Title->setText("VS Computer");
+void StartMenu::finalQuizButton() {
+    firstQuestion();
 }
+
+void StartMenu::firstQuestion(){
+    ui->firstQuestion->show();
+    ui->q1option1->show();
+    ui->q1option2->show();
+    ui->q1option3->show();
+    ui->q1option4->show();
+    ui->tryAgain->hide();
+
+    hideStartingScreen();
+    ui->Title->setText("Welcome to the Final Quiz");
+}
+
+void StartMenu::q1option1Clicked(){
+    if(currentQuestion == 1){
+        ui->q1option1->setStyleSheet("border: 3px solid green; background-color: lightgray; color: black;");
+        QTimer::singleShot(3000, this, &StartMenu::secondQuestion);
+        currentQuestion++;
+    }
+    else{
+        ui->q1option1->setStyleSheet("border: 3px solid red; background-color: lightgray; color: black;");
+        QTimer::singleShot(3000, this, &StartMenu::showTryAgainButton);
+    }
+}
+
+void StartMenu::q1option2Clicked(){
+    ui->q1option2->setStyleSheet("border: 3px solid red; background-color: lightgray; color: black;");
+    QTimer::singleShot(3000, this, &StartMenu::showTryAgainButton);
+}
+
+void StartMenu::q1option3Clicked(){
+    if(currentQuestion == 2){
+        ui->q1option3->setStyleSheet("border: 3px solid green; background-color: lightgray; color: black;");
+        QTimer::singleShot(3000, this, &StartMenu::thirdQuestion);
+        currentQuestion++;
+    }
+    else if(currentQuestion == 3){
+        ui->q1option3->setStyleSheet("border: 3px solid green; background-color: lightgray; color: black;");
+        QTimer::singleShot(3000, this, &StartMenu::celebrate);
+    }
+    else{
+        ui->q1option3->setStyleSheet("border: 3px solid red; background-color: lightgray; color: black;");
+        QTimer::singleShot(3000, this, &StartMenu::showTryAgainButton);
+    }
+}
+
+void StartMenu::q1option4Clicked(){
+    ui->q1option4->setStyleSheet("border: 3px solid red; background-color: lightgray; color: black;");
+    QTimer::singleShot(3000, this, &StartMenu::showTryAgainButton);
+}
+
+void StartMenu::showTryAgainButton() {
+    if(currentQuestion == 1){
+        ui->tryAgain->show();
+        hideOptions();
+    }
+    else if(currentQuestion == 2){
+        ui->tryAgain->move(420, 180);
+        ui->tryAgain->show();
+        hideOptions();
+    }
+    else if(currentQuestion == 3){
+        ui->tryAgain->show();
+        hideOptions();
+    }
+}
+
+void StartMenu::tryAgainClicked(){
+    firstQuestion();
+}
+
+void StartMenu::hideOptions(){
+    ui->q1option1->hide();
+    ui->q1option1->setStyleSheet("");
+    ui->q1option2->hide();
+    ui->q1option2->setStyleSheet("");
+    ui->q1option3->hide();
+    ui->q1option3->setStyleSheet("");
+    ui->q1option4->hide();
+    ui->q1option4->setStyleSheet("");
+}
+
+void StartMenu::secondQuestion() {
+    ui->q1option1->setStyleSheet("");
+    ui->q1option2->setStyleSheet("");
+    ui->q1option3->setStyleSheet("");
+    ui->q1option4->setStyleSheet("");
+
+    QString imagePath = "/Users/ethankerrigan/Desktop/chessPic.png";
+
+    QString html = QString("<img src='%1' width='130' height='130'/><br/> Question 2: In the figure above, which square should the queen move to in order to secure a checkmate in one move?").arg(imagePath);
+    ui->q1option1->move(420, 150);
+    ui->q1option2->move(420, 180);
+    ui->q1option3->move(420, 210);
+    ui->q1option4->move(420, 240);
+
+    ui->q1option1->setText("up 3 squares");
+    ui->q1option2->setText("left 1 square");
+    ui->q1option3->setText("up 2 squares");
+    ui->q1option4->setText("up 1 square");
+
+    ui->firstQuestion->setHtml(html);
+}
+
+void StartMenu::thirdQuestion(){
+    ui->q1option1->setStyleSheet("");
+    ui->q1option2->setStyleSheet("");
+    ui->q1option3->setStyleSheet("");
+    ui->q1option4->setStyleSheet("");
+
+    QString imagePath = "/Users/ethankerrigan/Desktop/backRankCheck.png";
+
+    QString html = QString("<img src='%1' width='130' height='130'/><br/> Question 3: You are playing as black and it's your move. What is your next possible best move to avoid a backrank checkmate?").arg(imagePath);
+    ui->q1option1->setText("king to H8");
+    ui->q1option2->setText("take the knight");
+    ui->q1option3->setText("pawn to H6");
+    ui->q1option4->setText("rook to A8");
+
+    ui->firstQuestion->setHtml(html);
+}
+
+void StartMenu::celebrate(){
+    hideOptions();
+    QString imagePath = "/Users/ethankerrigan/Desktop/johnsoncelebrate.png";
+    QString html = QString("<img src='%1' width='311' height='192'/>").arg(imagePath);
+    ui->firstQuestion->setHtml(html);
+}
+
+
 
 void StartMenu::quitButtonClicked()
 {
@@ -385,7 +532,7 @@ void StartMenu::hideChessBoard()
     ui->level3Button->show();
 
     ui->GameModeLabel->show();
-    ui->vsComputerButton->show();
+    ui->finalQuizButton->show();
 
     ui->CheckmateLabel->hide();
 
@@ -412,7 +559,7 @@ void StartMenu::hideStartingScreen()
 
     ui->GameModeLabel->hide();
     ui->GameModeLabel->setDisabled(false);
-    ui->vsComputerButton->hide();
+    ui->finalQuizButton->hide();
 
     ui->TeamCreditsLabel->hide();
     for (int i = 0; i < ui->NamesLayout->count(); ++i) {
@@ -603,13 +750,13 @@ void StartMenu::QueenKingB2Checkmate()
         addBorder();
         chessBoard->setupPieces(kingQueenCheckmateH4);
         displayCheckmate();
-        ui->vsComputerButton->isEnabled();
+        ui->finalQuizButton->isEnabled();
     });
     //move the White Queen to G7
     chessBoard->resetBoard();
     chessBoard->setupPieces(kingQueenCheckmateG7);
     displayCheckmate();
-    ui->vsComputerButton->isEnabled();
+    ui->finalQuizButton->isEnabled();
 }
 
 void StartMenu::QueenKingA4Checkmate()
@@ -620,13 +767,13 @@ void StartMenu::QueenKingA4Checkmate()
         addBorder();
         chessBoard->setupPieces(kingQueenCheckmateH3);
         displayCheckmate();
-        ui->vsComputerButton->isEnabled();
+        ui->finalQuizButton->isEnabled();
     });
     //move the White Queen to H5
     chessBoard->resetBoard();
      chessBoard->setupPieces(kingQueenCheckmateH5);
     displayCheckmate();
-    ui->vsComputerButton->isEnabled();
+    ui->finalQuizButton->isEnabled();
 }
 
 void StartMenu::QueenKingA5Checkmate()
@@ -635,7 +782,7 @@ void StartMenu::QueenKingA5Checkmate()
     chessBoard->resetBoard();
     chessBoard->setupPieces(kingQueenCheckmateH4);
     displayCheckmate();
-    ui->vsComputerButton->isEnabled();
+    ui->finalQuizButton->isEnabled();
 }
 
 void StartMenu::QueenKingA6Checkmate()
@@ -644,7 +791,7 @@ void StartMenu::QueenKingA6Checkmate()
     chessBoard->resetBoard();
     chessBoard->setupPieces(kingQueenCheckmateH3);
     displayCheckmate();
-    ui->vsComputerButton->isEnabled();
+    ui->finalQuizButton->isEnabled();
 }
 
 void StartMenu::displayCheckmate() {
