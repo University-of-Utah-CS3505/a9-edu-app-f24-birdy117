@@ -312,7 +312,7 @@ const QString StartMenu::kingQueenMateMove2[8][8] = {
     {"", "", "", "", "", "", "", ""}
 };
 
-const QString StartMenu::kingQueenCheckmateG7[8][8] = {
+const QString StartMenu::kingQueenCheckmateB2[8][8] = {
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", ":/Images/KingB.png", ":/Images/QueenB.png", ":/Images/KingW.png"},
     {"", "", "", "", "", "", "", ""},
@@ -323,7 +323,7 @@ const QString StartMenu::kingQueenCheckmateG7[8][8] = {
     {"", "", "", "", "", "", "", ""}
 };
 
-const QString StartMenu::kingQueenCheckmateH3[8][8] = {
+const QString StartMenu::kingQueenCheckmateA6[8][8] = {
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", ":/Images/KingB.png", "", ":/Images/KingW.png"},
     {"", "", "", "", "", "", "", ""},
@@ -334,7 +334,7 @@ const QString StartMenu::kingQueenCheckmateH3[8][8] = {
     {"", "", "", "", "", "", "", ""}
 };
 
-const QString StartMenu::kingQueenCheckmateH4[8][8] = {
+const QString StartMenu::kingQueenCheckmateA5[8][8] = {
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", ":/Images/KingB.png", "", ":/Images/KingW.png"},
     {"", "", "", "", "", "", "", ""},
@@ -345,7 +345,7 @@ const QString StartMenu::kingQueenCheckmateH4[8][8] = {
     {"", "", "", "", "", "", "", ""}
 };
 
-const QString StartMenu::kingQueenCheckmateH5[8][8] = {
+const QString StartMenu::kingQueenCheckmateA4[8][8] = {
     {"", "", "", "", "", "", "", ""},
     {"", "", "", "", "", ":/Images/KingB.png", "", ":/Images/KingW.png"},
     {"", "", "", "", "", "", "", ""},
@@ -436,6 +436,7 @@ void StartMenu::level3Start()
     ui->startButton->raise();
 
     connect(ui->inputBox, &QLineEdit::returnPressed, this, &StartMenu::checkQueenKingCheckmateAnswer);
+    disconnect(ui->NextLevelButton, nullptr, nullptr, nullptr);
 
     chessBoard->setupPieces(kingQueenMateSetup);
     ui->Title->setText("Level 3: The King and Queen Mate");
@@ -867,35 +868,25 @@ void StartMenu::QueenKingMateSecond() {
 
 void StartMenu::QueenKingB2Checkmate()
 {
-    //In 2000 ms move the White Queen to H4
-    chessBoard->resetBoard();
-    addBorderReversed();
-    chessBoard->setupPieces(kingQueenCheckmateH4);
-    displayCheckmate();
-    ui->finalQuizButton->isEnabled();
-
     //move the White Queen to G7
     chessBoard->resetBoard();
     addBorderReversed();
-    chessBoard->setupPieces(kingQueenCheckmateG7);
+    chessBoard->setupPieces(kingQueenCheckmateB2);
     displayCheckmate();
-    ui->finalQuizButton->setEnabled(true);;
+    connect(ui->NextLevelButton, &QPushButton::pressed, this, &StartMenu::finalQuizButton);
+    ui->finalQuizButton->setEnabled(true);
     ui->NextLevelButton->setEnabled(false);
 }
 
 void StartMenu::QueenKingA4Checkmate()
 {
-    //In 2000 ms move the White Queen to H3
-    chessBoard->resetBoard();
-    addBorderReversed();
-    chessBoard->setupPieces(kingQueenCheckmateH3);
-
     //move the White Queen to H5
     chessBoard->resetBoard();
     addBorderReversed();
-     chessBoard->setupPieces(kingQueenCheckmateH5);
+    chessBoard->setupPieces(kingQueenCheckmateA4);
     displayCheckmate();
-    ui->NextLevelButton->setEnabled(true);
+    connect(ui->NextLevelButton, &QPushButton::pressed, this, &StartMenu::finalQuizButton);
+    ui->NextLevelButton->setEnabled(false);
     ui->finalQuizButton->setEnabled(true);
 }
 
@@ -904,9 +895,11 @@ void StartMenu::QueenKingA5Checkmate()
     //move the White Queen to H4
     chessBoard->resetBoard();
     addBorderReversed();
-    chessBoard->setupPieces(kingQueenCheckmateH4);
+    chessBoard->setupPieces(kingQueenCheckmateA5);
     displayCheckmate();
-    ui->NextLevelButton->setEnabled(true);
+    connect(ui->NextLevelButton, &QPushButton::pressed, this, &StartMenu::finalQuizButton);
+
+    ui->NextLevelButton->setEnabled(false);
     ui->finalQuizButton->setEnabled(true);
 }
 
@@ -915,10 +908,11 @@ void StartMenu::QueenKingA6Checkmate()
     //move the White Queen to H3
     chessBoard->resetBoard();
     addBorderReversed();
-    chessBoard->setupPieces(kingQueenCheckmateH3);
+    chessBoard->setupPieces(kingQueenCheckmateA6);
     displayCheckmate();
     ui->finalQuizButton->setEnabled(true);
-    ui->NextLevelButton->setEnabled(true);
+    connect(ui->NextLevelButton, &QPushButton::pressed, this, &StartMenu::finalQuizButton);
+    ui->NextLevelButton->setEnabled(false);
 }
 
 void StartMenu::displayCheckmate() {

@@ -96,10 +96,10 @@ private:
     static const QString kingQueenMateMove2[8][8];
 
     // 4 Possible Checkmates
-    static const QString kingQueenCheckmateG7[8][8];
-    static const QString kingQueenCheckmateH3[8][8];
-    static const QString kingQueenCheckmateH4[8][8];
-    static const QString kingQueenCheckmateH5[8][8];
+    static const QString kingQueenCheckmateB2[8][8];
+    static const QString kingQueenCheckmateA6[8][8];
+    static const QString kingQueenCheckmateA5[8][8];
+    static const QString kingQueenCheckmateA4[8][8];
 
     ///
     /// \brief hideNonStartingWidgets
