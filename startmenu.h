@@ -45,6 +45,10 @@ private:
     QSettings settings;
     // Stores the buttons in the UI
     QList<QPushButton *> buttons;
+    // Holds the current question
+    int currentQuestion;
+    // Holds the current level
+    int level;
 
     ///
     /// \brief hideStartingScreen
@@ -184,13 +188,47 @@ private slots:
     ///
     void level3Start();
 
-    void vsComputerStart();
-
     ///
     /// \brief quitButtonClicked
     /// Returns to start menu.
     ///
     void quitButtonClicked();
+
+    ///
+    /// \brief finalQuizButton
+    /// Handles clicks for the final quiz.
+    ///
+    void finalQuizButton();
+
+    ///
+    /// \brief firstQuestion
+    /// Handles the first quiz question.
+    ///
+    void firstQuestion();
+
+    ///
+    /// \brief secondQuestion
+    /// Handles the second quiz question.
+    ///
+    void secondQuestion();
+
+    ///
+    /// \brief thirdQuestion
+    /// Handles the third quiz question.
+    ///
+    void thirdQuestion();
+
+    ///
+    /// \brief hideOptions
+    /// Hides UI elements related to the final quiz.
+    ///
+    void hideOptions();
+
+    ///
+    /// \brief celebrate
+    /// Celebration visuals when a level is completed.
+    ///
+    void celebrate();
 
     ///
     /// \brief hideChessBoard
@@ -265,6 +303,42 @@ public slots:
     /// correct.
     ///
     void checkInputSecondMove();
+
+    ///
+    /// \brief q1option1Clicked
+    /// Handles clicks on option 1 of the quiz.
+    ///
+    void q1option1Clicked();
+
+    ///
+    /// \brief q1option2Clicked
+    /// Handles clicks on option 2 of the quiz.
+    ///
+    void q1option2Clicked();
+
+    ///
+    /// \brief q1option3Clicked
+    /// Handles clicks on option 3 of the quiz.
+    ///
+    void q1option3Clicked();
+
+    ///
+    /// \brief q1option4Clicked
+    /// Handles clicks on option 4 of the quiz.
+    ///
+    void q1option4Clicked();
+
+    ///
+    /// \brief tryAgainClicked
+    /// Handles clicks related to the "try again" button.
+    ///
+    void tryAgainClicked();
+
+    ///
+    /// \brief showTryAgainButton
+    /// Displays "try again" button.
+    ///
+    void showTryAgainButton();
 
     ///
     /// \brief checkInputThirdMove
