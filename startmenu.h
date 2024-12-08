@@ -7,7 +7,6 @@
 #include <QSettings>
 #include <QPushButton>
 #include <Box2D/Box2D.h>
-#include <QMainWindow>
 #include <QPainter>
 #include <QRandomGenerator>
 #include <QTimer>
@@ -33,8 +32,17 @@ public:
     explicit StartMenu(ChessBoard *chessBoard, QWidget *parent = nullptr);
     ~StartMenu();
 
+    /**
+     * @brief paintEvent - Paints the confetti onto the screen.
+     * @param event - This parameter is not used.
+     */
     void paintEvent(QPaintEvent* event);
 
+    /**
+     * @brief makeBody - Creates a new b2Body with the desired settings, and returns a pointer to
+     * it.
+     * @return - A pointer to the newly created b2Body.
+     */
     b2Body* makeBody();
 
 private:
@@ -180,19 +188,60 @@ private:
     ///
     void backRankMateThird();
 
-    //Box2D Stuff
+    /**
+     * @brief world - A pointer to the Box2D world. This world is used for launching confetti.
+     */
     b2World* world;
-    bool bounceGoing;
-    QTimer *timer;
-    b2Vec2 const launchForce;
+
+    /**
+     * @brief timer - A pointer to a QTimer. This timer is used for launching confetti.
+     */
+    QTimer* timer;
+
+    /**
+     * @brief confetti - A map storing the confetti that will be launched. This confetti is
+     * represented as a b2Body and a QRectF. The b2Body is used in physics calculations for the
+     * launching confetti, while its corresponding QRectF is what will actually be displayed on the
+     * screen, at positions determined by the b2body's calculations.
+     */
     QMap<b2Body*, QRectF*> confetti;
+
+    /**
+     * @brief confettiColors - A map storing the b2Body of each confetti piece, which maps to a
+     * QColor. When the QRectF corresponding with this b2Body is drawn, it will be drawn in the
+     * color that maps to that b2Body. This map allows the confetti to have randomized colors each
+     * time it is launched.
+     */
+    QMap<b2Body*, QColor> confettiColors;
+
+    /**
+     * @brief colors - A small list of QColors, representing the potential color options for each
+     * piece of confetti.
+     */
     QList<QColor> colors;
 
-private slots:
-    //Box2D Methods
-    void updateWorld();
+    /**
+     * @brief rng - A random number generator used to add a small amount of randomness to the
+     * confetti launch.
+     */
+    QRandomGenerator rng;
 
-    void goPushed();
+
+private slots:
+
+    /**
+     * @brief launchConfetti - Resets all previously created confetti, then begins the confetti
+     * launch sequence.
+     */
+    void launchConfetti();
+
+    /**
+     * @brief launchSequence - Handles Box2D physics calculations for the confetti and repainting
+     * of the confetti after each Box2D world progression.
+     */
+    void launchSequence();
+
+
 
     ///
     /// \brief level1Start
@@ -367,6 +416,11 @@ public slots:
 signals:
     void correctInputReceived();
     void correctSecondInputReceived();
+
+    /**
+     * @brief confettiTime - Activates the confetti launch.
+     */
+    void confettiTime();
 };
 
 #endif // STARTMENU_H

@@ -10,10 +10,9 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
     , chessBoard(chessBoard)
     , settings("Placeholder", "AppName")
     , world(new b2World(b2Vec2(0.0f, -10.0f)))
-    , bounceGoing(false)
     , timer(new QTimer(this))
-    , launchForce(250, 500)
     , colors({Qt::red, Qt::yellow, Qt::blue})
+    , rng(QRandomGenerator(4))
 {
     fool = new Foolsmate(chessBoard);
     ui->setupUi(this);
@@ -42,14 +41,20 @@ StartMenu::StartMenu(ChessBoard *chessBoard, QWidget *parent)
         }
     });
 
-    //Box2D Make Body
+    // Initialize the Box2D bodies and their corresponding rectangles and colors.
     for (int i = 0; i < 15; ++i)
     {
         b2Body* body = makeBody();
         confetti[body] = new QRectF(300, 700, 10, 10);
+
+        int rand = rng.generate();
+        int absoluteValue = qFabs(rand);
+        confettiColors[body] = colors[absoluteValue % colors.size()];
     }
-    //Box2D Connection
-    connect(ui->level1Button, &QPushButton::clicked, this, &StartMenu::goPushed);
+
+    // Connections for the confetti launch.
+    connect(this, &StartMenu::confettiTime, this, &StartMenu::launchConfetti);
+    connect(timer, SIGNAL(timeout()), this, SLOT(launchSequence()));
 
 
     ui->firstQuestion->hide();
@@ -82,7 +87,7 @@ StartMenu::~StartMenu()
     delete timer;
 }
 
-void StartMenu::updateWorld()
+void StartMenu::launchSequence()
 {
     // Instruct the world to perform a single step of simulation.
     // It is generally best to keep the time step and iterations fixed.
@@ -105,47 +110,42 @@ void StartMenu::updateWorld()
     update();
 }
 
-void StartMenu::goPushed()
+void StartMenu::launchConfetti()
 {
-    if (bounceGoing)
+    // Destory and re-create all confetti. This is the only way that really exists to reset the
+    // Box2D bodies. While it is complicated, it should not have a significant impact on
+    // performance.
+    for (auto it = confetti.cbegin(); it != confetti.cend(); ++it)
     {
-        bounceGoing = false;
-        timer->stop();
-
-        for (auto it = confetti.cbegin(); it != confetti.cend(); ++it)
-        {
-            world->DestroyBody(it.key());
-        }
-
-        for (int i = 0; i < 5; ++i)
-        {
-            b2Body* body = makeBody();
-            confetti[body] = new QRectF(300, 10, 10, 10);
-        }
-
+        world->DestroyBody(it.key());
     }
-    else
+
+    for (int i = 0; i < 15; ++i)
     {
-        bounceGoing = true;
-        timer->start(100);
+        b2Body* body = makeBody();
+        confetti[body] = new QRectF(300, 700, 10, 10);
 
+        int rand = rng.generate();
+        int absoluteValue = qFabs(rand);
+        confettiColors[body] = colors[absoluteValue % colors.size()];
     }
+
+    // Begin the timer. This will pass control of the confetti to launchSequence.
+    timer->start(100);
+
 }
 
 void StartMenu::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
-    QRandomGenerator rng = QRandomGenerator(4);
 
     for (auto it = confetti.cbegin(); it != confetti.cend(); ++it)
     {
-         //painter.translate(it.value()->center());
-         //painter.rotate(qRadiansToDegrees(it.key()->GetAngle()));
-         //painter.translate(-(it.value()->center()));
+         // painter.translate(it.value()->center());
+         // painter.rotate(qRadiansToDegrees(it.key()->GetAngle()));
+         // painter.translate(-(it.value()->center()));
 
-        int rand = rng.generate();
-        int absoluteValue = qFabs(rand);
-        painter.fillRect(*it.value(), colors[absoluteValue % colors.size()]);
+        painter.fillRect(*it.value(), confettiColors[it.key()]);
     }
 }
 
@@ -179,18 +179,6 @@ b2Body* StartMenu::makeBody()
     body->CreateFixture(&fixtureDef);
 
     // Apply the launch force to the body.
-    // Note: applying force here instead of in updateWorld means that the force will only be
-    // applied once, at the body's creation and the beginning of the world. If we apply this
-    // force in updateWorld, it applies force every time the world Steps, so it just keeps
-    // pushing the body. That is not what we want. We want it to launch one time, right at the
-    // beginning. So YES, keep it here, or I will send you to the ghouls.
-
-    QRandomGenerator rng = QRandomGenerator(4);
-
-    // body->ApplyForce(launchForce, body->GetWorldPoint(b2Vec2(1, 1)), true);
-    // body->ApplyForce(launchForce, b2Vec2(1, 1), true);
-    // body->SetLinearVelocity(b2Vec2(-1, 15));
-    // body->ApplyAngularImpulse(rng.generate() % 100, true);
     body->ApplyForce(b2Vec2(350 + rng.generate() % 50, 750 + rng.generate() % 50), body->GetWorldPoint(b2Vec2(1, 1)), true);
 
     return body;
@@ -626,6 +614,8 @@ void StartMenu::celebrate(){
     QString imagePath = ":/Images/johnsoncelebrate.png";
     QString html = QString("<img src='%1' width='311' height='192'/>").arg(imagePath);
     ui->firstQuestion->setHtml(html);
+
+    emit confettiTime();
 }
 
 void StartMenu::quitButtonClicked()
@@ -919,6 +909,8 @@ void StartMenu::displayCheckmate() {
     ui->CheckmateLabel->show();
     ui->CheckmateLabel->raise();
     ui->NextLevelButton->setEnabled(1);
+
+    emit confettiTime();
 }
 
 void StartMenu::saveButtonStates()
